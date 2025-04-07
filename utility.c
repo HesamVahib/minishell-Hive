@@ -1,0 +1,12 @@
+#include "minishell.h"
+
+void clean_array(char **array)
+{
+    int i = 0;
+    while (array[i])
+    {
+        free(array[i]);
+        i++;
+    }
+    free(array);
+}
