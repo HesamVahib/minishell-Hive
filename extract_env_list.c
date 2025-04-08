@@ -1,4 +1,4 @@
-#inlclude "minishell.h"
+#include "minishell.h"
 
 static t_env cleanup_env(t_env *env_list)
 {
@@ -22,7 +22,7 @@ int array_len(char **array)
     return i;
 }
 
-t_env *ectract_env_list(char **envp)
+t_env *extract_env_list(char **envp)
 {
     t_env *env_list;
     int i;
@@ -34,7 +34,6 @@ t_env *ectract_env_list(char **envp)
     env_list = create_env_list(env_count); // function to create an empty environment list
     if (!env_list)
         return (NULL); // handle error if create_env_list fails
-
     i = 0;
     temp_env = env_list;
     while (i < env_count)

@@ -6,8 +6,8 @@
 # include <unistd.h>
 # include <string.h>
 # include <signal.h>
- #include <termios.h>
- #include <readline/readline.h>
+# include <termios.h>
+# include <readline/readline.h>
 
 
 # define RUNNING_COMMAND 0
@@ -38,6 +38,9 @@ int change_mode(int mode);
 
 // main.c
 void clean_out_all(t_env *env1, t_env *env2, char *str1, char *str2);
+
+// command_sighandler.c
+void running_command_sighandler(int signal);
 
 
 // Minji

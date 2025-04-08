@@ -16,25 +16,33 @@ void clean_out_all(t_env *env1, t_env *env2, char *str1, char *str2)
         exit(1);
     if (signal(SIGQUIT, SIG_DFL) == SIG_ERR) // for Ctrl+Back Slash
         exit(1);
-    if (change_mode(RUNNING_COMMAND))
+    if (change_mode(RUNNING_COMMAND)) // 
 		exit(1);
-    // what about chnging the mode????
-
     exit(1);
 }
 
+// t_env *set_start(t_env *env_list)
+// {
+
+// }
+
 t_env_pack *init_env_pack(char **envp, int fd_in, int fd_out, char *cur_dir)
 {
-    t_env_pack *env_pack;
+    t_env_pack env_pack;
     t_env *env_list;
     t_env *original_env_list;
 
     original_env_list = NULL;
     env_list = NULL;
-    original_env_list = extract_env_list(envp);
+    original_env_list = extract_env_list(envp); // creating the env by spliting the original environment into keys and values
     env_list = extract_env_list(envp); 
     if (!env_list || !original_env_list)
         clean_out_all(env_list, original_env_list, cur_dir, NULL);
+    
+    env_list = set_start(env_list); // whenever you open a session it starts from 1
+
+    /// 8th April
+    
     
 }
 
