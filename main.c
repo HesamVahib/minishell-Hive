@@ -1,5 +1,7 @@
 #include "minishell.h"
 
+volatile int	global_signal;
+
 void clean_out_all(t_env *env1, t_env *env2, char *str1, char *str2)
 {
     if (env1)
@@ -10,11 +12,12 @@ void clean_out_all(t_env *env1, t_env *env2, char *str1, char *str2)
         free(str1);
     if (str2)
         free(str2);
-    if (signal(SIGINT, SIG_DFL) == SIG_ERR) // for Ctrl-C
+    if (signal(SIGINT, SIG_DFL) == SIG_ERR) // for Ctrl-C to return back Ctrl+C to its default functionality
         exit(1);
-    if (signal(SIGQUIT, SIG_DFL) == SIG_ERR) // for Ctrl+
+    if (signal(SIGQUIT, SIG_DFL) == SIG_ERR) // for Ctrl+Back Slash
         exit(1);
-
+    if (change_mode(RUNNING_COMMAND))
+		exit(1);
     // what about chnging the mode????
 
     exit(1);
@@ -47,8 +50,8 @@ int main(int ac, char **av, char **envp)
     cur_dir = getcwd(NULL, 0); // get the current working directory
     if (!cur_dir)
         return (1); // handle error if getcwd fails
-    fd_in = dup(SDTIN_FILENO); // duplicate stdin
-    fd_out = dup(SDTOUT_FILENO); // duplicate stdout
+    fd_in = dup(STDIN_FILENO); // duplicate stdin
+    fd_out = dup(STDOUT_FILENO); // duplicate stdout
     if (fd_in == -1 || fd_out == -1) // check for errors in dup
         return (free(cur_dir), 1);
 
