@@ -1,5 +1,5 @@
-#ifndef MINISHELL.H
-# define MINISHELL.H
+#ifndef MINISHELL_H
+# define MINISHELL_H
 
 # include <stdio.h>
 # include <stdlib.h>
