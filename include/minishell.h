@@ -9,10 +9,14 @@
 # include <termios.h>
 # include <readline/readline.h>
 
+// libft
+# include <libft/libft.h>
+
 
 # define RUNNING_COMMAND 0
 # define WAIT_FOR_COMMAND 1
 # define HEREDOC 2
+# define FD_UNSET "-42"
 
 extern volatile int global_signal;
 
@@ -41,6 +45,16 @@ void clean_out_all(t_env *env1, t_env *env2, char *str1, char *str2);
 
 // command_sighandler.c
 void running_command_sighandler(int signal);
+
+// set_start.c
+int same_finder(char *s1, char *s2);
+t_env   *node_remover(t_env *head, t_env    *node);
+t_env *set_start(t_env *env_list);
+
+// custom_export.c
+void    attatch_node(t_env **env_list, char *key, char   *value);
+t_env   *node_finder(t_env *env_list, char *key);
+t_env *custom_export(t_env *env_list, char *key, char *value);
 
 
 // Minji
