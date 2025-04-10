@@ -13,13 +13,10 @@
 # include <fcntl.h>   // For open flags
 
 
-<<<<<<< HEAD
 // libft
 # include "../lib/libft/libft.h"
 
 
-=======
->>>>>>> 0fd7c2e69307445e1edfd548d24d2154f6945c66
 # define RUNNING_COMMAND 0
 # define WAIT_FOR_COMMAND 1
 # define HEREDOC 2
@@ -37,7 +34,6 @@ typedef struct s_env
 
 typedef struct s_env_pack
 {
-<<<<<<< HEAD
 	t_env	*sys_envlist;
 	t_env	*original_env;
 }			t_env_pack;
@@ -46,14 +42,6 @@ typedef struct s_env_pack
 void clean_array(char **array);
 void clean_out_all(t_env *env1, t_env *env2, char *str1, char *str2);
 t_env *cleanup_env(t_env *env_list);
-=======
-	t_env			*env;
-	t_env			*original_env;
-}					t_env_pack;
-
-// utility.c
-void				clean_array(char **array);
->>>>>>> 0fd7c2e69307445e1edfd548d24d2154f6945c66
 
 // chang_mode.c
 int					change_mode(int mode);
@@ -74,7 +62,6 @@ void    attatch_node(t_env **env_list, char *key, char   *value);
 t_env   *node_finder(t_env *env_list, char *key);
 t_env *custom_export(t_env *env_list, char *key, char *value);
 
-<<<<<<< HEAD
 // extract_env_list.c
 t_env *extract_env_list(char **envp);
 
@@ -84,8 +71,6 @@ t_env *create_env_list(int env_count);
 // utility1.c
 char *value_finder(t_env *env_list, char *key);
 
-=======
->>>>>>> 0fd7c2e69307445e1edfd548d24d2154f6945c66
 // Minji
 
 # define SUCCESS 0

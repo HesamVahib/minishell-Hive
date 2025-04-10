@@ -1,22 +1,4 @@
-<<<<<<< HEAD
 #include "include/minishell.h"
-=======
-#include "./include/minishell.h"
-
-static void	cleanup_env(t_env *env_list)
-{
-	t_env	*temp;
-
-	while (env_list)
-	{
-		temp = env_list->next;
-		free(env_list->key);
-		free(env_list->value);
-		free(env_list);
-		env_list = temp;
-	}
-}
->>>>>>> 0fd7c2e69307445e1edfd548d24d2154f6945c66
 
 int	array_len(char **array)
 {
