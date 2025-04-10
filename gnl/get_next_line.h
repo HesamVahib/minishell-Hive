@@ -1,33 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtins.h                                         :+:      :+:    :+:   */
+/*   get_next_line.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: michoi <michoi@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/08 19:24:15 by michoi            #+#    #+#             */
-/*   Updated: 2025/04/10 17:53:03 by michoi           ###   ########.fr       */
+/*   Created: 2024/12/23 16:50:40 by michoi            #+#    #+#             */
+/*   Updated: 2025/01/05 01:31:34 by michoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef BUILTINS_H
-# define BUILTINS_H
+#ifndef GET_NEXT_LINE_H
+# define GET_NEXT_LINE_H
 
-// delete minishell lib later!
-# include "./minishell.h"
-# include <errno.h>
-# include <linux/limits.h>
-# include <stdbool.h>
+# ifndef BUFFER_SIZE
+#  define BUFFER_SIZE 10
+# endif
 
-# define CMD_ECHO "echo"
-# define CMD_CD "cd"
-# define CMD_PWD "pwd"
-# define CMD_EXPORT "export"
-# define CMD_UNSET "unset"
-# define CMD_ENV "env"
-# define CMD_EXIT "exit"
+# include <stdlib.h>
+# include <unistd.h>
 
-int	echo(char **args);
-int	pwd(void);
+size_t	ft_strlen(char *s);
+int		get_idx(char *s, char c);
+char	*ft_strcpy(char *s1, char *s2);
+char	*ft_substr(char *s, size_t start, size_t len);
+char	*ft_strjoin(char *s1, char *s2);
+char	*get_next_line(int fd);
 
 #endif

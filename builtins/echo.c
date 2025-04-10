@@ -6,7 +6,7 @@
 /*   By: michoi <michoi@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/06 21:39:53 by michoi            #+#    #+#             */
-/*   Updated: 2025/04/09 13:44:20 by michoi           ###   ########.fr       */
+/*   Updated: 2025/04/10 17:08:24 by michoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,8 +43,9 @@ bool	is_valid_n_flag(char *s)
 
 /**
 	Display the string(s) to standard output.
-	@param str: the string to be displayed.
-	@param option: option for the command. takes only -n
+	@param args: could include the string to be displayed
+					and option for the command.
+					the function takes only -n.
 					(-n: do not output the trailing newline.)
 	@return
 		SUCCESS - Operation completed successfully.
