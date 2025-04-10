@@ -1,34 +1,51 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pwd.c                                              :+:      :+:    :+:   */
+/*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: michoi <michoi@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/05 17:24:38 by michoi            #+#    #+#             */
-/*   Updated: 2025/04/08 19:44:32 by michoi           ###   ########.fr       */
+/*   Created: 2025/04/08 19:15:43 by michoi            #+#    #+#             */
+/*   Updated: 2025/04/10 17:49:59 by michoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/builtins.h"
 
+int	arrlen(void **arr)
+{
+	int len;
+
+	if (!arr || !*arr)
+		return (0);
+	len = 0;
+	while (arr[len])
+		len++;
+	return (len);
+}
+
 /**
-	Print name of current/working directory.
-	This function works without any options.
+	Change working directory.
+	@param args: arguments
 	@return
 		SUCCESS - Operation completed successfully.
 
 		FAILURE - Operation failed due to an error.
 */
-int	pwd(void)
+int	cd(char **args)
 {
-	char	buffer[PATH_MAX];
+	int	argc;
 
-	if (!getcwd(buffer, PATH_MAX))
+	argc = arrlen(args);
+	if (argc > 1)
 	{
-		perror("pwd");
+		ft_putendl_fd("cd: too many arguments", STDERR_FILENO);
 		return (FAILURE);
 	}
-	ft_putendl_fd(buffer, STDOUT_FILENO);
-	return (SUCCESS);
+	if (!argc)
+	{
+		// going home
+		chdir(".");
+		return (SUCCESS);
+	}
 }

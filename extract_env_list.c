@@ -1,20 +1,40 @@
+<<<<<<< HEAD
 #include "include/minishell.h"
+=======
+#include "./include/minishell.h"
 
-int array_len(char **array)
+static void	cleanup_env(t_env *env_list)
 {
-    int i = 0;
-    while (array[i])
-        i++;
-    return i;
+	t_env	*temp;
+
+	while (env_list)
+	{
+		temp = env_list->next;
+		free(env_list->key);
+		free(env_list->value);
+		free(env_list);
+		env_list = temp;
+	}
+}
+>>>>>>> 0fd7c2e69307445e1edfd548d24d2154f6945c66
+
+int	array_len(char **array)
+{
+	int	i;
+
+	i = 0;
+	while (array[i])
+		i++;
+	return (i);
 }
 
 t_env *extract_env_list(char **envp)
 {
-    t_env *env_list;
-    int i;
-    int env_count;
-    char **temp;
-    t_env *temp_env;
+	t_env	*env_list;
+	int		i;
+	int		env_count;
+	char	**temp;
+	t_env	*temp_env;
 
     env_count = array_len(envp); // function to count the number of environment variables
     env_list = create_env_list(env_count); // function to create an empty environment list

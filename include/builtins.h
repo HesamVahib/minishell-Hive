@@ -1,34 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pwd.c                                              :+:      :+:    :+:   */
+/*   builtins.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: michoi <michoi@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/05 17:24:38 by michoi            #+#    #+#             */
-/*   Updated: 2025/04/08 19:44:32 by michoi           ###   ########.fr       */
+/*   Created: 2025/04/08 19:24:15 by michoi            #+#    #+#             */
+/*   Updated: 2025/04/10 17:53:03 by michoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/builtins.h"
+#ifndef BUILTINS_H
+# define BUILTINS_H
 
-/**
-	Print name of current/working directory.
-	This function works without any options.
-	@return
-		SUCCESS - Operation completed successfully.
+// delete minishell lib later!
+# include "./minishell.h"
+# include <errno.h>
+# include <linux/limits.h>
+# include <stdbool.h>
 
-		FAILURE - Operation failed due to an error.
-*/
-int	pwd(void)
-{
-	char	buffer[PATH_MAX];
+# define CMD_ECHO "echo"
+# define CMD_CD "cd"
+# define CMD_PWD "pwd"
+# define CMD_EXPORT "export"
+# define CMD_UNSET "unset"
+# define CMD_ENV "env"
+# define CMD_EXIT "exit"
 
-	if (!getcwd(buffer, PATH_MAX))
-	{
-		perror("pwd");
-		return (FAILURE);
-	}
-	ft_putendl_fd(buffer, STDOUT_FILENO);
-	return (SUCCESS);
-}
+int	echo(char **args);
+int	pwd(void);
+
+#endif
