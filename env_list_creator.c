@@ -1,6 +1,6 @@
-#include "minishell.h"
+#include "include/minishell.h"
 
-create_env_node(void)
+t_env *create_env_node(void)
 {
     t_env *new_node;
 
@@ -17,23 +17,24 @@ create_env_node(void)
 t_env *create_env_list(int env_count)
 {
     t_env *head;
-    t_env *new;
     t_env *current;
     int i;
 
     if (env_count <= 0)
         return (NULL);
-    i = 0;
+    
+    head = create_env_node();
+    if (!head)
+        return (NULL);
+
+    current = head;
+    i = 1;
     while (i < env_count)
     {
-        head = create_env_node();
-        if (!head)
+        current->next = create_env_node(); 
+        if (!current->next)
             return (NULL);
-        if (i == 0)
-            current = head;
-        else
-            current->next = head;
-        current = head;
+        current = current->next;
         i++;
     }
     current->next = NULL;

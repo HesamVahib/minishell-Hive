@@ -1,4 +1,4 @@
-#include "minishell.h"
+#include "include/minishell.h"
 
 int same_finder(char *s1, char *s2)
 {
@@ -10,8 +10,10 @@ int same_finder(char *s1, char *s2)
 t_env   *node_remover(t_env *head, t_env    *node) // to remove a node from PATH list.
 {
     t_env   *temp;
+    t_env   *temp_head;
     t_env *previous_node;
 
+    temp_head = head;
     if (head == node)
     {
         head = head->next;
@@ -32,10 +34,10 @@ t_env   *node_remover(t_env *head, t_env    *node) // to remove a node from PATH
     free(node->value);
     free(node->index);
     free(node);
-    return (head);
+    return (temp_head);
 }
 
-char *value_finder(t_env    *env_list, t_env    *keyword)
+char *value_finder(t_env    *env_list, char    *keyword)
 {
     t_env   *temp;
 

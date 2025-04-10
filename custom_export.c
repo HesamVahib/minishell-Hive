@@ -1,6 +1,4 @@
-#include "minishell.h"
-
-
+#include "include/minishell.h"
 
 void    attatch_node(t_env **env_list, char *key, char   *value)
 {
