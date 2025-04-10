@@ -1,34 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pwd.c                                              :+:      :+:    :+:   */
+/*   get_next_line.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: michoi <michoi@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/05 17:24:38 by michoi            #+#    #+#             */
-/*   Updated: 2025/04/08 19:44:32 by michoi           ###   ########.fr       */
+/*   Created: 2024/12/23 16:50:40 by michoi            #+#    #+#             */
+/*   Updated: 2025/01/05 01:31:34 by michoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/builtins.h"
+#ifndef GET_NEXT_LINE_H
+# define GET_NEXT_LINE_H
 
-/**
-	Print name of current/working directory.
-	This function works without any options.
-	@return
-		SUCCESS - Operation completed successfully.
+# ifndef BUFFER_SIZE
+#  define BUFFER_SIZE 10
+# endif
 
-		FAILURE - Operation failed due to an error.
-*/
-int	pwd(void)
-{
-	char	buffer[PATH_MAX];
+# include <stdlib.h>
+# include <unistd.h>
 
-	if (!getcwd(buffer, PATH_MAX))
-	{
-		perror("pwd");
-		return (FAILURE);
-	}
-	ft_putendl_fd(buffer, STDOUT_FILENO);
-	return (SUCCESS);
-}
+size_t	ft_strlen(char *s);
+int		get_idx(char *s, char c);
+char	*ft_strcpy(char *s1, char *s2);
+char	*ft_substr(char *s, size_t start, size_t len);
+char	*ft_strjoin(char *s1, char *s2);
+char	*get_next_line(int fd);
+
+#endif
