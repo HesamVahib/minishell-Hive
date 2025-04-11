@@ -11,6 +11,7 @@
 # include <termios.h>
 # include <readline/readline.h>
 # include <fcntl.h>   // For open flags
+# include <readline/history.h>
 
 
 // libft
@@ -21,6 +22,11 @@
 # define WAIT_FOR_COMMAND 1
 # define HEREDOC 2
 # define FD_UNSET "-42"
+
+// ANSI COLORS
+# define ANSI_COLOR_GREEN "\x1B[32m"
+# define ANSI_COLOR_DEFAULT "\x1B[0m"
+
 
 extern volatile int	global_signal;
 
@@ -70,6 +76,14 @@ t_env *create_env_list(int env_count);
 
 // utility1.c
 char *value_finder(t_env *env_list, char *key);
+
+// init_env_pack.c
+char *init_getpid(void);
+t_env_pack init_env_pack(char **envp, char *cur_dir);
+
+// minishell.c
+void    minishell(t_env_pack env_pack);
+
 
 // Minji
 

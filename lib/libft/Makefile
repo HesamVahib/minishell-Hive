@@ -72,10 +72,10 @@ bonus: .bonus
 	$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
-	$(RM) *.o
+	@$(RM) *.o
 
 fclean: clean
-	$(RM) $(NAME)
+	@$(RM) $(NAME)
 
 re: fclean all
 
