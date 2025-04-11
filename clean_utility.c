@@ -14,6 +14,7 @@ void clean_array(char **array)
 t_env *cleanup_env(t_env *env_list)
 {
     t_env *temp;
+    
     while (env_list)
     {
         temp = env_list->next;

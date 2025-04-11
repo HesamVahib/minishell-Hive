@@ -27,7 +27,7 @@ static int wait_for_command(void)
     ft_bzero(&term, sizeof(term));
     if (tcgetattr(STDIN_FILENO, &term) == -1)
         return (1);
-    term.c_lflag &= ~ECHOCTL; // turning of CTRL+C to show ^C.
+    term.c_lflag &= ~ECHOCTL; // turning of CTRL+C NOT to show ^C.
     if (tcsetattr(STDIN_FILENO, TCSANOW, &term) == -1)
         return (1);
     return (0);
