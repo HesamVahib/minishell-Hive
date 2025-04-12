@@ -6,7 +6,7 @@
 /*   By: michoi <michoi@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/06 21:39:53 by michoi            #+#    #+#             */
-/*   Updated: 2025/04/10 17:08:24 by michoi           ###   ########.fr       */
+/*   Updated: 2025/04/12 18:50:47 by michoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ bool	is_valid_n_flag(char *s)
 {
 	int	i;
 
-	if (!s || *s)
+	if (!s || !*s)
 		return (false);
 	if (s[0] != '-')
 		return (false);
@@ -54,18 +54,19 @@ bool	is_valid_n_flag(char *s)
 */
 int	echo(char **args)
 {
-	int	i;
-	int	suppress_newline;
+	int		i;
+	bool	suppress_newline;
 
 	i = 0;
-	suppress_newline = 0;
-	while (args && args[i] && is_valid_n_flag(args[i]))
-	{
-		suppress_newline = 1;
-		i++;
-	}
+	suppress_newline = false;
 	while (args && args[i])
 	{
+		if (is_valid_n_flag(args[i]))
+		{
+			suppress_newline = true;
+			i++;
+			continue ;
+		}
 		ft_putstr_fd(args[i], STDOUT_FILENO);
 		if (args[i + 1])
 			ft_putchar_fd(' ', STDOUT_FILENO);
