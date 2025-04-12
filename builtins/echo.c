@@ -6,7 +6,7 @@
 /*   By: michoi <michoi@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/06 21:39:53 by michoi            #+#    #+#             */
-/*   Updated: 2025/04/12 18:50:47 by michoi           ###   ########.fr       */
+/*   Updated: 2025/04/12 18:53:48 by michoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,14 +59,13 @@ int	echo(char **args)
 
 	i = 0;
 	suppress_newline = false;
+	while (args && args[i] && is_valid_n_flag(args[i]))
+	{
+		suppress_newline = true;
+		i++;
+	}
 	while (args && args[i])
 	{
-		if (is_valid_n_flag(args[i]))
-		{
-			suppress_newline = true;
-			i++;
-			continue ;
-		}
 		ft_putstr_fd(args[i], STDOUT_FILENO);
 		if (args[i + 1])
 			ft_putchar_fd(' ', STDOUT_FILENO);
