@@ -6,20 +6,13 @@
 /*   By: michoi <michoi@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 19:15:43 by michoi            #+#    #+#             */
-/*   Updated: 2025/04/12 18:25:56 by michoi           ###   ########.fr       */
+/*   Updated: 2025/04/12 22:05:22 by michoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/builtins.h"
 
-void	print_cmd_err(char *cmd, char *msg)
-{
-	ft_putstr_fd(cmd, STDERR_FILENO);
-	ft_putstr_fd(": ", STDERR_FILENO);
-	ft_putendl_fd(msg, STDERR_FILENO);
-}
-
-int	change_directory(char *path)
+static int	change_directory(char *path)
 {
 	if (chdir(path))
 	{
@@ -32,7 +25,8 @@ int	change_directory(char *path)
 
 /**
 	Change working directory.
-	@param args: arguments
+	@param args: passed arguments, which contains target directory
+	@param env: enviroment variables
 	@return
 		SUCCESS - Operation completed successfully.
 
@@ -82,4 +76,6 @@ int	cd(char **args, t_env *env)
 
 // ☠️ edge cases
 // when parent dir is removed. What to do?
-// rm -rf-> cd: error retrieving current directory: getcwd: cannot access parent directories: No such file or directory
+// rm -rf-> cd . or ..: error retrieving current directory: getcwd: cannot access parent directories: No such file or directory
+// and then add . or .. (dir/. or dir/..)
+// and the if .. is passe again, it goes to home.
