@@ -1,16 +1,19 @@
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
-# include "../lib/libft/libft.h"
-# include "builtins.h"
-# include <fcntl.h> // For open flags
-# include <readline/history.h>
-# include <readline/readline.h>
+// system libraries
 # include <signal.h>
 # include <stdio.h>
 # include <stdlib.h>
 # include <string.h>
 # include <termios.h>
+
+# include <fcntl.h>   // For open flags
+# include <readline/readline.h> // for readline()
+# include <readline/history.h> // for add_history()
+
+// builtin
+# include "builtins.h"
 
 // libft
 # include "../lib/libft/libft.h"
@@ -19,10 +22,15 @@
 # define WAIT_FOR_COMMAND 1
 # define HEREDOC 2
 # define FD_UNSET "-42"
+# define SUCCESS 0
+# define FAILURE 1
 
 // ANSI COLORS
 # define ANSI_COLOR_GREEN "\x1B[32m"
 # define ANSI_COLOR_DEFAULT "\x1B[0m"
+
+// shell sign
+# define SHELL_PROMPT ANSI_COLOR_GREEN"[(what the)shell]$ "ANSI_COLOR_DEFAULT
 
 extern volatile int	global_signal;
 
@@ -53,8 +61,8 @@ int					change_mode(int mode);
 void				clean_out_all(t_env *env1, t_env *env2, char *str1,
 						char *str2);
 
-// command_sighandler.c
-void				running_command_sighandler(int signal);
+// // command_sighandler.c
+// void running_command_sighandler(int signal);
 
 // set_start.c
 int					is_same_value(char *s1, char *s2);
@@ -62,9 +70,10 @@ t_env				*remove_node(t_env *head, t_env *node);
 t_env				*set_start(t_env *env_list);
 
 // custom_export.c
-void				attatch_node(t_env **env_list, char *key, char *value);
-t_env				*node_finder(t_env *env_list, char *key);
-t_env				*custom_export(t_env *env_list, char *key, char *value);
+t_env_pack	export_std_fd(t_env_pack env_pack);
+void    attatch_node(t_env **env_list, char *key, char   *value);
+t_env   *node_finder(t_env *env_list, char *key);
+t_env *custom_export(t_env *env_list, char *key, char *value);
 
 // extract_env_list.c
 t_env				*extract_env_list(char **envp);
@@ -81,11 +90,17 @@ char				*init_getpid(void);
 t_env_pack			init_env_pack(char **envp, char *cur_dir);
 
 // minishell.c
-void				minishell(t_env_pack env_pack);
+void    minishell(t_env_pack env_pack);
+
+// restore_std_fd.c
+void    restore_std_fd(t_env_pack env_pack);
+
+// exit_process.c
+void exit_preparation(t_env_pack env_pack);
+
 
 // Minji
 
-# define SUCCESS 0
-# define FAILURE 1
+
 
 #endif
