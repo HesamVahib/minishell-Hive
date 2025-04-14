@@ -7,11 +7,11 @@ t_env_pack	std_fd_custom_exporter(t_env_pack env_pack, int fd_std, char *key)
 
 	fd = dup(fd_std);
 	if (fd == -1)
-		clean_out_all(env_pack.sys_envlist, env_pack.original_env, NULL, NULL);
+		clean_out_all(env_pack.sys_envlist, env_pack.mshell_env, NULL, NULL);
 	std_itoa = ft_itoa(fd);
 	if (!std_itoa)
-        clean_out_all(env_pack.sys_envlist, env_pack.original_env, NULL, NULL);
-	env_pack.original_env = custom_export(env_pack.original_env,
+        clean_out_all(env_pack.sys_envlist, env_pack.mshell_env, NULL, NULL);
+	env_pack.mshell_env = custom_export(env_pack.mshell_env,
 			key, std_itoa);
 	free(std_itoa);
 	return (env_pack);

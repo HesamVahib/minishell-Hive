@@ -16,15 +16,20 @@ static int executable(char *line)
     return (0);
 }
 
+char **line_tokenized(char *line)
+{
+    return(ft_split(line, ' '));
+}
 
 void    minishell(t_env_pack env_pack)
 {
     char    *line;
+    char    **tokenz;
 
     while (1)
     {
         if (change_mode(WAIT_FOR_COMMAND))
-            clean_out_all(env_pack.sys_envlist, env_pack.original_env, NULL, NULL);
+            clean_out_all(env_pack.sys_envlist, env_pack.mshell_env, NULL, NULL);
         line = readline(SHELL_PROMPT); // there is a problem with ctrl+c cuz when you prompt it it does not show the name of shell just after writing somethings it appears!
          // it can be modified
         if (!line)
@@ -33,10 +38,18 @@ void    minishell(t_env_pack env_pack)
         if (executable(line))
         {
             add_history(line);
-            env_pack = export_std_fd(env_pack);
+            env_pack = export_std_fd(env_pack); // setting fd to the std fds to have a space to write and display
             printf("\n%s\n", line);
             printf("Execution\n");
-            restore_std_fd(env_pack);
+            tokenz = line_tokenized(line);
+            // syntaxt analyzer
+            // parser
+            while (*tokenz)
+            {
+                printf("%s\n", *tokenz++);
+            }
+            // free_array(&tokenz); // should be transferred to the first pointer
+            restore_std_fd(env_pack); // reset the the fd's to get back to the default one if something like | (pipe) had appled on std's
         }
         free(line);
     }

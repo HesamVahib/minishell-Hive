@@ -24,13 +24,13 @@ int main(int ac, char **av, char **envp)
     // April 9th
 
     // printf("my minishell env:\n");
-    // while (env_pack.original_env)
+    // while (env_pack.mshell_env)
     // {
     //     printf("key: %s, value: %s\n",
-    //             env_pack.original_env->key,
-    //             env_pack.original_env->value);
+    //             env_pack.mshell_env->key,
+    //             env_pack.mshell_env->value);
         
-    //     env_pack.original_env = env_pack.original_env->next;
+    //     env_pack.mshell_env = env_pack.mshell_env->next;
     // }
     // printf("\n\n\n\noriginal env:\n");
     // while (env_pack.sys_envlist)
@@ -42,8 +42,8 @@ int main(int ac, char **av, char **envp)
     //         env_pack.sys_envlist = env_pack.sys_envlist->next;
     // }
 
-    // if (history_handler(value_finder(env_pack.original_env, "root")))
-    //     clean_out_all(env_pack.sys_envlist, env_pack.original_env, cur_dir, NULL);
+    // if (history_handler(value_finder(env_pack.mshell_env, "root")))
+    //     clean_out_all(env_pack.sys_envlist, env_pack.mshell_env, cur_dir, NULL);
     // April 10th
 
     minishell(env_pack);

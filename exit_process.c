@@ -20,5 +20,5 @@ void exit_run(t_env *env)
 void exit_preparation(t_env_pack env_pack)
 {
     cleanup_env(env_pack.sys_envlist);
-    exit_run(env_pack.original_env);
+    exit_run(env_pack.mshell_env);
 }

@@ -5,7 +5,7 @@ static void restore_fd(t_env_pack env_pack, int std_fd, char *key)
     char *fd_value;
     int cur_fd;
 
-    fd_value = value_finder(env_pack.original_env, key);
+    fd_value = value_finder(env_pack.mshell_env, key);
     cur_fd = ft_atoi(fd_value); // saved current value in cur_fd in digits
     if (fd_value)
     {
@@ -14,9 +14,9 @@ static void restore_fd(t_env_pack env_pack, int std_fd, char *key)
         {
             if (std_fd != STDIN_FILENO) // we dont want to close STDIN since we are doing something with that
                 if (close(std_fd) == -1)
-                    clean_out_all(env_pack.original_env, env_pack.sys_envlist, NULL, NULL);
+                    clean_out_all(env_pack.mshell_env, env_pack.sys_envlist, NULL, NULL);
             if (dup2(cur_fd, std_fd) == -1) // dup2 will overwrite the old one by new one even if it is not closed in order to restore the main ones.
-                clean_out_all(env_pack.original_env, env_pack.sys_envlist, NULL, NULL);
+                clean_out_all(env_pack.mshell_env, env_pack.sys_envlist, NULL, NULL);
         }
     }
 }

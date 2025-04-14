@@ -48,8 +48,20 @@ typedef struct s_env
 typedef struct s_env_pack
 {
 	t_env	*sys_envlist;
-	t_env	*original_env;
+	t_env	*mshell_env;
 }			t_env_pack;
+
+typedef struct s_cmd {
+    char **argv;        // command and args {"ls", "-l", NULL}
+    char *infile;       // for <
+    char *outfile;      // for > or >>
+    int append;         // 1 for >>, 0 for >
+	int is_piped;		// if pipe comes after 1, 0 if does not
+    struct s_cmd *next;   // linked to the next one if it exists
+	struct s_cmd *previous;
+} 			t_cmd; // WHAT ABOUT HEREDOC
+
+
 
 // clean_utility.c
 void clean_array(char **array);
