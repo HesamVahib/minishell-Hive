@@ -8,7 +8,6 @@ LIBFT = $(LIBFT_DIR)/libft.a
 
 SRC_PART = 	main.c \
 			clean_utility.c \
-			command_sighandler.c \
 			custom_export.c \
 			env_list_creator.c \
 			extract_env_list.c \
@@ -17,7 +16,8 @@ SRC_PART = 	main.c \
 			history_handler.c \
 			init_env_pack.c \
 			minishell.c \
-			exit_process.c
+			exit_process.c \
+			restore_std_fd.c
 
 
 
@@ -37,6 +37,7 @@ $(NAME): $(OBJ_PART)
 all: $(NAME)
 
 clean:
+	@$(MAKE) clean -C $(LIBFT_DIR)
 	@/bin/rm -f $(OBJ_PART)
 	@echo "\033[90m[\033[91mDeleting\033[90m]\033[31m Object files deleted\033[0m"
 

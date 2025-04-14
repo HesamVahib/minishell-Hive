@@ -62,8 +62,8 @@ int					change_mode(int mode);
 // main.c
 void clean_out_all(t_env *env1, t_env *env2, char *str1, char *str2);
 
-// command_sighandler.c
-void running_command_sighandler(int signal);
+// // command_sighandler.c
+// void running_command_sighandler(int signal);
 
 // set_start.c
 int same_finder(char *s1, char *s2);
@@ -71,6 +71,7 @@ t_env   *node_remover(t_env *head, t_env    *node);
 t_env *set_start(t_env *env_list);
 
 // custom_export.c
+t_env_pack	export_std_fd(t_env_pack env_pack);
 void    attatch_node(t_env **env_list, char *key, char   *value);
 t_env   *node_finder(t_env *env_list, char *key);
 t_env *custom_export(t_env *env_list, char *key, char *value);
@@ -91,6 +92,8 @@ t_env_pack init_env_pack(char **envp, char *cur_dir);
 // minishell.c
 void    minishell(t_env_pack env_pack);
 
+// restore_std_fd.c
+void    restore_std_fd(t_env_pack env_pack);
 
 // exit_process.c
 void exit_preparation(t_env_pack env_pack);

@@ -41,7 +41,7 @@ SOURCES :=	ft_bzero.c \
 			ft_strtrim.c \
 			ft_atoi.c \
 			ft_itoa.c \
-			ft_split.c
+			ft_split.c \
 
 BONUS :=	ft_lstnew_bonus.c \
 			ft_lstadd_front_bonus.c \
@@ -69,7 +69,7 @@ bonus: .bonus
 	touch .bonus
 
 %.o: %.c
-	$(CC) $(CFLAGS) -c $< -o $@
+	@$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
 	@$(RM) *.o
