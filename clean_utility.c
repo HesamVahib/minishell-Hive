@@ -1,5 +1,8 @@
 #include "include/minishell.h"
 
+
+// in libft, there's free_array function
+/*
 void clean_array(char **array)
 {
     int i = 0;
@@ -10,6 +13,7 @@ void clean_array(char **array)
     }
     free(array);
 }
+*/
 
 t_env *cleanup_env(t_env *env_list)
 {
@@ -41,7 +45,7 @@ void clean_out_all(t_env *env1, t_env *env2, char *str1, char *str2)
         exit(1);
     if (signal(SIGQUIT, SIG_DFL) == SIG_ERR) // for Ctrl+Back Slash
         exit(1);
-    if (change_mode(RUNNING_COMMAND)) // 
+    if (change_mode(RUNNING_COMMAND)) //
 		exit(1);
     exit(1);
 }

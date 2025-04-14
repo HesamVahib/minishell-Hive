@@ -6,7 +6,7 @@
 /*   By: michoi <michoi@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/06 21:39:53 by michoi            #+#    #+#             */
-/*   Updated: 2025/04/10 17:08:24 by michoi           ###   ########.fr       */
+/*   Updated: 2025/04/12 22:05:03 by michoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,11 +23,11 @@
  *
  * 	false - the string is not a valid flag.
  */
-bool	is_valid_n_flag(char *s)
+static bool	is_valid_n_flag(char *s)
 {
 	int	i;
 
-	if (!s || *s)
+	if (!s || !*s)
 		return (false);
 	if (s[0] != '-')
 		return (false);
@@ -54,14 +54,14 @@ bool	is_valid_n_flag(char *s)
 */
 int	echo(char **args)
 {
-	int	i;
-	int	suppress_newline;
+	int		i;
+	bool	suppress_newline;
 
 	i = 0;
-	suppress_newline = 0;
+	suppress_newline = false;
 	while (args && args[i] && is_valid_n_flag(args[i]))
 	{
-		suppress_newline = 1;
+		suppress_newline = true;
 		i++;
 	}
 	while (args && args[i])

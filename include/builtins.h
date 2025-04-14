@@ -6,7 +6,7 @@
 /*   By: michoi <michoi@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 19:24:15 by michoi            #+#    #+#             */
-/*   Updated: 2025/04/10 17:53:03 by michoi           ###   ########.fr       */
+/*   Updated: 2025/04/12 22:21:01 by michoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,16 @@
 # define CMD_ENV "env"
 # define CMD_EXIT "exit"
 
-int	echo(char **args);
-int	pwd(void);
+// ─── ⋆⋅☆⋅⋆ ── builtin commands ─── ⋆⋅☆⋅⋆ ──
+
+int		echo(char **args);
+int		pwd(void);
+int		env(t_env *env, char **args);
+void	exit(char **args);
+
+// ─── ⋆⋅☆⋅⋆ ── utils ─── ⋆⋅☆⋅⋆ ──
+
+void	print_cmd_err(char *cmd, char *msg);
+void	print_cmd_err_with_arg(char *cmd, char *arg, char *msg);
 
 #endif
