@@ -6,7 +6,7 @@
 /*   By: michoi <michoi@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 21:19:52 by michoi            #+#    #+#             */
-/*   Updated: 2025/04/12 22:16:18 by michoi           ###   ########.fr       */
+/*   Updated: 2025/04/14 22:17:01 by michoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,22 +39,34 @@ static bool	is_numeric(char *input)
 void	exit(char **args)
 {
 	int exit_stat;
+	int	argc;
 
 	if (!args)
-		exit_stat = 0;
+		exit_stat = 0; // !! fix later. It should have the last command's exit code
 	else
 	{
 		if (!is_numeric(*args))
 		{
+			ft_putendl_fd("exit", STDOUT_FILENO);
 			print_cmd_err_with_arg("exit", *args, "numeric argument required");
-			//exit code 2
+			exit_stat = 2;
+			//cleanup
+			exit(exit_stat);
+		}
+		argc = arrlen(args);
+		if (is_numeric(*args) && argc > 1)
+		{
+			ft_putstr_fd("exit: ", STDERR_FILENO);
+			ft_putendl_fd("too many arguments", STDERR_FILENO);
+			//doesn't exit
 			return (FAILURE);
 		}
+		// long long ..
 		exit_stat = ft_atoi(*args);
 	}
 	ft_putendl_fd("exit", STDOUT_FILENO);
 	//cleanup before exit?
-	exit(exit_stat);
+	exit(exit_stat & 255);
 
 	// If the current execution environment is a subshell environment,
 	// the shell shall exit from the subshell environment

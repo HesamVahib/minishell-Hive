@@ -41,7 +41,9 @@ SOURCES :=	ft_bzero.c \
 			ft_strtrim.c \
 			ft_atoi.c \
 			ft_itoa.c \
-			ft_split.c
+			ft_split.c \
+			ft_isspace.c \
+			ft_atoll.c
 
 BONUS :=	ft_lstnew_bonus.c \
 			ft_lstadd_front_bonus.c \
