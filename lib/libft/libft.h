@@ -6,7 +6,7 @@
 /*   By: michoi <michoi@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/28 15:59:44 by michoi            #+#    #+#             */
-/*   Updated: 2025/04/15 15:22:28 by michoi           ###   ########.fr       */
+/*   Updated: 2025/04/15 16:33:49 by michoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ typedef struct s_list
 }					t_list;
 
 int					ft_atoi(const char *nptr);
-long long			ft_atoll(const char *nptr);
+long long			ft_atoll(const char *nptr, int *range_error);
 void				*ft_calloc(size_t nmemb, size_t size);
 int					ft_isalpha(int c);
 int					ft_isdigit(int c);

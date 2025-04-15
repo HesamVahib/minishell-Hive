@@ -6,11 +6,18 @@
 /*   By: michoi <michoi@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 21:19:52 by michoi            #+#    #+#             */
-/*   Updated: 2025/04/14 22:17:01 by michoi           ###   ########.fr       */
+/*   Updated: 2025/04/15 16:51:58 by michoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/builtins.h"
+
+static void	print_str_arg_err(char *arg, int *exit_stat)
+{
+	ft_putendl_fd("exit", STDOUT_FILENO);
+	print_cmd_err_with_arg("exit", arg, "numeric argument required");
+	*exit_stat = 2;
+}
 
 static bool	is_numeric(char *input)
 {
@@ -36,21 +43,26 @@ static bool	is_numeric(char *input)
 	Exit from its current execution environment with the exit status.
 	specified  by  the  unsigned  decimal integer n.
 */
-void	exit(char **args)
+// ❓ if it's in a pipe, shell doesn't exit, doesn't print exit.
+// If the current execution environment is a subshell environment,
+// the shell shall exit from the subshell environment
+// with the specified exit status and continue in the environment from which that subshell environment was invoked.
+int	cmd_exit(char **args)
 {
-	int exit_stat;
+	int	exit_stat;
 	int	argc;
+	int	range_error;
 
+	range_error = 0;
 	if (!args)
-		exit_stat = 0; // !! fix later. It should have the last command's exit code
+		exit_stat = 0;
+	// !! fix later. It should have the last command's exit code
 	else
 	{
 		if (!is_numeric(*args))
 		{
-			ft_putendl_fd("exit", STDOUT_FILENO);
-			print_cmd_err_with_arg("exit", *args, "numeric argument required");
-			exit_stat = 2;
-			//cleanup
+			print_str_arg_err(*args, &exit_stat);
+			// cleanup
 			exit(exit_stat);
 		}
 		argc = arrlen(args);
@@ -58,17 +70,18 @@ void	exit(char **args)
 		{
 			ft_putstr_fd("exit: ", STDERR_FILENO);
 			ft_putendl_fd("too many arguments", STDERR_FILENO);
-			//doesn't exit
+			// doesn't exit
 			return (FAILURE);
 		}
-		// long long ..
-		exit_stat = ft_atoi(*args);
+		exit_stat = ft_atoll(*args, &range_error);
+		if (range_error)
+		{
+			print_str_arg_err(*args, &exit_stat);
+			// cleanup
+			exit(exit_stat);
+		}
 	}
 	ft_putendl_fd("exit", STDOUT_FILENO);
-	//cleanup before exit?
+	// cleanup before exit?
 	exit(exit_stat & 255);
-
-	// If the current execution environment is a subshell environment,
-	// the shell shall exit from the subshell environment
-	// with the specified exit status and continue in the environment from which that subshell environment was invoked.
 }
