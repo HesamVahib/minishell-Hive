@@ -1,5 +1,18 @@
 #include "include/minishell.h"
 
+static void running_command_sighandler(int signal)
+{
+    if (signal == SIGINT) // here automatically appears ^C since it is the default behaviour
+    {
+        write(STDOUT_FILENO, "\n", 1); // print out a newline
+        rl_on_new_line(); // move the cursor to the new line
+        rl_replace_line("", STDIN_FILENO); // earase everything from the previous user
+        rl_redisplay(); // redisplay the input line
+    }
+    else if (signal == SIGQUIT)
+        printf("Quit: %d\n", signal);
+}
+
 static int running_command(void)
 {
     struct termios term;
@@ -27,7 +40,7 @@ static int wait_for_command(void)
     ft_bzero(&term, sizeof(term));
     if (tcgetattr(STDIN_FILENO, &term) == -1)
         return (1);
-    term.c_lflag &= ~ECHOCTL; // turning of CTRL+C to show ^C.
+    term.c_lflag &= ~ECHOCTL; // turning of CTRL+C NOT to show ^C.
     if (tcsetattr(STDIN_FILENO, TCSANOW, &term) == -1)
         return (1);
     return (0);

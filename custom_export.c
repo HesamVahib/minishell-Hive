@@ -1,5 +1,30 @@
 #include "include/minishell.h"
 
+t_env_pack	std_fd_custom_exporter(t_env_pack env_pack, int fd_std, char *key)
+{
+	char	*std_itoa;
+	int		fd;
+
+	fd = dup(fd_std);
+	if (fd == -1)
+		clean_out_all(env_pack.sys_envlist, env_pack.mshell_env, NULL, NULL);
+	std_itoa = ft_itoa(fd);
+	if (!std_itoa)
+        clean_out_all(env_pack.sys_envlist, env_pack.mshell_env, NULL, NULL);
+	env_pack.mshell_env = custom_export(env_pack.mshell_env,
+			key, std_itoa);
+	free(std_itoa);
+	return (env_pack);
+}
+
+t_env_pack	export_std_fd(t_env_pack env_pack)
+{
+	env_pack = std_fd_custom_exporter(env_pack, STDIN_FILENO, "fd_stdin");
+	env_pack = std_fd_custom_exporter(env_pack, STDOUT_FILENO, "fd_stdout");
+	env_pack = std_fd_custom_exporter(env_pack, STDERR_FILENO, "fd_stderr");
+	return (env_pack);
+}
+
 void    attatch_node(t_env **env_list, char *key, char   *value)
 {
     t_env   *new;
@@ -23,7 +48,7 @@ t_env   *node_finder(t_env *env_list, char *key)
     temp = env_list;
     while (temp)
     {
-        if (same_finder(temp->key, key))
+        if (is_same_value(temp->key, key))
             return (temp);
         temp = temp->next;
     }

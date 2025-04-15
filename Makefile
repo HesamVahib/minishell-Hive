@@ -8,7 +8,6 @@ LIBFT = $(LIBFT_DIR)/libft.a
 
 SRC_PART = 	main.c \
 			clean_utility.c \
-			command_sighandler.c \
 			custom_export.c \
 			env_list_creator.c \
 			extract_env_list.c \
@@ -16,7 +15,10 @@ SRC_PART = 	main.c \
 			set_start.c \
 			history_handler.c \
 			init_env_pack.c \
-			minishell.c
+			minishell.c \
+			exit_process.c \
+			restore_std_fd.c \
+			tokenization.c
 
 
 
@@ -30,12 +32,13 @@ OBJ_PART = $(SRC_PART:.c=.o)
 
 $(NAME): $(OBJ_PART)
 	@$(MAKE) -C $(LIBFT_DIR)
-	@$(CC) $(FLAGS) -o $(NAME) $(OBJ_PART) $(LIBFT) -lreadline
-	@echo "\033[90m[\033[32mSuccess\033[90m]\033[32m Successfully compiled minishell executable\033[0m"
+	$(CC) $(FLAGS) -o $(NAME) $(OBJ_PART) $(LIBFT)
+	echo "\033[90m[\033[32mSuccess\033[90m]\033[32m Successfully compiled minishell executable\033[0m"
 
 all: $(NAME)
 
 clean:
+	@$(MAKE) clean -C $(LIBFT_DIR)
 	@/bin/rm -f $(OBJ_PART)
 	@echo "\033[90m[\033[91mDeleting\033[90m]\033[31m Object files deleted\033[0m"
 

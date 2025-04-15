@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: michoi <michoi@student.hive.fi>            +#+  +:+       +#+        */
+/*   By: hvahib <hvahib@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 19:24:15 by michoi            #+#    #+#             */
-/*   Updated: 2025/04/12 22:21:01 by michoi           ###   ########.fr       */
+/*   Updated: 2025/04/15 12:19:42 by hvahib           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,10 +29,10 @@
 
 // ─── ⋆⋅☆⋅⋆ ── builtin commands ─── ⋆⋅☆⋅⋆ ──
 
-int		echo(char **args);
-int		pwd(void);
-int		env(t_env *env, char **args);
-void	exit(char **args);
+// int		echo(char **args);
+// int		pwd(void);
+// int		env(t_env *env, char **args);
+// void	exit(char **args);
 
 // ─── ⋆⋅☆⋅⋆ ── utils ─── ⋆⋅☆⋅⋆ ──
 

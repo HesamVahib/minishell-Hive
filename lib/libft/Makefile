@@ -71,7 +71,7 @@ bonus: .bonus
 	touch .bonus
 
 %.o: %.c
-	$(CC) $(CFLAGS) -c $< -o $@
+	@$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
 	@$(RM) *.o
