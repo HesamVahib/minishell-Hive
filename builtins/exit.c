@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: michoi <michoi@student.hive.fi>            +#+  +:+       +#+        */
+/*   By: hvahib <hvahib@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 21:19:52 by michoi            #+#    #+#             */
 /*   Updated: 2025/04/15 16:51:58 by michoi           ###   ########.fr       */

@@ -39,20 +39,6 @@ t_env	*remove_node(t_env *head, t_env *node)
 	return (temp_head);
 }
 
-char	*find_value_from_env(t_env *env_list, char *keyword)
-{
-	t_env	*temp;
-
-	temp = env_list;
-	while (temp)
-	{
-		if (is_same_value(temp->key, keyword))
-			return (temp->value);
-		temp = temp->next;
-	}
-	return (NULL);
-}
-
 t_env	*set_start(t_env *env_list)
 		//  when a shell creates a new shell it inherits env variables from the parents including OLDPWD
 {

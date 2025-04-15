@@ -53,7 +53,7 @@ char *ft_strndup(const char *s, int n)
     return dup;
 }
 
-char **line_splitter(char *line)
+char **line_splitter(char *line) // "hesam""wahib is not yet handled"
 {
     int size;
     int i;
@@ -123,16 +123,53 @@ char **quotes_chkr(char **cmd_line)
     return cmd_line;
 }
 
+char **adjacent_quotes(char **cmd_line)
+{
+    int i;
+    int j;
+    int k;
+    char buffer[10000];
+
+
+    i = 0;
+    while (cmd_line[i])
+    {   
+        j = 0;
+        k = 0;
+        if (cmd_line[i][j] == '"')
+        {
+            while (cmd_line[i][j])
+            {
+                if (cmd_line[i][j + 1] == '"' && j != 0 && cmd_line[i][j + 2])
+                    j += 2;
+                else
+                    buffer[k] = cmd_line[i][j];
+                j++;
+                k++;
+            }
+            cmd_line[i] = ft_strndup(buffer, k);
+            if (!cmd_line[i])
+                return (NULL);
+        }
+        i++;
+    }
+    return (cmd_line);
+}
+
 char **line_tokenized(char *line)
 {
     char **cmd_line;
 
     cmd_line = line_splitter(line);
     if (!cmd_line || !*cmd_line)
-        return (NULL); // for now it is not clear, just to make sure we are handling the possibilities
+        return (printf("it is not splitted properly\n"), NULL); // for now it is not clear, just to make sure we are handling the possibilities
     cmd_line = quotes_chkr(cmd_line);
     if (!cmd_line || !*cmd_line)
-        return (NULL); // for now it is not clear, just to make sure we are handling the possibilities
+        return (printf("the quotes are not closed\n"), NULL); // for now it is not clear, just to make sure we are handling the possibilities
     // the only things should be handled are <, >, <<, >>, |, '
+    cmd_line = adjacent_quotes(cmd_line);
+    if (!cmd_line || !*cmd_line)
+        return (printf("ajacent does not work\n"), NULL);
+    
     return(cmd_line);
 }
