@@ -16,10 +16,7 @@ static int executable(char *line)
     return (0);
 }
 
-char **line_tokenized(char *line)
-{
-    return(ft_split(line, ' '));
-}
+
 
 void    minishell(t_env_pack env_pack)
 {
@@ -42,6 +39,7 @@ void    minishell(t_env_pack env_pack)
             printf("\n%s\n", line);
             printf("Execution\n");
             tokenz = line_tokenized(line);
+            // April 14th
             // syntaxt analyzer
             // parser
             while (*tokenz)

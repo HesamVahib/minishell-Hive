@@ -5,7 +5,7 @@ static void restore_fd(t_env_pack env_pack, int std_fd, char *key)
     char *fd_value;
     int cur_fd;
 
-    fd_value = value_finder(env_pack.mshell_env, key);
+    fd_value = find_value_from_env(env_pack.mshell_env, key);
     cur_fd = ft_atoi(fd_value); // saved current value in cur_fd in digits
     if (fd_value)
     {

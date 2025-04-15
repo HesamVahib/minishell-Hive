@@ -95,7 +95,7 @@ t_env				*create_env_list(int env_count);
 
 // utility1.c
 char				*find_value_from_env(t_env *env_list, char *key);
-int					arrlen(void **arr);
+int					arrlen(char **arr);
 
 // init_env_pack.c
 char				*init_getpid(void);
@@ -109,6 +109,9 @@ void    restore_std_fd(t_env_pack env_pack);
 
 // exit_process.c
 void exit_preparation(t_env_pack env_pack);
+
+// tokenization.c
+char **line_tokenized(char *line);
 
 
 // Minji

@@ -48,7 +48,7 @@ t_env   *node_finder(t_env *env_list, char *key)
     temp = env_list;
     while (temp)
     {
-        if (same_finder(temp->key, key))
+        if (is_same_value(temp->key, key))
             return (temp);
         temp = temp->next;
     }

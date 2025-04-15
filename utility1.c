@@ -14,7 +14,7 @@ char *find_value_from_env(t_env *env_list, char *key)
     return (NULL);
 }
 
-int	arrlen(void **arr)
+int	arrlen(char **arr)
 {
 	int len;
 

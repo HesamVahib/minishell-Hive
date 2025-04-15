@@ -5,7 +5,7 @@ void exit_run(t_env *env)
     int exit_code;
 
     printf(SHELL_PROMPT"\n");
-    exit_code = ft_atoi(value_finder(env, "exit_code"));
+    exit_code = ft_atoi(find_value_from_env(env, "exit_code"));
     cleanup_env(env);
     if (signal(SIGINT, SIG_DFL) == SIG_ERR)
 		exit(1);
