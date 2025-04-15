@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: michoi <michoi@student.hive.fi>            +#+  +:+       +#+        */
+/*   By: hvahib <hvahib@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 21:19:52 by michoi            #+#    #+#             */
-/*   Updated: 2025/04/12 22:16:18 by michoi           ###   ########.fr       */
+/*   Updated: 2025/04/15 14:05:27 by hvahib           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ static bool	is_numeric(char *input)
 	Exit from its current execution environment with the exit status.
 	specified  by  the  unsigned  decimal integer n.
 */
-void	exit(char **args)
+void	cmd_exit(char **args)
 {
 	int exit_stat;
 

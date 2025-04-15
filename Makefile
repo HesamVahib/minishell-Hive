@@ -18,7 +18,8 @@ SRC_PART = 	main.c \
 			minishell.c \
 			exit_process.c \
 			restore_std_fd.c \
-			tokenization.c
+			utility1.c \
+			tokenization.c \
 
 
 
@@ -32,7 +33,7 @@ OBJ_PART = $(SRC_PART:.c=.o)
 
 $(NAME): $(OBJ_PART)
 	@$(MAKE) -C $(LIBFT_DIR)
-	$(CC) $(FLAGS) -o $(NAME) $(OBJ_PART) $(LIBFT)
+	@$(CC) $(FLAGS) -o $(NAME) $(OBJ_PART) $(LIBFT) -lreadline
 	echo "\033[90m[\033[32mSuccess\033[90m]\033[32m Successfully compiled minishell executable\033[0m"
 
 all: $(NAME)

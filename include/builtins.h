@@ -6,7 +6,7 @@
 /*   By: hvahib <hvahib@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 19:24:15 by michoi            #+#    #+#             */
-/*   Updated: 2025/04/15 12:19:42 by hvahib           ###   ########.fr       */
+/*   Updated: 2025/04/15 15:16:35 by hvahib           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@
 // int		echo(char **args);
 // int		pwd(void);
 // int		env(t_env *env, char **args);
-// void	exit(char **args);
+// void	cmd_exit(char **args);
 
 // ─── ⋆⋅☆⋅⋆ ── utils ─── ⋆⋅☆⋅⋆ ──
 
