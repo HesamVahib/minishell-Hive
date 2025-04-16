@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cd.c                                               :+:      :+:    :+:   */
+/*   cmd_cd.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: michoi <michoi@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 19:15:43 by michoi            #+#    #+#             */
-/*   Updated: 2025/04/12 22:05:22 by michoi           ###   ########.fr       */
+/*   Updated: 2025/04/16 14:16:54 by michoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ static int	change_directory(char *path)
 
 		FAILURE - Operation failed due to an error.
 */
-int	cd(char **args, t_env *env)
+int	cmd_cd(char **args, t_env *env)
 {
 	int		argc;
 	char	*home_dir;
