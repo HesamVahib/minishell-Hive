@@ -114,6 +114,20 @@ void exit_preparation(t_env_pack env_pack);
 // tokenization.c
 char **line_tokenized(char *line);
 
+// cmd_args_extractor.c
+t_cmd *cmd_args_extractor(char **tokenz);
+
+// cmd_syntax_analyzer.c
+char **syntax_analyzer(char **tokenz);
+
+// ┌────────────── ⋆⋅☆⋅⋆ ── Temporary ── ⋆⋅☆⋅⋆ ──────────────┐
+
+void print_cmd_temp(t_cmd *cmd_args);
+
+// └─────────────────────────────────────────────────────────┘
+
+
+
 
 // Minji
 
