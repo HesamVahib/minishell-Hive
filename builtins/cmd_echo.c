@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   echo.c                                             :+:      :+:    :+:   */
+/*   cmd_echo.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: michoi <michoi@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/06 21:39:53 by michoi            #+#    #+#             */
-/*   Updated: 2025/04/12 22:05:03 by michoi           ###   ########.fr       */
+/*   Updated: 2025/04/16 14:18:56 by michoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ static bool	is_valid_n_flag(char *s)
 
 		FAILURE - Operation failed due to an error.
 */
-int	echo(char **args)
+int	cmd_echo(char **args)
 {
 	int		i;
 	bool	suppress_newline;

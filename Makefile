@@ -25,10 +25,6 @@ SRC_PART = 	main.c \
 			cmd_expansion.c \
 			print_cmd_temp.c	# Temporary Files		
 
-
-
-
-
 OBJ_PART = $(SRC_PART:.c=.o)
 
 %.o: %.c
