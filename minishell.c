@@ -56,8 +56,16 @@ void    minishell(t_env_pack env_pack)
                 printf("syntax is not correct\n");
                 exit(1);
             }
+            // April 16th
 
             // expansion
+            tokenz = dollar_expansion(tokenz, env_pack.mshell_env);
+            if (!tokenz)
+            {
+                printf("Dollar Expnsion failed\n");
+                exit(1);
+            }
+            // April 17th
             // parser
             cmd_args = cmd_args_extractor(tokenz);
             print_cmd_temp(cmd_args);

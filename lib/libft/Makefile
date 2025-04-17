@@ -43,7 +43,8 @@ SOURCES :=	ft_bzero.c \
 			ft_itoa.c \
 			ft_split.c \
 			ft_isspace.c \
-			ft_atoll.c
+			ft_atoll.c \
+			ft_strndup.c
 
 BONUS :=	ft_lstnew_bonus.c \
 			ft_lstadd_front_bonus.c \

@@ -7,7 +7,7 @@ char *find_value_from_env(t_env *env_list, char *key)
     temp = env_list;
     while (temp)
     {
-        if (is_same_value(temp->value, key))
+        if (is_same_value(temp->key, key))
             return(temp->value);
         temp = temp->next;
     }

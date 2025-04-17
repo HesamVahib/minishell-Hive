@@ -22,6 +22,7 @@ SRC_PART = 	main.c \
 			tokenization.c \
 			cmd_args_extractor.c \
 			cmd_syntax_analyzer.c \
+			cmd_expansion.c \
 			print_cmd_temp.c	# Temporary Files		
 
 
