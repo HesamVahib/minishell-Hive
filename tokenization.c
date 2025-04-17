@@ -53,7 +53,7 @@ char *ft_strndup(const char *s, int n)
     return dup;
 }
 
-char **line_splitter(char *line) // "hesam""wahib is not yet handled"
+char **word_splitter(char *line) // "[space][space]     hesam" is not yet handled
 {
     int size;
     int i;
@@ -68,7 +68,7 @@ char **line_splitter(char *line) // "hesam""wahib is not yet handled"
     j = 0;
     while (line[i])
     {
-        while (line[i] == ' ')
+        while (line[i] == ' ') // handle the "    something"
             i++;
 
         if (!line[i])
@@ -123,7 +123,7 @@ char **quotes_chkr(char **cmd_line)
     return cmd_line;
 }
 
-char **adjacent_quotes(char **cmd_line)
+char **adjacent_quotes(char **cmd_line) // "hesam""wahib" is handled
 {
     int i;
     int j;
@@ -160,7 +160,7 @@ char **line_tokenized(char *line)
 {
     char **cmd_line;
 
-    cmd_line = line_splitter(line);
+    cmd_line = word_splitter(line);
     if (!cmd_line || !*cmd_line)
         return (printf("it is not splitted properly\n"), NULL); // for now it is not clear, just to make sure we are handling the possibilities
     cmd_line = quotes_chkr(cmd_line);

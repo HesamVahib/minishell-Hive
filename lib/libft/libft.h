@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: michoi <michoi@student.hive.fi>            +#+  +:+       +#+        */
+/*   By: hvahib <hvahib@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/28 15:59:44 by michoi            #+#    #+#             */
-/*   Updated: 2025/04/15 16:33:49 by michoi           ###   ########.fr       */
+/*   Updated: 2025/04/17 11:48:59 by hvahib           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,4 +72,7 @@ t_list				*ft_lstmap(t_list *lst, void *(*f)(void *),
 						void (*del)(void *));
 int					count_words(char const *s, char c);
 void				free_array(char ***arr);
+
+char *ft_strndup(const char *s, int n);
+
 #endif

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_atoll.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: michoi <michoi@student.hive.fi>            +#+  +:+       +#+        */
+/*   By: hvahib <hvahib@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 22:23:34 by michoi            #+#    #+#             */
-/*   Updated: 2025/04/15 19:41:22 by michoi           ###   ########.fr       */
+/*   Updated: 2025/04/16 12:37:37 by hvahib           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ static void	check_nbr_in_range(int sign, long long num, char digit,
 {
 	if (sign == -1)
 	{
-		if (num > ((unsigned long long)(LLONG_MAX) + 1 - (digit - 48)) / 10)
+		if ((unsigned)num > ((unsigned)(LLONG_MAX) + 1 - (digit - 48)) / 10)
 			*err_flag = UNDERFLOW;
 	}
 	else
