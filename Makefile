@@ -19,7 +19,11 @@ SRC_PART = 	main.c \
 			exit_process.c \
 			restore_std_fd.c \
 			utility1.c \
-			tokenization.c
+			tokenization.c \
+			cmd_args_extractor.c \
+			cmd_syntax_analyzer.c \
+			cmd_expansion.c \
+			print_cmd_temp.c	# Temporary Files		
 
 OBJ_PART = $(SRC_PART:.c=.o)
 
