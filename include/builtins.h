@@ -6,7 +6,7 @@
 /*   By: michoi <michoi@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 19:24:15 by michoi            #+#    #+#             */
-/*   Updated: 2025/04/16 14:24:07 by michoi           ###   ########.fr       */
+/*   Updated: 2025/04/17 18:15:01 by michoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ typedef struct s_env	t_env;
 int						cmd_cd(char **args, t_env *env);
 int						cmd_echo(char **args);
 int						cmd_env(t_env *env, char **args);
-void					cmd_exit(char **args);
+int						cmd_exit(char **args);
 int						cmd_pwd(void);
 
 // ─── ⋆⋅☆⋅⋆ ── utils ─── ⋆⋅☆⋅⋆ ──

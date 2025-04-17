@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exit.c                                             :+:      :+:    :+:   */
+/*   cmd_exit.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: michoi <michoi@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 21:19:52 by michoi            #+#    #+#             */
-/*   Updated: 2025/04/16 14:14:04 by michoi           ###   ########.fr       */
+/*   Updated: 2025/04/17 17:20:56 by michoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,9 +41,9 @@ static bool	is_numeric(char *input)
 /*
 	Exit from its current execution environment with the exit status.
 	specified  by  the  unsigned  decimal integer n
-	(belongs to the range of LLONG_MIN - LLONG_MAX).
+	(which belongs to the range of LLONG_MIN - LLONG_MAX).
 */
-// ❓ if it's in a pipe, shell doesn't exit, doesn't print exit.
+// ☠️❓ if it's in a pipe, shell doesn't exit, doesn't print exit.
 
 // If the current execution environment is a subshell environment,
 // the shell shall exit from the subshell environment
@@ -55,23 +55,21 @@ int	cmd_exit(char **args)
 	int	nbr_range_error;
 
 	nbr_range_error = 0;
+	// !! fix later. It should have the last command's exit code
 	if (!args)
 		exit_stat = 0;
-	// !! fix later. It should have the last command's exit code
 	else
 	{
 		if (!is_numeric(*args))
 		{
 			print_str_arg_err(*args);
 			// cleanup
-			exit_stat = 2;
-			exit(exit_stat);
+			exit(2);
 		}
 		argc = arrlen(args);
 		if (is_numeric(*args) && argc > 1)
 		{
-			ft_putstr_fd("exit: ", STDERR_FILENO);
-			ft_putendl_fd("too many arguments", STDERR_FILENO);
+			print_cmd_err("exit", "too many arguments");
 			// doesn't exit, status 1
 			return (FAILURE);
 		}
@@ -80,8 +78,7 @@ int	cmd_exit(char **args)
 		{
 			print_str_arg_err(*args);
 			// cleanup
-			exit_stat = 2;
-			exit(exit_stat);
+			exit(2);
 		}
 	}
 	ft_putendl_fd("exit", STDOUT_FILENO);
