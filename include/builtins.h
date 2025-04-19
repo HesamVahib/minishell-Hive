@@ -6,7 +6,7 @@
 /*   By: michoi <michoi@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 19:24:15 by michoi            #+#    #+#             */
-/*   Updated: 2025/04/17 18:15:01 by michoi           ###   ########.fr       */
+/*   Updated: 2025/04/19 21:04:56 by michoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 # include <errno.h>
 # include <linux/limits.h>
 # include <stdbool.h>
+#include <sys/stat.h>
 
 # define CMD_ECHO "echo"
 # define CMD_CD "cd"
@@ -31,7 +32,7 @@ typedef struct s_env	t_env;
 
 // ─── ⋆⋅☆⋅⋆ ── builtin commands ─── ⋆⋅☆⋅⋆ ──
 
-int						cmd_cd(char **args, t_env *env);
+int						cmd_cd(t_env **env, char **args);
 int						cmd_echo(char **args);
 int						cmd_env(t_env *env, char **args);
 int						cmd_exit(char **args);
