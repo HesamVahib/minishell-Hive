@@ -50,6 +50,7 @@ void    minishell(t_env_pack env_pack)
             // April 14th
             // Lexer -- implemented
             // syntaxt analyzer like || error
+            
             tokenz = syntax_analyzer(tokenz);
             if (!tokenz)
             {
@@ -68,6 +69,7 @@ void    minishell(t_env_pack env_pack)
             // April 17th
             // parser
             cmd_args = cmd_args_extractor(tokenz);
+            // April 15th
             print_cmd_temp(cmd_args);
             // free_array(&tokenz); // should be transferred to the first pointer
             restore_std_fd(env_pack); // reset the the fd's to get back to the default one if something like | (pipe) had appled on std's
