@@ -42,6 +42,33 @@ static void init_cmd_list(t_cmd *cmd_list, int n_pipe)
     }
 }
 
+int open_create_files(const char *filename, char *type)
+{
+    int fd;
+
+    printf("type: %s\n", type);
+    if (ft_strncmp(type, "outfile", 7) == 0)
+    {
+        fd = open(filename, O_CREAT | O_WRONLY, 0644);
+        if (fd == -1)
+            return (-1);
+        close (fd);
+        return (0);
+    }
+    else if (ft_strncmp(type, "infile", 6) == 0)
+    {
+        fd = open(filename, O_RDONLY);
+        if (fd == -1)
+        {
+            if (errno == ENOENT)
+                printf("%s: No such file or directory\n", filename);
+        }
+        close (fd);
+        return (0);
+    }
+    printf("files are not read\n");
+    return (1);
+}
 
 t_cmd *cmd_args_extractor(char **tokenz)
 {
@@ -61,19 +88,32 @@ t_cmd *cmd_args_extractor(char **tokenz)
     while (tokenz[i])
     {
         if (ft_strncmp(tokenz[i], "<", 1) == 0 && tokenz[i][1] != '<')
+        {
             cur->infile = ft_strdup(tokenz[++i]);
+            if (open_create_files(cur->infile, "infile") == -1)
+                printf("error on opening the infile/ should be handled better\n");
+
+        }
         else if (ft_strncmp(tokenz[i], ">", 1) == 0 && tokenz[i][1] != '>')
         {
             cur->outfile = ft_strdup(tokenz[++i]);
+            if (open_create_files(cur->outfile, "outfile") == -1)
+                printf("error on opening the outfiles (in NOT appended)/ should be handled better\n");
             cur->append = 0;
         }
         else if (ft_strncmp(tokenz[i], ">>", 2) == 0)
         {
             cur->outfile = ft_strdup(tokenz[++i]);
+            if (open_create_files(cur->outfile, "outfile") == -1)
+                printf("error on opening the outfiles (in appended)/ should be handled better\n");
             cur->append = 1;
         }
         else if (ft_strncmp(tokenz[i], "<<", 2) == 0)
+        {
+            if (!tokenz[i + 1])
+                return (printf("syntax error near unexpected token `newline'\n"), NULL);
             cur->is_heredoc = ft_strdup(tokenz[++i]);
+        }
         else if (ft_strncmp(tokenz[i], "|", 1) == 0)
         {
             cur->is_piped = 1;
@@ -106,6 +146,5 @@ t_cmd *cmd_args_extractor(char **tokenz)
         }
         i++;
     }
-    // cur->next = NULL;
     return cmd_list;
 }

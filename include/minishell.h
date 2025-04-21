@@ -112,7 +112,7 @@ void    restore_std_fd(t_env_pack env_pack);
 void exit_preparation(t_env_pack env_pack);
 
 // tokenization.c
-char **line_tokenized(char *line);
+char **line_tokenized(char *line, t_env *env);
 
 // cmd_args_extractor.c
 t_cmd *cmd_args_extractor(char **tokenz);

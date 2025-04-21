@@ -72,6 +72,7 @@ char **word_splitter(char *line)
     int i;
     int j;
     int start;
+    char quote;
 
     size = ft_cmdlen(line);
     splitted_line = (char **)malloc((size + 1) * sizeof(char *));
@@ -86,7 +87,7 @@ char **word_splitter(char *line)
         if (line[i] == '\'' || line[i] == '"')
         {
             start = i;
-            char quote = line[i];
+            quote = line[i];
             i++;
             while (line[i] != quote && line[i] != '\0')
                 i++;
@@ -210,7 +211,7 @@ char **quote_remover(char **cmd_line) // removing single quote
     return new_cmd;
 }
 
-char **line_tokenized(char *line)
+char **line_tokenized(char *line, t_env *env)
 {
     char **cmd_line;
 
@@ -227,5 +228,11 @@ char **line_tokenized(char *line)
     cmd_line = quote_remover(cmd_line);
     if (!cmd_line || !*cmd_line)
         return (printf("qoute remover failed\n"), NULL);
+    cmd_line = syntax_analyzer(cmd_line);
+    if (!cmd_line)
+        return (printf("syntax error near unexpected token `newline'\n"), NULL);
+    cmd_line = dollar_expansion(cmd_line, env);
+    if (!cmd_line)
+        return (printf("Dollar Expnsion failed\n"), NULL);
     return(cmd_line);
 }

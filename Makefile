@@ -13,7 +13,6 @@ SRC_PART = 	main.c \
 			extract_env_list.c \
 			mode_change.c \
 			set_start.c \
-			history_handler.c \
 			init_env_pack.c \
 			minishell.c \
 			exit_process.c \

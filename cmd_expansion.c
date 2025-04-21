@@ -20,7 +20,7 @@ char *extract_var_key(char *start_ptr)
     int len;
     
     len = 0;
-    while ((start_ptr[len]) && ft_isalnum(start_ptr[len]))
+    while ((start_ptr[len]) && (ft_isalnum(start_ptr[len]) || start_ptr[len] == '_'))
         len++;
     return ft_strndup(start_ptr, len);
 }
@@ -40,20 +40,18 @@ char *process_dollars(char *token, t_env *env)
     char *str;
     char *var_key;
     char *var_value;
-
     int i;
+    pid_t pid;
 
     res = ft_strdup("");
     str = token;
     i = 0;
     while (str[i])
     {
-        if (str[i] == '$' && ft_isalpha(str[i + 1]))
+        if (str[i] == '$' && (ft_isalpha(str[i + 1]) || str[i] == '_'))
         {
             var_key = extract_var_key(&str[i + 1]);
-            printf("var_key: %s\n", var_key);
             var_value = find_value_from_env(env, var_key);
-            printf("var_valuue: %s\n", var_value);
             if(var_value)
                 res = ft_strjoin(res, var_value);
             else
@@ -61,8 +59,16 @@ char *process_dollars(char *token, t_env *env)
             i += ft_strlen(var_key) + 1;
             free (var_key);
         }
+        else if (str[i] == '$' && str[i + 1] == '$') // implementing $$
+        {
+            pid = getpid();
+            res = ft_strjoin(res, ft_itoa(pid));
+            i += 2;
+        }
         else
         {
+            if (str[i] == '$') // echo "$'HOME'" = $'HOME' not implemented
+                i++;
             res = append_char(res, str[i]);
             i++;
         }
@@ -91,6 +97,6 @@ char **dollar_expansion(char **tokenz, t_env *env)
         res[i] = new_token;
         i++;
     }
-    res[i] = NULL; // $$, $?, $_ is not handled
+    res[i] = NULL;
     return (res);
 }
