@@ -25,3 +25,19 @@ int	arrlen(char **arr)
 		len++;
 	return (len);
 }
+
+int	update_node(t_env *env, char *key, char *new_value)
+{
+	t_env	*node;
+	char	*temp;
+
+	node = node_finder(env, key);
+	if (!node)
+		return (FAILURE);
+	temp = ft_strdup(new_value);
+	if (!temp)
+		return (FAILURE);
+	free(node->value);
+	node->value = temp;
+	return (SUCCESS);
+}
