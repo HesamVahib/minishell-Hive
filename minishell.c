@@ -35,17 +35,20 @@ void    minishell(t_env_pack env_pack)
             add_history(line);
             env_pack = export_std_fd(env_pack); // setting fd to the std fds to have a space to write and display
             // printf("%s\n\n", line);
-            printf("Execution...\n\n");
             // Tokenizer
             tokenz = line_tokenized(line, env_pack.mshell_env);
-            if (!tokenz)
-                clean_out_all(env_pack.mshell_env, env_pack.sys_envlist, NULL, NULL);
+            // if (!tokenz)
+            //     clean_out_all(env_pack.mshell_env, env_pack.sys_envlist, NULL, NULL);
             // parser
-            cmd_args = cmd_args_extractor(tokenz);
-            if (!cmd_args)
-                clean_out_all(env_pack.mshell_env, env_pack.sys_envlist, NULL, NULL);            
+            if (tokenz)
+                cmd_args = cmd_args_extractor(tokenz);
+            else
+                init_cmd_list(cmd_args, 0);
+            // if (!cmd_args)
+            //     clean_out_all(env_pack.mshell_env, env_pack.sys_envlist, NULL, NULL);            
             // infile and outfile checker/ creater
             print_cmd_temp(cmd_args);
+            printf("\n\nExecution...\n\n");
             restore_std_fd(env_pack); // reset the the fd's to get back to the default one if something like | (pipe) had appled on std's
         }
         free(line);

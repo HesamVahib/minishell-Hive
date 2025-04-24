@@ -48,7 +48,7 @@ t_env_pack init_env_pack(char **envp, char *cur_dir)
     free(cur_dir);
     init_pid = init_getpid();
     if (!init_pid)
-        clean_out_all(env_list, minishell_env_list, cur_dir, NULL);
+        clean_out_all(env_list, minishell_env_list, NULL, NULL);
     minishell_env_list = custom_export(minishell_env_list, "pid", init_pid);
     minishell_env_list = custom_export(minishell_env_list, "exit_code", ft_itoa(0));
     env_pack.mshell_env = minishell_env_list;

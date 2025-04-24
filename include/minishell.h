@@ -115,6 +115,7 @@ void exit_preparation(t_env_pack env_pack);
 char **line_tokenized(char *line, t_env *env);
 
 // cmd_args_extractor.c
+void init_cmd_list(t_cmd *cmd_list, int n_pipe);
 t_cmd *cmd_args_extractor(char **tokenz);
 
 // cmd_syntax_analyzer.c

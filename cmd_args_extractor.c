@@ -16,7 +16,7 @@ static int pipe_counter(char **tokenz)
     return (count);
 }
 
-static void init_cmd_list(t_cmd *cmd_list, int n_pipe)
+void init_cmd_list(t_cmd *cmd_list, int n_pipe)
 {
     int k = 0;
     while (k <= n_pipe)
@@ -46,14 +46,14 @@ int open_create_files(const char *filename, char *type)
 {
     int fd;
 
-    printf("type: %s\n", type);
+    // printf("type: %s\n", type);
     if (ft_strncmp(type, "outfile", 7) == 0)
     {
         fd = open(filename, O_CREAT | O_WRONLY, 0644);
         if (fd == -1)
             return (-1);
         close (fd);
-        return (0);
+        return (1);
     }
     else if (ft_strncmp(type, "infile", 6) == 0)
     {
@@ -61,13 +61,13 @@ int open_create_files(const char *filename, char *type)
         if (fd == -1)
         {
             if (errno == ENOENT)
-                printf("%s: No such file or directory\n", filename);
+                return(printf("%s: No such file or directory\n", filename), 0);
         }
         close (fd);
-        return (0);
+        return (1);
     }
-    printf("files are not read\n");
-    return (1);
+    // printf("files are not read\n");
+    return (0);
 }
 
 t_cmd *cmd_args_extractor(char **tokenz)
@@ -90,21 +90,21 @@ t_cmd *cmd_args_extractor(char **tokenz)
         if (ft_strncmp(tokenz[i], "<", 1) == 0 && tokenz[i][1] != '<')
         {
             cur->infile = ft_strdup(tokenz[++i]);
-            if (open_create_files(cur->infile, "infile") == -1)
+            if (!open_create_files(cur->infile, "infile"))
                 printf("error on opening the infile/ should be handled better\n");
 
         }
         else if (ft_strncmp(tokenz[i], ">", 1) == 0 && tokenz[i][1] != '>')
         {
             cur->outfile = ft_strdup(tokenz[++i]);
-            if (open_create_files(cur->outfile, "outfile") == -1)
+            if (!open_create_files(cur->outfile, "outfile"))
                 printf("error on opening the outfiles (in NOT appended)/ should be handled better\n");
             cur->append = 0;
         }
         else if (ft_strncmp(tokenz[i], ">>", 2) == 0)
         {
             cur->outfile = ft_strdup(tokenz[++i]);
-            if (open_create_files(cur->outfile, "outfile") == -1)
+            if (!open_create_files(cur->outfile, "outfile"))
                 printf("error on opening the outfiles (in appended)/ should be handled better\n");
             cur->append = 1;
         }
@@ -132,7 +132,6 @@ t_cmd *cmd_args_extractor(char **tokenz)
                 i++;
                 argc++;
             }
-            
             cur->argv = ft_calloc(argc + 1, sizeof(char *));
             k = 0;
             while (k < argc)

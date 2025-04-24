@@ -59,7 +59,7 @@ char *process_dollars(char *token, t_env *env)
             i += ft_strlen(var_key) + 1;
             free (var_key);
         }
-        else if (str[i] == '$' && str[i + 1] == '$') // implementing $$
+        else if (str[i] == '$' && str[i + 1] && str[i + 1] == '$') // implementing $$
         {
             pid = getpid();
             res = ft_strjoin(res, ft_itoa(pid));
@@ -67,7 +67,7 @@ char *process_dollars(char *token, t_env *env)
         }
         else
         {
-            if (str[i] == '$') // echo "$'HOME'" = $'HOME' not implemented
+            if (str[i] == '$' && str[i + 1] && str[i + 1] != '\'') // echo "$'HOME'" = $'HOME' not implemented
                 i++;
             res = append_char(res, str[i]);
             i++;
@@ -75,6 +75,20 @@ char *process_dollars(char *token, t_env *env)
     }
     return (res);
 
+}
+
+static int dollar_validated(char *str)
+{
+    int i;
+
+    i = 0;
+    while (str[i])
+    {
+        if((str[i] == '$' && str[i + 1] && str[i + 1] == '\'') && (str[i - 1] && str[i - 1] != '$'))
+            return (0);
+        i++;
+    }
+    return (1);
 }
 
 char **dollar_expansion(char **tokenz, t_env *env)
@@ -91,10 +105,16 @@ char **dollar_expansion(char **tokenz, t_env *env)
     i = 0;
     while(temp[i])
     {
-        new_token = process_dollars(tokenz[i], env);
-        if (!new_token)
-            return (NULL);
-        res[i] = new_token;
+        if (dollar_validated(temp[i]) == 1)
+        {
+            printf("token is: %s\n", temp[i]);
+            new_token = process_dollars(tokenz[i], env);
+            if (!new_token)
+                return (NULL);
+            res[i] = new_token;
+        }
+        else
+            res[i] = tokenz[i];
         i++;
     }
     res[i] = NULL;
