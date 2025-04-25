@@ -184,38 +184,6 @@ char **adjacent_quotes(char **cmd_line)
     return cmd_line;
 }
 
-// char **quote_remover(char **cmd_line) // removing single quote
-// {
-//     int count;
-//     int i;
-//     size_t len;
-//     char *token;
-//     char **new_cmd;
-
-//     if (!cmd_line)
-//         return NULL;
-//     count = arrlen(cmd_line);
-//     new_cmd = malloc((count + 1) * sizeof(char *));
-//     if (!new_cmd)
-//         return NULL;
-//     i = 0;
-//     while (i < count)
-//     {
-//         token = cmd_line[i];
-//         len = strlen(token);
-//         if (len >= 2 && (token[0] == '\'' || token[0] == '"')
-//             && token[0] == token[len - 1])
-//             new_cmd[i] = ft_strndup(token + 1, len - 2);
-//         else
-//             new_cmd[i] = ft_strndup(token, len);
-//         if (!new_cmd[i]) // failure should be handled sophisticatedly
-//             return NULL;
-//         i++;
-//     }
-//     new_cmd[count] = NULL;
-//     free_array(&cmd_line);
-//     return new_cmd;
-// }
 char *stitch_strings(char **temp_split)
 {
     int i;
@@ -237,6 +205,8 @@ char *stitch_strings(char **temp_split)
     }
     return result;
 }
+
+
 
 char **surplus_dollar_remover(char **cmd_line) //echo "$$$'HOME'"
 {
@@ -260,53 +230,51 @@ char **surplus_dollar_remover(char **cmd_line) //echo "$$$'HOME'"
     return (temp);
 }
 
+char *double_backslash_remover(char *cmd_line)
+{
+    int i;
+    char *new_str;
+
+    i = 0;
+    new_str = ft_strdup("");
+    while (cmd_line[i])
+    {
+        if(cmd_line[i] == '\\' && (cmd_line[i + 1]) && (cmd_line[i + 1]) == '\\')
+            i++;
+        new_str = append_char(new_str, cmd_line[i]);
+        i++;
+    }
+    free(cmd_line);
+    return (new_str);
+}
+
 char **line_tokenized(char *line, t_env *env)
 {
+    char *new_line;
     char **cmd_line;
     char **temp;
     int i = 0;
 
-    cmd_line = word_splitter(line);
+    new_line = NULL;
+    new_line = double_backslash_remover(line);
+    if (!new_line)
+        return (printf("double_backslash_remover does not work\n"), NULL);
+    cmd_line = word_splitter(new_line);
     if (!cmd_line || !*cmd_line)
         return (printf("it is not splitted properly\n"), NULL); // for now it is not clear, just to make sure we are handling the possibilities
-    // i = 0;
-    // temp = cmd_line;
-    // while (temp[i])
-    // {
-    //     printf("%s\n", temp[i]);
-    //     i++;
-
-    // }
     cmd_line = quotes_chkr(cmd_line);
     if (!cmd_line || !*cmd_line)
         return (printf("the quotes are not closed\n"), NULL); // for now it is not clear, just to make sure we are handling the possibilities
     // the only things should be handled are <, >, <<, >>, |, '
-    // i = 0;
-    // temp = cmd_line;
-    // while (temp[i])
-    // {
-    //     printf("%s\n", temp[i]);
-    //     i++;
-
-    // }
     cmd_line = syntax_analyzer(cmd_line); // what if ||
     if (!cmd_line)
         return (NULL);
     cmd_line = surplus_dollar_remover(cmd_line);
     if (!cmd_line || !*cmd_line)
         return (printf("Surplus dollar remover failed\n"), NULL);
-    // i = 0;
-    // temp = cmd_line;
-    // while (temp[i])
-    // {
-    //     printf("%s\n", temp[i]);
-    //     i++;
-
-    // }
     cmd_line = dollar_expansion(cmd_line, env);
     if (!cmd_line)
         return (printf("Dollar Expnsion failed\n"), NULL);
-    
     i = 0;
     temp = cmd_line;
     while (temp[i])
@@ -315,31 +283,9 @@ char **line_tokenized(char *line, t_env *env)
         i++;
 
     }
-    
     cmd_line = adjacent_quotes(cmd_line);
     if (!cmd_line || !*cmd_line)
         return (printf("ajacent does not work\n"), NULL);
-    // i = 0;
-    // temp = cmd_line;
-    // while (temp[i])
-    // {
-    //     printf("%s\n", temp[i]);
-    //     i++;
-
-    // }
-    // cmd_line = quote_remover(cmd_line);
-    // if (!cmd_line || !*cmd_line)
-    //     return (printf("qoute remover failed\n"), NULL);
-    // i = 0;
-    // temp = cmd_line;
-    // while (temp[i])
-    // {
-    //     printf("%s\n", temp[i]);
-    //     i++;
-
-    // }
-    
-    // exit(1);
     return(cmd_line);
 }
 

@@ -22,6 +22,7 @@ SRC_PART = 	main.c \
 			lexer.c \
 			cmd_syntax_analyzer.c \
 			cmd_expansion.c \
+			heredoc.c \
 			print_cmd_temp.c	# Temporary Files		
 
 OBJ_PART = $(SRC_PART:.c=.o)

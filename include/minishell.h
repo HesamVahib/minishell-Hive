@@ -11,6 +11,7 @@
 # include <fcntl.h>   // For open flags
 # include <readline/readline.h> // for readline()
 # include <readline/history.h> // for add_history()
+# include <sys/ioctl.h> // for ioctl(0, TIOCSTI, "\n");
 
 // builtin
 # include "builtins.h"
@@ -116,6 +117,7 @@ void exit_preparation(t_env_pack env_pack);
 char **line_tokenized(char *line, t_env *env);
 
 // cmd_args_extractor.c
+char *append_char(char *str, char c);
 void init_cmd_list(t_cmd *cmd_list, int n_pipe);
 t_cmd *cmd_args_extractor(char **tokenz);
 
@@ -124,6 +126,9 @@ char **syntax_analyzer(char **tokenz);
 
 // expansion.c
 char **dollar_expansion(char **tokenz, t_env *env);
+
+// heredoc.c
+int heredoc_processing(t_cmd *cmd_args, t_env_pack env_pack);
 
 // ┌────────────── ⋆⋅☆⋅⋆ ── Temporary ── ⋆⋅☆⋅⋆ ──────────────┐
 
