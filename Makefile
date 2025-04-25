@@ -19,7 +19,7 @@ SRC_PART = 	main.c \
 			restore_std_fd.c \
 			utility1.c \
 			tokenization.c \
-			cmd_args_extractor.c \
+			lexer.c \
 			cmd_syntax_analyzer.c \
 			cmd_expansion.c \
 			print_cmd_temp.c	# Temporary Files		

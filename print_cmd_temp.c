@@ -19,6 +19,12 @@ void print_cmd_temp(t_cmd *cmd_args)
             printf("outfile: '%s' (append: %d)\n", cmd_args->outfile, cmd_args->append);
         if (cmd_args->is_heredoc)
             printf("heredoc limiter: '%s'\n", cmd_args->is_heredoc);
+        if (cmd_args->is_heredoc)
+        {
+            for (int j = 0; cmd_args->heredoc_limiters[j]; j++)
+                printf("'%s' ", cmd_args->heredoc_limiters[j]);
+            printf("\n");
+        }
         printf("is_piped: %d\n", cmd_args->is_piped);
 
         cmd_args = cmd_args->next;

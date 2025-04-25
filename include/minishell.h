@@ -55,6 +55,7 @@ typedef struct s_cmd {
     int append;         // 1 for >>, 0 for >
 	int is_piped;		// if pipe comes after 1, 0 if does not
 	char *is_heredoc;	// if there is something means it is for heredoc, otherwise no heredoc
+	char **heredoc_limiters; // all limiters
     struct s_cmd *next;   // linked to the next one if it exists
 	struct s_cmd *previous;
 } 			t_cmd; // WHAT ABOUT HEREDOC
