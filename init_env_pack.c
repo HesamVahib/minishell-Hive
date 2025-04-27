@@ -22,35 +22,49 @@ char *init_getpid(void)
     }
 }
 
+static void initialize_env_lists(char **envp, t_env **sys_envlist, t_env **minishell_env_list)
+{
+    *sys_envlist = extract_env_list(envp);
+    *minishell_env_list = extract_env_list(envp);
+    if (!*sys_envlist || !*minishell_env_list)
+        clean_out_all(*sys_envlist, *minishell_env_list, NULL, NULL);
+    *sys_envlist = set_start(*sys_envlist);
+    if (!*sys_envlist)
+        clean_out_all(*sys_envlist, *minishell_env_list, NULL, NULL);
+}
+
+static void setup_minishell_env(t_env **minishell_env_list, char *cur_dir)
+{
+    *minishell_env_list = custom_export(*minishell_env_list, "fd_stdin", FD_UNSET);
+    *minishell_env_list = custom_export(*minishell_env_list, "fd_stdout", FD_UNSET);
+    *minishell_env_list = custom_export(*minishell_env_list, "fd_stderr", FD_UNSET);
+    *minishell_env_list = custom_export(*minishell_env_list, "root", cur_dir);
+}
+
+static void add_special_vars(t_env **minishell_env_list)
+{
+    char *init_pid;
+
+    init_pid = init_getpid();
+    if (!init_pid)
+        clean_out_all(NULL, *minishell_env_list, NULL, NULL);
+    *minishell_env_list = custom_export(*minishell_env_list, "pid", init_pid);
+    *minishell_env_list = custom_export(*minishell_env_list, "exit_code", ft_itoa(0));
+}
+
 t_env_pack init_env_pack(char **envp, char *cur_dir)
 {
     t_env_pack env_pack;
     t_env *env_list;
     t_env *minishell_env_list;
-    char *init_pid;
 
-    minishell_env_list = NULL;
     env_list = NULL;
-    minishell_env_list = extract_env_list(envp); // thisi is the originasl one from oldpwd, creating the env by spliting the original environment into keys and values. it's gonna be used for Minishell
-    env_list = extract_env_list(envp); //
-    if (!env_list || !minishell_env_list)
-        clean_out_all(env_list, minishell_env_list, cur_dir, NULL);
-    env_list = set_start(env_list); // whenever you open a session it starts from 1 and we want to indicate that is the nested shell or main shell. and also we clean oldpwd. we want to keep the track og main env
-    if (!env_list)
-        clean_out_all(env_list, minishell_env_list, cur_dir, NULL);
-    env_pack.sys_envlist = env_list;
-    // env_pack.env = env_list;
-    /// 8th April
-    minishell_env_list = custom_export(minishell_env_list, "fd_stdin", FD_UNSET);
-    minishell_env_list = custom_export(minishell_env_list, "fd_stdout", FD_UNSET);
-    minishell_env_list = custom_export(minishell_env_list, "fd_stderr", FD_UNSET);
-    minishell_env_list = custom_export(minishell_env_list, "root", cur_dir);
+    minishell_env_list = NULL;
+    initialize_env_lists(envp, &env_list, &minishell_env_list);
+    setup_minishell_env(&minishell_env_list, cur_dir);
     free(cur_dir);
-    init_pid = init_getpid();
-    if (!init_pid)
-        clean_out_all(env_list, minishell_env_list, NULL, NULL);
-    minishell_env_list = custom_export(minishell_env_list, "pid", init_pid);
-    minishell_env_list = custom_export(minishell_env_list, "exit_code", ft_itoa(0));
+    add_special_vars(&minishell_env_list);
+    env_pack.sys_envlist = env_list;
     env_pack.mshell_env = minishell_env_list;
     return (env_pack);
 }

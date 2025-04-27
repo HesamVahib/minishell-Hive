@@ -35,7 +35,6 @@ void    minishell(t_env_pack env_pack)
         {
             add_history(line);
             env_pack = export_std_fd(env_pack); // setting fd to the std fds to have a space to write and display
-
             tokenz = line_tokenized(line, env_pack.mshell_env);
             if (tokenz)
             {

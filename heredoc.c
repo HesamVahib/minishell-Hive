@@ -1,46 +1,62 @@
 #include "./include/minishell.h"
 
-char *open_heredoc(char **limiters)
+static int open_heredoc_file(char *limiter, char **filename)
+{
+    int fd;
+
+    *filename = ft_strjoin(limiter, ".txt");
+    if (!(*filename))
+        return (-1);
+    fd = open(*filename, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+    if (fd == -1)
+        return (-1);
+    return (fd);
+}
+
+static void write_heredoc_content(int fd, char *limiter)
 {
     char *line;
-    int i;
+    char *temp;
+
+    line = readline("> ");
+    while (line && ft_strncmp(line, limiter, ft_strlen(limiter)) != 0)
+    {
+        temp = ft_strjoin(line, "\n");
+        if (temp)
+            write(fd, temp, ft_strlen(line) + 1);
+        free(line);
+        free(temp);
+        line = readline("> ");
+    }
+    free(line);
+}
+
+char *open_heredoc(char **limiters)
+{
     int fd;
     char *filename;
-    char *temp;
+    int i;
 
     i = 0;
     filename = NULL;
     rl_on_new_line();
     rl_replace_line("", 0);
-    while(limiters[i] != NULL)
+    while (limiters[i] != NULL)
     {
         if (filename)
         {
             remove(filename);
             free(filename);
         }
-        filename = ft_strjoin(limiters[i], ".txt");
-        fd = open(filename, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+        fd = open_heredoc_file(limiters[i], &filename);
         if (fd == -1)
             return (free(filename), NULL);
-        line = readline("> ");
-        while (line && ft_strncmp(line, limiters[i], ft_strlen(limiters[i])) != 0)
-        {
-            // if (global_signal == SIGINT)
-            //     return (free(line), close(fd), filename);
-            temp = ft_strjoin(line, "\n");
-            write(fd, temp, ft_strlen(line) + 1);
-            free(line);
-            free(temp);
-            line = readline("> ");
-        }
-        free(line);
+        write_heredoc_content(fd, limiters[i]);
         close(fd);
         i++;
     }
     return (filename);
 }
-
 
 int heredoc_processing(t_cmd *cmd_args, t_env_pack env_pack)
 {

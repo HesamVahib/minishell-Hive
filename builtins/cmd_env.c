@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmd_env.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: michoi <michoi@student.hive.fi>            +#+  +:+       +#+        */
+/*   By: hvahib <hvahib@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/11 21:47:16 by michoi            #+#    #+#             */
-/*   Updated: 2025/04/16 14:22:57 by michoi           ###   ########.fr       */
+/*   Updated: 2025/04/27 13:42:05 by hvahib           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,6 @@ t_env	*extract_env_list(char **envp)
 		// clean_array(temp);
 		if (!temp_env->key || !temp_env->value)
 			return (cleanup_env(env_list), NULL);
-		// *(temp_env->index) = i;
 		temp_env = temp_env->next;
 		i++;
 	}

@@ -1,5 +1,5 @@
 NAME = minishell
-FLAGS = -Wall -Werror -Wextra -g
+FLAGS = -Wall -Werror -Wextra
 CC = cc
 
 LIBFT_DIR = ./lib/libft
@@ -18,11 +18,18 @@ SRC_PART = 	main.c \
 			exit_process.c \
 			restore_std_fd.c \
 			utility1.c \
+			utility2.c \
 			tokenization.c \
 			lexer.c \
 			cmd_syntax_analyzer.c \
-			cmd_expansion.c \
+			expansion.c \
 			heredoc.c \
+			tokenz_util_wsplitter.c \
+			expansion_utils.c \
+			lexer_utils.c \
+			sig_handlers.c \
+			ft_cmdlen.c \
+			tokenz_util_quotes.c \
 			print_cmd_temp.c	# Temporary Files		
 
 OBJ_PART = $(SRC_PART:.c=.o)

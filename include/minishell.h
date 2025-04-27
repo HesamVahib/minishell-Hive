@@ -39,7 +39,7 @@ typedef struct s_env
 {
 	char			*key;
 	char			*value;
-	int				*index;
+	// int				*index;
 	struct s_env	*next;
 }					t_env;
 
@@ -72,6 +72,10 @@ t_env				*cleanup_env(t_env *env_list);
 // chang_mode.c
 int					change_mode(int mode);
 
+// sig_handlers.c
+void sighandler(int signal);
+void	sig_handler_heredoc(int sig);
+
 // main.c
 void				clean_out_all(t_env *env1, t_env *env2, char *str1,
 						char *str2);
@@ -97,8 +101,14 @@ t_env				*extract_env_list(char **envp);
 t_env				*create_env_list(int env_count);
 
 // utility1.c
+char *ft_strnjoin(char *s1, char *s2, size_t n);
+char *extract_var_key(char *start_ptr);
+char *append_char(char *str, char c);
 char				*find_value_from_env(t_env *env_list, char *key);
 int					arrlen(char **arr);
+
+// utility2.c
+char *ft_strndup(const char *s, int n);
 
 // init_env_pack.c
 char				*init_getpid(void);
@@ -116,10 +126,24 @@ void exit_preparation(t_env_pack env_pack);
 // tokenization.c
 char **line_tokenized(char *line, t_env *env);
 
-// cmd_args_extractor.c
+// tokenz_util_quotes.c 
+char **quotes_chkr(char **cmd_line);
+static char *remove_adjacent_quotes(char *str);
+char **adjacent_quotes(char **cmd_line);
+
+// tokenz_util_wsplitter.c
+char **word_splitter(char *line);
+
+// lexer.c
 char *append_char(char *str, char c);
 void init_cmd_list(t_cmd *cmd_list, int n_pipe);
 t_cmd *cmd_args_extractor(char **tokenz);
+
+// lexer_utils.c
+int pipe_counter(char **tokenz);
+void init_cmd_list(t_cmd *cmd_list, int n_pipe);
+int open_create_files(const char *filename, char *type);
+char **limiter_collector(char **delim_list, char *new_delim);
 
 // cmd_syntax_analyzer.c
 char **syntax_analyzer(char **tokenz);
@@ -129,6 +153,14 @@ char **dollar_expansion(char **tokenz, t_env *env);
 
 // heredoc.c
 int heredoc_processing(t_cmd *cmd_args, t_env_pack env_pack);
+
+// expansion.utils.c
+char *process_dollars(char *token, t_env *env);
+char **surplus_dollar_remover(char **cmd_line);
+
+// ft_cmdlen.c
+int ft_cmdlen(char *line);
+
 
 // ┌────────────── ⋆⋅☆⋅⋆ ── Temporary ── ⋆⋅☆⋅⋆ ──────────────┐
 
