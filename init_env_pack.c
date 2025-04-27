@@ -57,6 +57,7 @@ static void add_special_vars(t_env **minishell_env_list)
     *minishell_env_list = custom_export(*minishell_env_list, "pid", init_pid);
     *minishell_env_list = custom_export(*minishell_env_list, "exit_code", temp);
     free(temp);
+    free(init_pid);
 }
 
 t_env_pack init_env_pack(char **envp, char *cur_dir)
