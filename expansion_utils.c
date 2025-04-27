@@ -66,11 +66,17 @@ char **surplus_dollar_remover(char **cmd_line) //echo "$$$'HOME'"
     i = 0;
     while(temp[i])
     {   
-        if (temp[i][0] != '\"')
+        if ((temp[i][0] == '\\') || (temp[i][0] == '\'' && temp[i][ft_strlen(temp[i]) - 1] == '\''))
+        {
+            i++;
+            continue;
+        }
+        if (temp[i][0] != '\"' && (temp[i][0] != '$' && !temp[i][1]))
         {
             temp_split = ft_split(temp[i], '$');
             free(temp[i]);
             temp[i] = stitch_strings(temp_split);
+            free(temp_split);
         }
         i++;
     }

@@ -61,6 +61,7 @@ static void extract_arguments(t_cmd *cur, char **tokenz, int *i)
     cur->argv[argc] = NULL;
 }
 
+
 static void parse_tokens(t_cmd *cmd_list, char **tokenz)
 {
     int i;
@@ -68,24 +69,25 @@ static void parse_tokens(t_cmd *cmd_list, char **tokenz)
 
     i = 0;
     cur = &cmd_list[0];
-    while (tokenz[i])
+    while (tokenz[i] != NULL)
     {
-        if (ft_strncmp(tokenz[i], "<", 1) == 0 && tokenz[i][1] != '<')
+        if (tokenz[i] && ft_strncmp(tokenz[i], "<", 1) == 0 && tokenz[i][1] != '<')
             handle_file_redirection(cur, tokenz, &i, 'i');
-        else if (ft_strncmp(tokenz[i], ">", 1) == 0 && tokenz[i][1] != '>')
+        else if (tokenz[i] && ft_strncmp(tokenz[i], ">", 1) == 0 && tokenz[i][1] != '>')
             handle_file_redirection(cur, tokenz, &i, 'o');
-        else if (ft_strncmp(tokenz[i], ">>", 2) == 0)
+        else if (tokenz[i] && ft_strncmp(tokenz[i], ">>", 2) == 0)
             handle_file_redirection(cur, tokenz, &i, 'a');
-        else if (ft_strncmp(tokenz[i], "<<", 2) == 0)
+        else if (tokenz[i] && ft_strncmp(tokenz[i], "<<", 2) == 0)
             handle_heredoc(cur, tokenz, &i);
-        else if (ft_strncmp(tokenz[i], "|", 1) == 0)
+        else if (tokenz[i] && ft_strncmp(tokenz[i], "|", 1) == 0)
         {
             cur->is_piped = 1;
-            cur = cur->next;
+            if (cur->next)
+                cur = cur->next;
+            i++;
         }
-        else
+        else if (tokenz[i])
             extract_arguments(cur, tokenz, &i);
-        i++;
     }
 }
 
@@ -95,6 +97,7 @@ t_cmd *cmd_args_extractor(char **tokenz)
     int n_pipe;
 
     n_pipe = pipe_counter(tokenz);
+    // printf("pipes are: %d\n", n_pipe);
     cmd_list = ft_calloc(n_pipe + 1, sizeof(t_cmd));
     if (!cmd_list)
         return (NULL);

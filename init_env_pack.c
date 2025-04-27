@@ -10,14 +10,18 @@ char *init_getpid(void)
     {
         char_pid = ft_strdup("$$");
         if (!char_pid)
+        {
             return (NULL);
+        }
         return (char_pid);
     }
     else
     {
         char_pid = ft_itoa(pid);
         if (!char_pid)
+        {
             return (NULL);
+        }
         return (char_pid);
     }
 }
@@ -44,12 +48,15 @@ static void setup_minishell_env(t_env **minishell_env_list, char *cur_dir)
 static void add_special_vars(t_env **minishell_env_list)
 {
     char *init_pid;
+    char *temp;
 
     init_pid = init_getpid();
+    temp = ft_itoa(0);
     if (!init_pid)
         clean_out_all(NULL, *minishell_env_list, NULL, NULL);
     *minishell_env_list = custom_export(*minishell_env_list, "pid", init_pid);
-    *minishell_env_list = custom_export(*minishell_env_list, "exit_code", ft_itoa(0));
+    *minishell_env_list = custom_export(*minishell_env_list, "exit_code", temp);
+    free(temp);
 }
 
 t_env_pack init_env_pack(char **envp, char *cur_dir)

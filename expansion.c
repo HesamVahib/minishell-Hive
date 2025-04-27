@@ -51,7 +51,6 @@ static char *copy_or_expand_token(char **tokenz, int i, t_env *env)
 
     if (dollar_validated(tokenz[i]) == 1)
     {
-        printf("token is: %s\n", tokenz[i]);
         new_token = expand_single_token(tokenz[i], env);
         if (!new_token)
             return (NULL);
@@ -72,6 +71,18 @@ char **dollar_expansion(char **tokenz, t_env *env)
     i = 0;
     while (tokenz[i])
     {
+        if ((tokenz[i][0] == '\\') || (tokenz[i][0] == '\'' && tokenz[i][ft_strlen(tokenz[i]) - 1] == '\''))
+        {
+            res[i] = tokenz[i];
+            i++;
+            continue;
+        }
+        if ((tokenz[i][0] == '$') && !tokenz[i][1])
+        {
+            res[i] = tokenz[i];
+            i++;
+            continue;
+        }
         res[i] = copy_or_expand_token(tokenz, i, env);
         if (!res[i])
             return (NULL);

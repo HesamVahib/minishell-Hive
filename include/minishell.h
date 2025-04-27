@@ -74,7 +74,7 @@ int					change_mode(int mode);
 
 // sig_handlers.c
 void sighandler(int signal);
-void	sig_handler_heredoc(int sig);
+int	sig_handler_heredoc(void);
 
 // main.c
 void				clean_out_all(t_env *env1, t_env *env2, char *str1,
@@ -128,11 +128,14 @@ char **line_tokenized(char *line, t_env *env);
 
 // tokenz_util_quotes.c 
 char **quotes_chkr(char **cmd_line);
-static char *remove_adjacent_quotes(char *str);
+char *remove_adjacent_quotes(char *str);
 char **adjacent_quotes(char **cmd_line);
 
 // tokenz_util_wsplitter.c
 char **word_splitter(char *line);
+
+// tokenz_util.c
+char *double_backslash_remover(char *cmd_line);
 
 // lexer.c
 char *append_char(char *str, char c);
@@ -152,11 +155,12 @@ char **syntax_analyzer(char **tokenz);
 char **dollar_expansion(char **tokenz, t_env *env);
 
 // heredoc.c
-int heredoc_processing(t_cmd *cmd_args, t_env_pack env_pack);
+int heredoc_processing(t_cmd *cmd_args);
 
 // expansion.utils.c
 char *process_dollars(char *token, t_env *env);
 char **surplus_dollar_remover(char **cmd_line);
+char *stitch_strings(char **temp_split);
 
 // ft_cmdlen.c
 int ft_cmdlen(char *line);

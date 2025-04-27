@@ -22,14 +22,14 @@ static int wait_for_command(void)
 }
 
 
-static int heredoc_mode(void)
-{
-    global_signal = 0;
-    if (signal(SIGINT, &sig_handler_heredoc) == SIG_ERR)
-        return (1);
-    return (0);
+// static int heredoc_mode(void)
+// {
+//     global_signal = 0;
+//     if (signal(SIGINT, &sig_handler_heredoc) == SIG_ERR)
+//         return (1);
+//     return (0);
 
-}
+// }
 
 int change_mode(int mode)
 {
@@ -37,7 +37,7 @@ int change_mode(int mode)
         return (1);
     else if ((mode == WAIT_FOR_COMMAND) && (wait_for_command()))
         return (1);
-    else if ((mode == HEREDOC) && (heredoc_mode()))
-        return (1);
+    // else if ((mode == HEREDOC) && (heredoc_mode()))
+    //     return (1);
     return (0);
 }

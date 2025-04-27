@@ -22,6 +22,7 @@ void    minishell(t_env_pack env_pack)
     char    *line;
     char    **tokenz;
     t_cmd   *cmd_args;
+    int i;
 
     while (1)
     {
@@ -40,7 +41,9 @@ void    minishell(t_env_pack env_pack)
             {
                 cmd_args = cmd_args_extractor(tokenz);
                 print_cmd_temp(cmd_args);
-                heredoc_processing(cmd_args, env_pack);
+                i = heredoc_processing(cmd_args);
+                // if (i == 130)
+                //     break;
             }
             else
             {

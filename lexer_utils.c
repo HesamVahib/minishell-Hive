@@ -71,13 +71,9 @@ int open_create_files(const char *filename, char *type)
 
 char **limiter_collector(char **delim_list, char *new_delim)
 {
-    int d_list_size;
-    int new_d_size;
     char **new_list;
     int i;
 
-    d_list_size = arrlen(delim_list);
-    new_d_size = ft_strlen(new_delim);
     i = 0;
     if (delim_list != NULL)
         while (delim_list[i])

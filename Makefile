@@ -1,5 +1,5 @@
 NAME = minishell
-FLAGS = -Wall -Werror -Wextra
+FLAGS = -Wall -Werror -Wextra -g
 CC = cc
 
 LIBFT_DIR = ./lib/libft
@@ -25,6 +25,7 @@ SRC_PART = 	main.c \
 			expansion.c \
 			heredoc.c \
 			tokenz_util_wsplitter.c \
+			tokenz_util.c \
 			expansion_utils.c \
 			lexer_utils.c \
 			sig_handlers.c \

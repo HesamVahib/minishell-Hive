@@ -25,7 +25,7 @@ char **quotes_chkr(char **cmd_line)
     return (cmd_line);
 }
 
-static char *remove_adjacent_quotes(char *str)
+char *remove_adjacent_quotes(char *str)
 {
     char *new_str;
     int j;

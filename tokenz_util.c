@@ -1,8 +1,5 @@
 #include "./include/minishell.h"
 
-
-
-
 char *double_backslash_remover(char *cmd_line)
 {
     int i;
@@ -12,11 +9,10 @@ char *double_backslash_remover(char *cmd_line)
     new_str = ft_strdup("");
     while (cmd_line[i])
     {
-        if(cmd_line[i] == '\\' && (cmd_line[i + 1]) && (cmd_line[i + 1]) == '\\')
+        if(cmd_line[i] == '\\' && (cmd_line[i + 1]) && ((cmd_line[i + 1]) == '\\' || cmd_line[i + 1] == '$'))
             i++;
         new_str = append_char(new_str, cmd_line[i]);
         i++;
     }
-    free(cmd_line);
     return (new_str);
 }

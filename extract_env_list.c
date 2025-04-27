@@ -18,12 +18,13 @@ t_env	*extract_env_list(char **envp)
 	{
 		temp = ft_split(envp[i], '=');
 		if (!temp)
-			return (cleanup_env(env_list), NULL);
+			return (free(temp), cleanup_env(env_list), NULL);
 		temp_env->key = ft_strdup(temp[0]);
 		temp_env->value = ft_strdup(temp[1]);
 		if (!temp_env->key || !temp_env->value)
 			return (cleanup_env(env_list), NULL);
 		temp_env = temp_env->next;
+		free(temp);
 		i++;
 	}
 	return (env_list);

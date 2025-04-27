@@ -27,6 +27,7 @@ t_env *cleanup_env(t_env *env_list)
         free(env_list);
         env_list = temp;
     }
+    free(temp);
     return (env_list);
 }
 

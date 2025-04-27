@@ -13,13 +13,9 @@ void sighandler(int signal)
         printf("Quit: %d\n", signal);
 }
 
-void	sig_handler_heredoc(int sig)
+int sig_handler_heredoc(void)
 {
-	global_signal = sig;
-	if (sig == SIGINT)
-	{
-        rl_on_new_line(); // move the cursor to the new line
-        rl_replace_line("", 0); // earase everything from the previous user
-        rl_redisplay();
-    }
+    if (global_signal == SIGINT)
+        rl_done = 1;
+    return (0);
 }

@@ -1,5 +1,11 @@
 #include "./include/minishell.h"
 
+static void sigint_handler_heredoc(int sig)
+{
+    (void)sig;
+    global_signal = SIGINT;
+}
+
 static int open_heredoc_file(char *limiter, char **filename)
 {
     int fd;
@@ -18,17 +24,26 @@ static void write_heredoc_content(int fd, char *limiter)
     char *line;
     char *temp;
 
-    line = readline("> ");
-    while (line && ft_strncmp(line, limiter, ft_strlen(limiter)) != 0)
+    signal(SIGINT, sigint_handler_heredoc);
+    rl_event_hook = sig_handler_heredoc;
+    while (1)
     {
+        line = readline("> ");
+        if (!line || global_signal == SIGINT)
+            break ;
+        if (ft_strncmp(line, limiter, ft_strlen(limiter)) == 0)
+        {
+            free(line);
+            break;
+        }
         temp = ft_strjoin(line, "\n");
         if (temp)
-            write(fd, temp, ft_strlen(line) + 1);
+            write(fd, temp, ft_strlen(temp));
         free(line);
         free(temp);
-        line = readline("> ");
     }
-    free(line);
+    if (line)
+        free(line);
 }
 
 char *open_heredoc(char **limiters)
@@ -43,6 +58,7 @@ char *open_heredoc(char **limiters)
     rl_replace_line("", 0);
     while (limiters[i] != NULL)
     {
+        printf("in open\n");
         if (filename)
         {
             remove(filename);
@@ -58,29 +74,40 @@ char *open_heredoc(char **limiters)
     return (filename);
 }
 
-int heredoc_processing(t_cmd *cmd_args, t_env_pack env_pack)
+int is_all_heredoc(t_cmd *cmd)
 {
-    int i;
+    while (cmd)
+    {
+        if (cmd->is_heredoc == NULL)
+            return (0);
+        cmd = cmd->next;
+    }
+    return (1);
+}
+
+int heredoc_processing(t_cmd *cmd_args)
+{
     t_cmd *temp;
     char *txt_filename;
 
-    i = 0;
     temp = cmd_args;
     txt_filename = NULL;
-    while (temp)
-    {
-        if (temp->is_heredoc == NULL)
-            return (0);
-        temp = temp->next;
-    }
-    if (change_mode(HEREDOC))
-            clean_out_all(env_pack.sys_envlist, env_pack.mshell_env, NULL, NULL);
+    if (!is_all_heredoc(temp))
+        return (0);
     while(cmd_args && cmd_args->is_heredoc)
     {
         if (txt_filename)
             remove(txt_filename);
         txt_filename = open_heredoc(cmd_args->heredoc_limiters);
+        if (global_signal == SIGINT)
+        {
+            if (txt_filename)
+                remove(txt_filename);
+            rl_event_hook = NULL;
+            return (free(txt_filename), 0);
+        }
         cmd_args = cmd_args->next;
     }
+    rl_event_hook = NULL;
     return (1);
 }
