@@ -31,7 +31,7 @@ SRC_PART = 	main.c \
 			sig_handlers.c \
 			ft_cmdlen.c \
 			tokenz_util_quotes.c \
-			print_cmd_temp.c	# Temporary Files		
+			print_cmd_temp.c	# Temporary Files
 
 OBJ_PART = $(SRC_PART:.c=.o)
 
@@ -59,3 +59,5 @@ fclean: clean
 re: fclean all
 
 .PHONY: all clean fclean re
+
+.SECONDARY: $(OBJ_PART)

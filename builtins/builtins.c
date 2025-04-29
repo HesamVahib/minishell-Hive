@@ -6,11 +6,11 @@
 /*   By: michoi <michoi@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 17:22:37 by michoi            #+#    #+#             */
-/*   Updated: 2025/04/19 19:04:27 by michoi           ###   ########.fr       */
+/*   Updated: 2025/04/29 21:46:05 by michoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/builtins.h";
+#include "../include/builtins.h"
 
 int	exec_builtin(t_env *env, char *cmd, char **args)
 {
