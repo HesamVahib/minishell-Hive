@@ -9,7 +9,6 @@ t_env	*create_env_node(void)
 		return (NULL);
 	new_node->key = NULL;
 	new_node->value = NULL;
-	new_node->index = 0;
 	new_node->next = NULL;
 	return (new_node);
 }

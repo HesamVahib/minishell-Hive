@@ -13,16 +13,24 @@ SRC_PART = 	main.c \
 			extract_env_list.c \
 			mode_change.c \
 			set_start.c \
-			history_handler.c \
 			init_env_pack.c \
 			minishell.c \
 			exit_process.c \
 			restore_std_fd.c \
 			utility1.c \
+			utility2.c \
 			tokenization.c \
-			cmd_args_extractor.c \
+			lexer.c \
 			cmd_syntax_analyzer.c \
-			cmd_expansion.c \
+			expansion.c \
+			heredoc.c \
+			tokenz_util_wsplitter.c \
+			tokenz_util.c \
+			expansion_utils.c \
+			lexer_utils.c \
+			sig_handlers.c \
+			ft_cmdlen.c \
+			tokenz_util_quotes.c \
 			print_cmd_temp.c	# Temporary Files		
 
 OBJ_PART = $(SRC_PART:.c=.o)

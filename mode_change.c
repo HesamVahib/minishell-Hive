@@ -1,17 +1,5 @@
 #include "include/minishell.h"
 
-static void sighandler(int signal)
-{
-    if (signal == SIGINT) // here automatically appears ^C since it is the default behaviour
-    {
-        write(STDOUT_FILENO, "\n", 1); // print out a newline
-        rl_on_new_line(); // move the cursor to the new line
-        rl_replace_line("", STDIN_FILENO); // earase everything from the previous user
-        rl_redisplay(); // redisplay the input line
-    }
-    else if (signal == SIGQUIT)
-        printf("Quit: %d\n", signal);
-}
 
 static int running_command(void)
 {
@@ -20,6 +8,7 @@ static int running_command(void)
         return (1);
     return (0);
 }
+
 
 static int wait_for_command(void)
 {
@@ -31,6 +20,16 @@ static int wait_for_command(void)
     return (0);
 
 }
+
+
+// static int heredoc_mode(void)
+// {
+//     global_signal = 0;
+//     if (signal(SIGINT, &sig_handler_heredoc) == SIG_ERR)
+//         return (1);
+//     return (0);
+
+// }
 
 int change_mode(int mode)
 {

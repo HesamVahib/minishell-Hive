@@ -21,7 +21,6 @@ t_env	*remove_node(t_env *head, t_env *node)
 		head = head->next;
 		free(node->key);
 		free(node->value);
-		free(node->index);
 		free(node);
 		return (head);
 	}
@@ -34,7 +33,6 @@ t_env	*remove_node(t_env *head, t_env *node)
 	previous_node->next = node->next;
 	free(node->key);
 	free(node->value);
-	free(node->index);
 	free(node);
 	return (temp_head);
 }
