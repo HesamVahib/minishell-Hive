@@ -1,5 +1,6 @@
 #ifndef MINISHELL_H
 # define MINISHELL_H
+# define _GNU_SOURCE // for O_TMPFILE flag, only available on linux
 
 // system libraries
 # include <signal.h>
@@ -7,7 +8,6 @@
 # include <stdlib.h>
 # include <string.h>
 # include <termios.h>
-
 # include <fcntl.h>   // For open flags
 # include <readline/readline.h> // for readline()
 # include <readline/history.h> // for add_history()
@@ -126,7 +126,7 @@ void exit_preparation(t_env_pack env_pack);
 // tokenization.c
 char **line_tokenized(char *line, t_env *env);
 
-// tokenz_util_quotes.c 
+// tokenz_util_quotes.c
 char **quotes_chkr(char **cmd_line);
 char *remove_adjacent_quotes(char *str);
 char **adjacent_quotes(char **cmd_line);
