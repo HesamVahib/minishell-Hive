@@ -16,6 +16,9 @@
 // builtin
 # include "builtins.h"
 
+// execution
+# include "execution.h"
+
 // libft
 # include "../lib/libft/libft.h"
 
@@ -27,8 +30,8 @@
 # define FAILURE 1
 
 // ANSI COLORS
-# define ANSI_COLOR_GREEN "\x1B[32m"
-# define ANSI_COLOR_DEFAULT "\x1B[0m"
+# define ANSI_COLOR_GREEN "\001\x1B[32m\002"
+# define ANSI_COLOR_DEFAULT "\001\x1B[0m\002"
 
 // shell sign
 # define SHELL_PROMPT ANSI_COLOR_GREEN"[(what the)shell]$ "ANSI_COLOR_DEFAULT
@@ -177,6 +180,7 @@ void print_cmd_temp(t_cmd *cmd_args);
 
 // Minji
 
-
+//utils
+int	update_node(t_env *env, char *key, char *new_value);
 
 #endif

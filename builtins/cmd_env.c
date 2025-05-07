@@ -6,7 +6,7 @@
 /*   By: michoi <michoi@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/11 21:47:16 by michoi            #+#    #+#             */
-/*   Updated: 2025/04/30 20:17:46 by michoi           ###   ########.fr       */
+/*   Updated: 2025/05/07 12:29:12 by michoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@
  */
 int	cmd_env(t_env *env, char **args)
 {
-	if (args || *args)
+	if (*args)
 	{
 		ft_putstr_fd("env: ‘", STDERR_FILENO);
 		ft_putstr_fd(*args, STDERR_FILENO);

@@ -6,7 +6,7 @@
 /*   By: michoi <michoi@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/11 21:47:21 by michoi            #+#    #+#             */
-/*   Updated: 2025/04/30 20:12:12 by michoi           ###   ########.fr       */
+/*   Updated: 2025/05/02 14:05:41 by michoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,26 +15,27 @@
 void	sort_export_list(t_env **env)
 {
 	t_env	*head;
-	t_env	*node;
-	t_env	*temp;
+	t_env	*former;
+	t_env	*latter;
 	bool	swapped;
 
 	head = *env;
-	node = *env;
-	swapped = false;
+	former = *env;
+
 	while (!swapped)
 	{
-		while (node->next->next)
+		swapped = false;
+		while (former->next)
 		{
-			if (node->key > node->next->key)
+			latter = former->next;
+			if (ft_strncmp(former->key, latter->key))
 			{
-				temp = node;
-				temp->next = node->next->next;
-				node = node->next;
-				node->next = temp;
-				swapped = true;
+				former->next = latter->next;
+				latter->next = former;
+				if (former == head)
+					head = latter;
 			}
-			node = node->next;
+			former = former->next;
 		}
 	}
 }

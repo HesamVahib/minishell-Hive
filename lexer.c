@@ -72,7 +72,10 @@ static void parse_tokens(t_cmd *cmd_list, char **tokenz)
     while (tokenz[i] != NULL)
     {
         if (tokenz[i] && ft_strncmp(tokenz[i], "<", 1) == 0 && tokenz[i][1] != '<')
+		{
             handle_file_redirection(cur, tokenz, &i, 'i');
+			i++;
+		}
         else if (tokenz[i] && ft_strncmp(tokenz[i], ">", 1) == 0 && tokenz[i][1] != '>')
             handle_file_redirection(cur, tokenz, &i, 'o');
         else if (tokenz[i] && ft_strncmp(tokenz[i], ">>", 2) == 0)
@@ -105,4 +108,3 @@ t_cmd *cmd_args_extractor(char **tokenz)
     parse_tokens(cmd_list, tokenz);
     return (cmd_list);
 }
-

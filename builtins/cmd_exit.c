@@ -6,7 +6,7 @@
 /*   By: michoi <michoi@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 21:19:52 by michoi            #+#    #+#             */
-/*   Updated: 2025/04/17 17:20:56 by michoi           ###   ########.fr       */
+/*   Updated: 2025/05/03 17:09:36 by michoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ static bool	is_numeric(char *input)
 	specified  by  the  unsigned  decimal integer n
 	(which belongs to the range of LLONG_MIN - LLONG_MAX).
 */
-// ☠️❓ if it's in a pipe, shell doesn't exit, doesn't print exit.
+// ☠️❓ if it's in a pipe, shell doesn't exit, doesn't print exit. Just changes exit status 🤷‍♀️
 
 // If the current execution environment is a subshell environment,
 // the shell shall exit from the subshell environment
