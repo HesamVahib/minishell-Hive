@@ -52,7 +52,7 @@ void    minishell(t_env_pack env_pack)
             }
             printf("\n\nExecution...\n\n");
 			// 🌟 execute_cmd
-			execute_cmd(cmd_args, env_pack.mshell_env);
+			exec_cmd(cmd_args, env_pack.mshell_env);
             restore_std_fd(env_pack); // reset the the fd's to get back to the default one if something like | (pipe) had appled on std's
         }
         free(line);

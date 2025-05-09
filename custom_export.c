@@ -66,8 +66,7 @@ t_env *custom_export(t_env *env_list, char *key, char *value)
     if (temp)
     {
         free(temp->value);
-		// ** why the key is set as a value?
-        temp->value = ft_strdup(key);
+        temp->value = ft_strdup(value);
         if (!temp->value)
             clean_out_all(env_list, NULL, NULL, NULL);
     }

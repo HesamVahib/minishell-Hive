@@ -6,7 +6,7 @@
 /*   By: michoi <michoi@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 19:15:43 by michoi            #+#    #+#             */
-/*   Updated: 2025/05/07 12:23:46 by michoi           ###   ########.fr       */
+/*   Updated: 2025/05/09 20:07:00 by michoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,9 +39,10 @@ static bool	is_valid_path(char *path)
 		print_cmd_err_with_arg("cd", path, strerror(ENOTDIR));
 		return (false); // exit status 1
 	}
-	if (!(sb.st_mode & S_IXUSR))
+	if (!(sb.st_mode & S_IXUSR) || !(sb.st_mode & S_IXGRP)
+		|| !(sb.st_mode & S_IXOTH))
 	{
-		// needs the execute bit to enter a dir.
+		// needs the execute bit to enter a dir. (permission denied)
 		print_cmd_err_with_arg("cd", path, strerror(EACCES));
 		return (false); // exit status 1
 	}
@@ -51,18 +52,17 @@ static bool	is_valid_path(char *path)
 static int	change_pwd_vars(t_env *env)
 {
 	char	*old_pwd;
-	char	*new_pwd;
+	char	new_pwd[PATH_MAX];
 
 	old_pwd = find_value_from_env(env, "PWD");
 	if (!old_pwd)
 		return (FAILURE);
-	new_pwd = getcwd(NULL, 0);
-	if (!new_pwd)
+	if (!getcwd(new_pwd, PATH_MAX))
 	{
 		perror("cd: getcwd");
 		return (FAILURE);
 	}
-	if (update_node(env, "PWD", new_pwd) || update_node(env, "OLDPWD", old_pwd))
+	if (!custom_export(env, "PWD", new_pwd) && !custom_export(env, "OLDPWD", old_pwd))
 		return (FAILURE);
 	return (SUCCESS);
 }
@@ -97,7 +97,6 @@ int	cmd_cd(t_env *env, char **args)
 		}
 		if (change_directory(home_dir))
 			return (FAILURE);
-		// change PWD and OLDPWD vars
 		if (change_pwd_vars(env))
 			return (FAILURE);
 		return (SUCCESS);
@@ -108,7 +107,6 @@ int	cmd_cd(t_env *env, char **args)
 	{
 		if (change_directory(*args))
 			return (FAILURE);
-		// change PWD and OLDPWD vars
 		if (change_pwd_vars(env))
 			return (FAILURE);
 	}

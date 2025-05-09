@@ -66,4 +66,4 @@ re: fclean all
 
 .PHONY: all clean fclean re
 
-.SECONDARY: $(OBJ_PART)
+.SECONDARY: $(OBJ_PART) $(SRC_EXEC) $(SRC_BUILTIN)

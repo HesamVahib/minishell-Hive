@@ -56,6 +56,8 @@ typedef struct s_cmd {
     char **argv;        // command and args {"ls", "-l", NULL}
     char *infile;       // for <
     char *outfile;      // for > or >>
+	// int	infile_fd;
+	// int	outfile_fd;
     int append;         // 1 for >>, 0 for >
 	int is_piped;		// if pipe comes after 1, 0 if does not
 	char *is_heredoc;	// if there is something means it is for heredoc, otherwise no heredoc
