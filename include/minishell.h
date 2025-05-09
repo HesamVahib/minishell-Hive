@@ -1,5 +1,6 @@
 #ifndef MINISHELL_H
 # define MINISHELL_H
+# define _GNU_SOURCE // for O_TMPFILE flag, only available on linux
 
 // system libraries
 # include <signal.h>
@@ -7,7 +8,6 @@
 # include <stdlib.h>
 # include <string.h>
 # include <termios.h>
-
 # include <fcntl.h>   // For open flags
 # include <readline/readline.h> // for readline()
 # include <readline/history.h> // for add_history()
@@ -15,6 +15,9 @@
 
 // builtin
 # include "builtins.h"
+
+// execution
+# include "execution.h"
 
 // libft
 # include "../lib/libft/libft.h"
@@ -27,8 +30,8 @@
 # define FAILURE 1
 
 // ANSI COLORS
-# define ANSI_COLOR_GREEN "\x1B[32m"
-# define ANSI_COLOR_DEFAULT "\x1B[0m"
+# define ANSI_COLOR_GREEN "\001\x1B[32m\002"
+# define ANSI_COLOR_DEFAULT "\001\x1B[0m\002"
 
 // shell sign
 # define SHELL_PROMPT ANSI_COLOR_GREEN"[(what the)shell]$ "ANSI_COLOR_DEFAULT
@@ -126,7 +129,7 @@ void exit_preparation(t_env_pack env_pack);
 // tokenization.c
 char **line_tokenized(char *line, t_env *env);
 
-// tokenz_util_quotes.c 
+// tokenz_util_quotes.c
 char **quotes_chkr(char **cmd_line);
 char *remove_adjacent_quotes(char *str);
 char **adjacent_quotes(char **cmd_line);
@@ -177,6 +180,7 @@ void print_cmd_temp(t_cmd *cmd_args);
 
 // Minji
 
-
+//utils
+int	update_node(t_env *env, char *key, char *new_value);
 
 #endif

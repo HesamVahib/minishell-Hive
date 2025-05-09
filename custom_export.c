@@ -39,6 +39,7 @@ void    attatch_node(t_env **env_list, char *key, char   *value)
     new->value = value;
     new->next = *env_list;
     *env_list = new; // changig the head of list to the new
+	// ** does the order matter?
 }
 
 t_env   *node_finder(t_env *env_list, char *key)
@@ -65,6 +66,7 @@ t_env *custom_export(t_env *env_list, char *key, char *value)
     if (temp)
     {
         free(temp->value);
+		// ** why the key is set as a value?
         temp->value = ft_strdup(key);
         if (!temp->value)
             clean_out_all(env_list, NULL, NULL, NULL);

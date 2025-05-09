@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hvahib <hvahib@student.hive.fi>            +#+  +:+       +#+        */
+/*   By: michoi <michoi@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/28 15:59:44 by michoi            #+#    #+#             */
-/*   Updated: 2025/04/17 11:48:59 by hvahib           ###   ########.fr       */
+/*   Updated: 2025/04/29 22:19:03 by michoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,12 @@
 # include <limits.h>
 # include <stdlib.h>
 # include <unistd.h>
+
+enum				e_range_error
+{
+	UNDERFLOW = 1,
+	OVERFLOW = 2
+};
 
 typedef struct s_list
 {
@@ -73,6 +79,6 @@ t_list				*ft_lstmap(t_list *lst, void *(*f)(void *),
 int					count_words(char const *s, char c);
 void				free_array(char ***arr);
 
-char *ft_strndup(const char *s, int n);
+char				*ft_strndup(const char *s, int n);
 
 #endif

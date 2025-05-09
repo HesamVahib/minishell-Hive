@@ -3,20 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ft_atoll.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hvahib <hvahib@student.hive.fi>            +#+  +:+       +#+        */
+/*   By: michoi <michoi@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 22:23:34 by michoi            #+#    #+#             */
-/*   Updated: 2025/04/16 12:37:37 by hvahib           ###   ########.fr       */
+/*   Updated: 2025/04/29 22:18:26 by michoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
-
-enum		range_error
-{
-	UNDERFLOW = 1,
-	OVERFLOW = 2
-};
 
 static void	check_sign(const char **nptr, int *sign)
 {

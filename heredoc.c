@@ -9,12 +9,18 @@ static void sigint_handler_heredoc(int sig)
 static int open_heredoc_file(char *limiter, char **filename)
 {
     int fd;
-
-    *filename = ft_strjoin(limiter, ".txt");
+	// 🌟 don't even need limiter and filename for this funtion?
+	(void)limiter;
+	*filename = "smth";
+    // *filename = ft_strjoin(limiter, ".txt");
     if (!(*filename))
         return (-1);
-    fd = open(*filename, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-    if (fd == -1)
+	/* 🌟 O_TMPFILE: create an unnamed temporary regular file.
+			The pathname argument specifies a directory.
+			Anything written to the resulting file will be lost when the last file descriptor is closed, unless the file is given a name.
+	*/
+    fd = open("./", O_WRONLY | O_TMPFILE, 0644);
+	if (fd == -1)
         return (-1);
     return (fd);
 }
@@ -42,8 +48,9 @@ static void write_heredoc_content(int fd, char *limiter)
         free(line);
         free(temp);
     }
-    if (line)
-        free(line);
+	// 🌟 this statement caused double free. Did you want to check if line variable is exactly NULL?
+    // if (line)
+    //     free(line);
 }
 
 char *open_heredoc(char **limiters)
@@ -61,6 +68,7 @@ char *open_heredoc(char **limiters)
         printf("in open\n");
         if (filename)
         {
+			// 🌟 remove - forbidden function!!!
             remove(filename);
             free(filename);
         }
@@ -96,11 +104,13 @@ int heredoc_processing(t_cmd *cmd_args)
         return (0);
     while(cmd_args && cmd_args->is_heredoc)
     {
+		// 🌟 remove - forbidden function!!!
         if (txt_filename)
             remove(txt_filename);
         txt_filename = open_heredoc(cmd_args->heredoc_limiters);
         if (global_signal == SIGINT)
         {
+			// 🌟 remove - forbidden function!!!
             if (txt_filename)
                 remove(txt_filename);
             rl_event_hook = NULL;
