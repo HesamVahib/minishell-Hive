@@ -5,7 +5,7 @@ char **quotes_chkr(char **cmd_line)
     int in_single = 0, in_double = 0;
     int i;
     int j;
-    
+
     i = 0;
     while (cmd_line[i])
     {
@@ -33,7 +33,7 @@ char *remove_adjacent_quotes(char *str)
     char current_quote;
     int in_quote;
 
-    new_str = malloc(strlen(str) + 1);
+    new_str = malloc(ft_strlen(str) + 1);
     j = 0;
     k = 0;
     in_quote = 0;
