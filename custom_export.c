@@ -65,20 +65,29 @@ t_env *custom_export(t_env *env_list, char *key, char *value)
     temp = node_finder(env_list, key);
     if (temp)
     {
-        free(temp->value);
+		free(temp->value);
         temp->value = ft_strdup(value);
         if (!temp->value)
+		{
             clean_out_all(env_list, NULL, NULL, NULL);
+			return (NULL);
+		}
     }
     else
     {
         temp_key = ft_strdup(key);
         temp_value = ft_strdup(value);
         if (!temp_key || !temp_value)
-            clean_out_all(env_list, NULL, NULL, NULL);
+		{
+           clean_out_all(env_list, NULL, NULL, NULL);
+		   return (free(temp_key), free(temp_value), NULL);
+		}
         attatch_node(&env_list, temp_key, temp_value);
         if (!env_list)
+		{
             clean_out_all(env_list, NULL, NULL, NULL);
+			return (NULL);
+		}
     }
     return (env_list);
 }

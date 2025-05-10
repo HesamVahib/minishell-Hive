@@ -6,7 +6,7 @@
 /*   By: michoi <michoi@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 19:15:43 by michoi            #+#    #+#             */
-/*   Updated: 2025/05/09 20:07:00 by michoi           ###   ########.fr       */
+/*   Updated: 2025/05/10 17:12:22 by michoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,8 +39,7 @@ static bool	is_valid_path(char *path)
 		print_cmd_err_with_arg("cd", path, strerror(ENOTDIR));
 		return (false); // exit status 1
 	}
-	if (!(sb.st_mode & S_IXUSR) || !(sb.st_mode & S_IXGRP)
-		|| !(sb.st_mode & S_IXOTH))
+	if (access(path, X_OK))
 	{
 		// needs the execute bit to enter a dir. (permission denied)
 		print_cmd_err_with_arg("cd", path, strerror(EACCES));
@@ -62,7 +61,9 @@ static int	change_pwd_vars(t_env *env)
 		perror("cd: getcwd");
 		return (FAILURE);
 	}
-	if (!custom_export(env, "PWD", new_pwd) && !custom_export(env, "OLDPWD", old_pwd))
+	if (!custom_export(env, "OLDPWD", old_pwd))
+		return (FAILURE);
+	if (!custom_export(env, "PWD", new_pwd))
 		return (FAILURE);
 	return (SUCCESS);
 }
