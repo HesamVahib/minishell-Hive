@@ -1,32 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   execution.h                                        :+:      :+:    :+:   */
+/*   ft_strcmp.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: michoi <michoi@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/06 22:34:15 by michoi            #+#    #+#             */
-/*   Updated: 2025/05/10 23:09:43 by michoi           ###   ########.fr       */
+/*   Created: 2025/05/10 19:20:13 by michoi            #+#    #+#             */
+/*   Updated: 2025/05/10 21:24:12 by michoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef EXECUTION_H
-# define EXECUTION_H
+#include "libft.h"
 
-# include "minishell.h"
-# include <sys/wait.h>
-
-typedef struct s_cmd	t_cmd;
-typedef struct s_env	t_env;
-
-typedef struct s_child_process
+int ft_strcmp(const char *s1, const char *s2)
 {
-	int					file;
-	char				*path;
-	char				**args;
-}						t_cp;
-
-int						exec_cmd(t_cmd *cmd_args, t_env *env);
-char					**get_env_arr(t_env *env);
-
-#endif
+	if (!s1 || !s2)
+		return (0);
+	while (*s1 || *s2)
+	{
+		if ((unsigned char)*s1 != (unsigned char)*s2)
+			return (*s1 - *s2);
+		s1++;
+		s2++;
+	}
+	return (0);
+}

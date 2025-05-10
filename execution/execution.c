@@ -6,7 +6,7 @@
 /*   By: michoi <michoi@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 22:01:29 by michoi            #+#    #+#             */
-/*   Updated: 2025/05/09 19:58:06 by michoi           ###   ########.fr       */
+/*   Updated: 2025/05/10 18:43:06 by michoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ char	*get_cmd_path(t_env *env, char *cmd)
 	return (free_array(&paths), free(cmd_with_slash), NULL);
 }
 
-int	listlen(t_env *env)
+int	envlen(t_env *env)
 {
 	int	i;
 
@@ -86,7 +86,7 @@ char	**get_env_arr(t_env *env)
 	char	*env_value;
 	int		i;
 
-	env_arr = malloc(sizeof(*env_arr) * (listlen(env) + 1));
+	env_arr = malloc(sizeof(*env_arr) * (envlen(env) + 1));
 	if (!env_arr)
 		return (NULL);
 	i = 0;
