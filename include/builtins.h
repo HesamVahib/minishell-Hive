@@ -6,7 +6,7 @@
 /*   By: michoi <michoi@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 19:24:15 by michoi            #+#    #+#             */
-/*   Updated: 2025/05/10 22:00:28 by michoi           ###   ########.fr       */
+/*   Updated: 2025/05/11 20:26:59 by michoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@
 # include "minishell.h"
 # include <errno.h>
 # include <linux/limits.h>
-# include <stdbool.h>
 # include <sys/stat.h>
 
 # define CMD_ECHO "echo"
