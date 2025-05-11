@@ -6,7 +6,7 @@
 /*   By: hvahib <hvahib@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 12:41:23 by hvahib            #+#    #+#             */
-/*   Updated: 2025/05/08 13:54:21 by hvahib           ###   ########.fr       */
+/*   Updated: 2025/05/11 20:21:44 by hvahib           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ void	minishell(t_env_pack env_pack)
 				init_cmd_list(cmd_args, 0);
 				printf("something HAPPENED in tokenization\n");
 			}
-			printf("\n\nExecution...\n\n");
+			execute_cmd(cmd_args, env_pack.mshell_env);
 			restore_std_fd(env_pack);
 		}
 		free(line);

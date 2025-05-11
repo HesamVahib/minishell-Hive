@@ -6,15 +6,11 @@
 /*   By: hvahib <hvahib@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 12:41:02 by hvahib            #+#    #+#             */
-/*   Updated: 2025/05/08 13:52:36 by hvahib           ###   ########.fr       */
+/*   Updated: 2025/05/11 18:01:15 by hvahib           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "include/minishell.h"
-
-/*
-	Extrator Cmd (Lexer)
-*/
 
 static void	handle_file_redirection(t_cmd *cur, char **tokenz, int *i,
 		char mode)

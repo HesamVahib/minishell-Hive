@@ -6,7 +6,7 @@
 /*   By: hvahib <hvahib@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 12:39:20 by hvahib            #+#    #+#             */
-/*   Updated: 2025/05/08 13:36:10 by hvahib           ###   ########.fr       */
+/*   Updated: 2025/05/11 20:21:59 by hvahib           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,12 +73,14 @@ t_env	*custom_export(t_env *env_list, char *key, char *value)
 	char	*temp_value;
 
 	temp = node_finder(env_list, key);
+	
 	if (temp)
 	{
 		free(temp->value);
-		temp->value = ft_strdup(key);
+		temp->value = ft_strdup(value);
 		if (!temp->value)
 			clean_out_all(env_list, NULL, NULL, NULL);
+		env_list = temp;
 	}
 	else
 	{

@@ -1,31 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strndup.c                                       :+:      :+:    :+:   */
+/*   execution.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: michoi <michoi@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/17 11:47:40 by hvahib            #+#    #+#             */
-/*   Updated: 2025/04/29 22:19:30 by michoi           ###   ########.fr       */
+/*   Created: 2025/05/06 22:34:15 by michoi            #+#    #+#             */
+/*   Updated: 2025/05/06 23:11:58 by michoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#ifndef EXECUTION_H
+# define EXECUTION_H
 
-char	*ft_strndup(const char *s, int n)
-{
-	char	*dup;
-	int		i;
+#include "minishell.h"
 
-	dup = malloc(n + 1);
-	if (!dup)
-		return (NULL);
-	i = 0;
-	while (i < n)
-	{
-		dup[i] = s[i];
-		i++;
-	}
-	dup[n] = '\0';
-	return (dup);
-}
+typedef struct s_cmd t_cmd;
+typedef struct s_env	t_env;
+
+int	execute_cmd(t_cmd *cmd_args, t_env *env);
+
+#endif

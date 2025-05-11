@@ -4,7 +4,12 @@ CC = cc
 
 LIBFT_DIR = ./lib/libft
 LIBFT = $(LIBFT_DIR)/libft.a
+VPATH = builtins execution
 
+SRC_BUILTIN = builtins.c cmd_cd.c cmd_echo.c cmd_env.c cmd_exit.c \
+				cmd_pwd.c cmd_utils.c
+
+SRC_EXEC =	execution.c
 
 SRC_PART = 	main.c \
 			clean_utility.c \
@@ -31,7 +36,8 @@ SRC_PART = 	main.c \
 			sig_handlers.c \
 			ft_cmdlen.c \
 			tokenz_util_quotes.c \
-			print_cmd_temp.c	# Temporary Files		
+			print_cmd_temp.c \
+			$(SRC_BUILTIN) $(SRC_EXEC)
 
 OBJ_PART = $(SRC_PART:.c=.o)
 
@@ -59,3 +65,5 @@ fclean: clean
 re: fclean all
 
 .PHONY: all clean fclean re
+
+.SECONDARY: $(OBJ_PART)
