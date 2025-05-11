@@ -6,7 +6,7 @@
 /*   By: michoi <michoi@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/28 15:59:44 by michoi            #+#    #+#             */
-/*   Updated: 2025/04/29 22:19:03 by michoi           ###   ########.fr       */
+/*   Updated: 2025/05/10 20:29:06 by michoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ t_list				*ft_lstmap(t_list *lst, void *(*f)(void *),
 						void (*del)(void *));
 int					count_words(char const *s, char c);
 void				free_array(char ***arr);
-
+int					ft_strcmp(const char *s1, const char *s2);
 char				*ft_strndup(const char *s, int n);
 
 #endif

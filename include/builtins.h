@@ -6,7 +6,7 @@
 /*   By: michoi <michoi@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 19:24:15 by michoi            #+#    #+#             */
-/*   Updated: 2025/05/07 12:23:52 by michoi           ###   ########.fr       */
+/*   Updated: 2025/05/11 20:26:59 by michoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@
 # include "minishell.h"
 # include <errno.h>
 # include <linux/limits.h>
-# include <stdbool.h>
 # include <sys/stat.h>
 
 # define CMD_ECHO "echo"
@@ -29,14 +28,17 @@
 
 typedef struct s_env	t_env;
 
+int						exec_builtin(t_env *env, char *cmd, char **args);
+
 // ─── ⋆⋅☆⋅⋆ ── builtin commands ─── ⋆⋅☆⋅⋆ ──
 
 int						cmd_cd(t_env *env, char **args);
 int						cmd_echo(char **args);
 int						cmd_env(t_env *env, char **args);
 int						cmd_exit(char **args);
+int						cmd_export(t_env **env, char **args);
 int						cmd_pwd(void);
-int						exec_builtin(t_env *env, char *cmd, char **args);
+int						cmd_unset(t_env **env, char **args);
 
 // ─── ⋆⋅☆⋅⋆ ── utils ─── ⋆⋅☆⋅⋆ ──
 

@@ -93,4 +93,5 @@ t_env	*custom_export(t_env *env_list, char *key, char *value)
 			clean_out_all(env_list, NULL, NULL, NULL);
 	}
 	return (env_list);
+
 }

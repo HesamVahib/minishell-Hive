@@ -39,9 +39,9 @@ static bool	is_valid_path(char *path)
 		print_cmd_err_with_arg("cd", path, strerror(ENOTDIR));
 		return (false); // exit status 1
 	}
-	if (!(sb.st_mode & S_IXUSR))
+	if (access(path, X_OK))
 	{
-		// needs the execute bit to enter a dir.
+		// needs the execute bit to enter a dir. (permission denied)
 		print_cmd_err_with_arg("cd", path, strerror(EACCES));
 		return (false); // exit status 1
 	}
@@ -101,7 +101,6 @@ int	cmd_cd(t_env *env, char **args)
 		}
 		if (change_directory(home_dir))
 			return (FAILURE);
-		// change PWD and OLDPWD vars
 		if (change_pwd_vars(env))
 			return (FAILURE);
 		return (SUCCESS);
@@ -112,7 +111,6 @@ int	cmd_cd(t_env *env, char **args)
 	{
 		if (change_directory(*args))
 			return (FAILURE);
-		// change PWD and OLDPWD vars
 		if (change_pwd_vars(env))
 			return (FAILURE);
 	}

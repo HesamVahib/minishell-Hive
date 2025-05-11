@@ -14,6 +14,7 @@
 
 char	**quotes_chkr(char **cmd_line)
 {
+
 	int	in_single;
 	int	in_double;
 	int	i;
@@ -38,6 +39,7 @@ char	**quotes_chkr(char **cmd_line)
 	if (in_single || in_double)
 		return (NULL);
 	return (cmd_line);
+
 }
 
 char	*remove_adjacent_quotes(char *str)
@@ -47,6 +49,7 @@ char	*remove_adjacent_quotes(char *str)
 	int		k;
 	char	current_quote;
 	int		in_quote;
+
 
 	new_str = malloc(strlen(str) + 1);
 	j = 0;
@@ -71,6 +74,7 @@ char	*remove_adjacent_quotes(char *str)
 	}
 	new_str[k] = '\0';
 	return (new_str);
+
 }
 
 char	**adjacent_quotes(char **cmd_line)

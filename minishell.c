@@ -59,8 +59,12 @@ void	minishell(t_env_pack env_pack)
 				init_cmd_list(cmd_args, 0);
 				printf("something HAPPENED in tokenization\n");
 			}
-			execute_cmd(cmd_args, env_pack.mshell_env);
+			printf("\n\nExecution...\n\n");
+			// 🌟 execute_cmd
+			if (cmd_args && cmd_args->argv)
+				exec_cmd(cmd_args, env_pack.mshell_env);
 			restore_std_fd(env_pack);
+			// reset the the fd's to get back to the default one if something like | (pipe) had appled on std's
 		}
 		free(line);
 	}
