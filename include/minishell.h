@@ -37,7 +37,7 @@
 // shell sign
 # define SHELL_PROMPT ANSI_COLOR_GREEN "[(what the)shell]$ " ANSI_COLOR_DEFAULT
 
-extern volatile int	global_signal;
+extern volatile int	g_signal;
 
 typedef struct s_env
 {

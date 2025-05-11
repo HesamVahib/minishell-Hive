@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: michoi <michoi@student.hive.fi>            +#+  +:+       +#+        */
+/*   By: hvahib <hvahib@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 22:01:29 by michoi            #+#    #+#             */
-/*   Updated: 2025/05/11 20:34:59 by michoi           ###   ########.fr       */
+/*   Updated: 2025/05/11 18:10:04 by hvahib           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,13 +22,6 @@ int	exec_cmd(t_cmd *cmd_args, t_env *env)
 			CMD_UNSET, NULL};
 	char		**env_arr;
 
-	is_piped_already = false;
-	// open_create_files
-	// while (cmd_args->argv)
-	// {
-	// 	printf("%s\n", *(cmd_args->argv));
-	// 	(cmd_args->argv)++;
-	// }
 	while (cmd_args)
 	{
 		// if there's only one cmd (no pipe)

@@ -1,6 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hvahib <hvahib@student.hive.fi>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/05/08 12:41:07 by hvahib            #+#    #+#             */
+/*   Updated: 2025/05/08 13:53:43 by hvahib           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "./include/minishell.h"
 
-volatile int	global_signal;
+volatile int	g_signal;
 
 int	main(int ac, char **av, char **envp)
 {

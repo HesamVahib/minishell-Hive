@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   minishell.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hvahib <hvahib@student.hive.fi>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/05/08 12:41:23 by hvahib            #+#    #+#             */
+/*   Updated: 2025/05/11 20:21:44 by hvahib           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "./include/minishell.h"
 
 static int	executable(char *line)
@@ -29,23 +41,18 @@ void	minishell(t_env_pack env_pack)
 			clean_out_all(env_pack.sys_envlist, env_pack.mshell_env, NULL,
 				NULL);
 		line = readline(SHELL_PROMPT);
-		// there is a problem with ctrl+c cuz when you prompt it it does not show the name of shell just after writing somethings it appears!
-		// it can be modified
 		if (!line)
 			exit_preparation(env_pack);
 		if (executable(line))
 		{
 			add_history(line);
 			env_pack = export_std_fd(env_pack);
-			// setting fd to the std fds to have a space to write and display
 			tokenz = line_tokenized(line, env_pack.mshell_env);
 			if (tokenz)
 			{
 				cmd_args = cmd_args_extractor(tokenz);
 				print_cmd_temp(cmd_args);
 				i = heredoc_processing(cmd_args);
-				// if (i == 130)
-				//     break ;
 			}
 			else
 			{
