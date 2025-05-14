@@ -6,7 +6,7 @@
 /*   By: michoi <michoi@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 19:24:15 by michoi            #+#    #+#             */
-/*   Updated: 2025/05/11 20:26:59 by michoi           ###   ########.fr       */
+/*   Updated: 2025/05/13 16:21:29 by michoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ int						cmd_unset(t_env **env, char **args);
 
 // ─── ⋆⋅☆⋅⋆ ── utils ─── ⋆⋅☆⋅⋆ ──
 
+void					print_basic_error(char *cmd, char *msg);
 void					print_cmd_err(char *cmd, char *msg);
 void					print_cmd_err_with_arg(char *cmd, char *arg, char *msg);
 

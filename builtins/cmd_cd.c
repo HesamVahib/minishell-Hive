@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmd_cd.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hvahib <hvahib@student.hive.fi>            +#+  +:+       +#+        */
+/*   By: michoi <michoi@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 19:15:43 by michoi            #+#    #+#             */
-/*   Updated: 2025/05/11 20:29:47 by hvahib           ###   ########.fr       */
+/*   Updated: 2025/05/13 15:01:59 by michoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,23 +52,27 @@ static int	change_pwd_vars(t_env *env)
 {
 	char	*old_pwd;
 	char	*old_pwd_cpy;
-	char	*new_pwd;
+	char	new_pwd[PATH_MAX];
 
 	old_pwd = find_value_from_env(env, "PWD");
 	if (!old_pwd)
 		return (FAILURE);
 	old_pwd_cpy = ft_strdup(old_pwd);
-	new_pwd = getcwd(NULL, 0);
-	if (!new_pwd)
+	if (!old_pwd_cpy)
+	{
+		ft_putstr_fd("strdup fails\n", STDERR_FILENO);
+		return(FAILURE);
+	}
+	if (!getcwd(new_pwd, PATH_MAX))
 	{
 		perror("cd: getcwd");
-		return (free(old_pwd_cpy), free(new_pwd), FAILURE);
+		return (free(old_pwd_cpy), FAILURE);
 	}
 	if (!custom_export(env, "OLDPWD", old_pwd_cpy))
-		return (free(old_pwd_cpy), free(new_pwd), FAILURE);
+		return (free(old_pwd_cpy), FAILURE);
 	if (!custom_export(env, "PWD", new_pwd))
-		return (free(old_pwd_cpy), free(new_pwd), FAILURE);
-	return (free(old_pwd_cpy), free(new_pwd), SUCCESS);
+		return (free(old_pwd_cpy), FAILURE);
+	return (free(old_pwd_cpy), SUCCESS);
 }
 
 /**

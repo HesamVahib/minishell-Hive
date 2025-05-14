@@ -6,13 +6,32 @@
 /*   By: michoi <michoi@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/11 20:19:41 by michoi            #+#    #+#             */
-/*   Updated: 2025/05/11 20:25:02 by michoi           ###   ########.fr       */
+/*   Updated: 2025/05/13 23:38:43 by michoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/execution.h"
 
-char	**split_env_path(t_env *env)
+static char	*validate_cmd_path(char *cmd_path)
+{
+	struct stat	sb;
+
+	if (!stat(cmd_path, &sb))
+	{
+		if (S_ISDIR(sb.st_mode))
+		{
+			errno = EISDIR; // 126
+			return (NULL);
+		}
+		if (access(cmd_path, X_OK))
+			return (NULL); // 126
+		return (cmd_path);
+	}
+	else
+		return (NULL); // 127
+}
+
+static char	**split_env_path(t_env *env)
 {
 	char	*path;
 
@@ -24,6 +43,12 @@ char	**split_env_path(t_env *env)
 	return (ft_split(path, ':'));
 }
 
+/*
+- path without / -> command not found +
+- ./path -> Is a directory +
+- file -> permission denied +
+- wrong file path:  No such file or directory +
+ */
 char	*get_cmd_path(t_env *env, char *cmd)
 {
 	char	**paths;
@@ -33,8 +58,8 @@ char	*get_cmd_path(t_env *env, char *cmd)
 
 	if (!env || !cmd || !*cmd)
 		return (NULL);
-	if (!access(cmd, F_OK | X_OK))
-		return (cmd);
+	if (ft_strchr(cmd, '/'))
+		return (validate_cmd_path(cmd));
 	paths = split_env_path(env);
 	if (!paths)
 		return (NULL);
@@ -44,11 +69,11 @@ char	*get_cmd_path(t_env *env, char *cmd)
 	i = 0;
 	while (paths[i])
 	{
-		exec_path = ft_strjoin(paths[i], cmd_with_slash);
+		exec_path = ft_strjoin(paths[i++], cmd_with_slash);
 		if (exec_path && !(access(exec_path, F_OK | X_OK)))
 			return (free_array(&paths), free(cmd_with_slash), exec_path);
 		free(exec_path);
-		i++;
 	}
+	errno = 0; // 127
 	return (free_array(&paths), free(cmd_with_slash), NULL);
 }
