@@ -6,7 +6,7 @@
 /*   By: michoi <michoi@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 12:40:40 by hvahib            #+#    #+#             */
-/*   Updated: 2025/05/15 14:33:29 by michoi           ###   ########.fr       */
+/*   Updated: 2025/05/15 22:57:31 by michoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,14 +59,16 @@ void	init_cmd_list(t_cmd *cmd_list, int n_pipe)
 int	open_create_files(t_cmd *cmd_list, char *type)
 {
 	int	fd;
-
+	
 	if (ft_strncmp(type, "outfile", 7) == 0)
 	{
-		fd = open(cmd_list->outfile, O_CREAT | O_WRONLY, 0644);
+		if (cmd_list->append)
+			fd = open(cmd_list->outfile, O_CREAT | O_WRONLY | O_APPEND, 0644);
+		else
+			fd = open(cmd_list->outfile, O_CREAT | O_WRONLY | O_TRUNC, 0644);
 		if (fd == -1)
 			return (-1);
 		cmd_list->outfile_fd = fd;
-		// printf("%d, %s\n", fd, cmd_list->outfile);
 		return (1);
 	}
 	else if (ft_strncmp(type, "infile", 6) == 0)
@@ -81,7 +83,6 @@ int	open_create_files(t_cmd *cmd_list, char *type)
 			return (-1);
 		}
 		cmd_list->infile_fd = fd;
-		// printf("cmdlist infile fd: %d\n",cmd_list->infile_fd);
 		// close(fd);
 		return (1);
 	}

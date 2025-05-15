@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   restore_std_fd.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hvahib <hvahib@student.hive.fi>            +#+  +:+       +#+        */
+/*   By: michoi <michoi@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 12:42:18 by hvahib            #+#    #+#             */
-/*   Updated: 2025/05/08 13:57:12 by hvahib           ###   ########.fr       */
+/*   Updated: 2025/05/15 22:37:14 by michoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,9 @@ static void	restore_fd(t_env_pack env_pack, int std_fd, char *key)
 			if (dup2(cur_fd, std_fd) == -1)
 				clean_out_all(env_pack.mshell_env, env_pack.sys_envlist, NULL,
 					NULL);
+			if (close(cur_fd) == -1)
+				clean_out_all(env_pack.mshell_env, env_pack.sys_envlist,
+						NULL, NULL);
 		}
 	}
 }
