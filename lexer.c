@@ -6,7 +6,7 @@
 /*   By: michoi <michoi@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 12:41:02 by hvahib            #+#    #+#             */
-/*   Updated: 2025/05/15 16:59:07 by hvahib           ###   ########.fr       */
+/*   Updated: 2025/05/15 22:56:28 by michoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,9 @@ static void	handle_file_redirection(t_cmd *cur, char **tokenz, int *i,
 	else if (mode == 'o' || mode == 'a')
 	{
 		cur->outfile = ft_strdup(tokenz[*i + 1]);
+		cur->append = (mode == 'a');
 		if (!open_create_files(cur, "outfile"))
 			printf("error opening outfile\n");
-		cur->append = (mode == 'a');
 	}
 	*i = *i + 2;
 }

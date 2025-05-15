@@ -6,7 +6,7 @@
 /*   By: michoi <michoi@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 22:34:15 by michoi            #+#    #+#             */
-/*   Updated: 2025/05/13 23:38:37 by michoi           ###   ########.fr       */
+/*   Updated: 2025/05/15 20:18:33 by michoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,12 @@
 
 typedef struct s_cmd	t_cmd;
 typedef struct s_env	t_env;
+
+typedef struct s_pipe
+{
+	int	pipe_fd[2];
+	int	prev_fd;
+}	t_pipe;
 
 typedef struct s_child_process
 {

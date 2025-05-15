@@ -6,7 +6,7 @@
 /*   By: michoi <michoi@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 17:22:37 by michoi            #+#    #+#             */
-/*   Updated: 2025/05/10 22:00:53 by michoi           ###   ########.fr       */
+/*   Updated: 2025/05/15 22:42:39 by michoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,15 +14,6 @@
 
 int	exec_builtin(t_env *env, char *cmd, char **args)
 {
-	printf("** builtin cmd: %s\n", cmd);
-	// if (args && *args)
-	// {
-	// 	while (*args)
-	// 	{
-	// 		printf("arg: %s\n", *args);
-	// 		args++;
-	// 	}
-	// }
 	if (!ft_strncmp(cmd, CMD_CD, ft_strlen(cmd)))
 		return (cmd_cd(env, args));
 	if (!ft_strncmp(cmd, CMD_ECHO, ft_strlen(cmd)))
