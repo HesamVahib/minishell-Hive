@@ -6,7 +6,7 @@
 /*   By: hvahib <hvahib@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 12:39:20 by hvahib            #+#    #+#             */
-/*   Updated: 2025/05/11 20:21:59 by hvahib           ###   ########.fr       */
+/*   Updated: 2025/05/15 13:30:53 by hvahib           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,20 +36,31 @@ t_env_pack	export_std_fd(t_env_pack env_pack)
 	return (env_pack);
 }
 
-void	attatch_node(t_env **env_list, char *key, char *value)
+static t_env	*update_env(t_env *env_list, char *key, char *value)
 {
 	t_env	*new;
+	t_env	*temp;
 
+	if (!key || !value)
+		return (NULL);
 	new = malloc(sizeof(t_env));
 	if (!new)
-	{
-		*env_list = NULL;
-		return ;
-	}
+		return (NULL);
 	new->key = key;
 	new->value = value;
-	new->next = *env_list;
-	*env_list = new;
+	new->next = NULL;
+	if (!env_list->next)
+	{
+		env_list->next = new;
+	}
+	else
+	{
+		temp = env_list;
+		while (temp->next)
+			temp = temp->next;
+		temp->next = new;
+	}
+	return (env_list);
 }
 
 t_env	*node_finder(t_env *env_list, char *key)
@@ -71,16 +82,15 @@ t_env	*custom_export(t_env *env_list, char *key, char *value)
 	t_env	*temp;
 	char	*temp_key;
 	char	*temp_value;
-
-	temp = node_finder(env_list, key);
 	
-	if (temp)
+	temp = node_finder(env_list, key);
+	if (temp && temp->value)
 	{
 		free(temp->value);
 		temp->value = ft_strdup(value);
 		if (!temp->value)
 			clean_out_all(env_list, NULL, NULL, NULL);
-		env_list = temp;
+		return (env_list);
 	}
 	else
 	{
@@ -88,10 +98,9 @@ t_env	*custom_export(t_env *env_list, char *key, char *value)
 		temp_value = ft_strdup(value);
 		if (!temp_key || !temp_value)
 			clean_out_all(env_list, NULL, NULL, NULL);
-		attatch_node(&env_list, temp_key, temp_value);
+		env_list = update_env(env_list, temp_key, temp_value);
 		if (!env_list)
 			clean_out_all(env_list, NULL, NULL, NULL);
+		return (env_list);
 	}
-	return (env_list);
-
 }

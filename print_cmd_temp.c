@@ -6,7 +6,7 @@
 /*   By: hvahib <hvahib@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 12:42:14 by hvahib            #+#    #+#             */
-/*   Updated: 2025/05/08 12:42:16 by hvahib           ###   ########.fr       */
+/*   Updated: 2025/05/15 15:43:58 by hvahib           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 void	print_cmd_temp(t_cmd *cmd_args)
 {
 	int i = 0;
+	printf("in printing temp funtion\n");
 
 	while (cmd_args != NULL)
 	{

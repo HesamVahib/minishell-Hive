@@ -6,7 +6,7 @@
 /*   By: hvahib <hvahib@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 12:40:30 by hvahib            #+#    #+#             */
-/*   Updated: 2025/05/11 18:01:01 by hvahib           ###   ########.fr       */
+/*   Updated: 2025/05/15 16:43:31 by hvahib           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,8 +54,8 @@ static void	write_heredoc_content(int fd, char *limiter)
 		free(line);
 		free(temp);
 	}
-	if (line)
-		free(line);
+	// if (line)
+	// 	free(line);
 }
 
 char	*open_heredoc(char **limiters)
@@ -102,6 +102,8 @@ int	heredoc_processing(t_cmd *cmd_args)
 	t_cmd	*temp;
 	char	*txt_filename;
 
+	if (!cmd_args)
+		return (0);
 	temp = cmd_args;
 	txt_filename = NULL;
 	if (!is_all_heredoc(temp))
