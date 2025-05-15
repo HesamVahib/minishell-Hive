@@ -67,10 +67,9 @@ typedef struct s_cmd
 	char **heredoc_limiters; // all limiters
 	struct s_cmd *next;      // linked to the next one if it exists
 	struct s_cmd	*previous;
-} t_cmd; // WHAT ABOUT HEREDOC
+}					t_cmd; // WHAT ABOUT HEREDOC
 
 // clean_utility.c
-void				clean_array(char **array);
 void				clean_out_all(t_env *env1, t_env *env2, char *str1,
 						char *str2);
 t_env				*cleanup_env(t_env *env_list);
@@ -96,7 +95,6 @@ t_env				*set_start(t_env *env_list);
 
 // custom_export.c
 t_env_pack			export_std_fd(t_env_pack env_pack);
-void				attatch_node(t_env **env_list, char *key, char *value);
 t_env				*node_finder(t_env *env_list, char *key);
 t_env				*custom_export(t_env *env_list, char *key, char *value);
 

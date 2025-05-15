@@ -6,7 +6,7 @@
 /*   By: hvahib <hvahib@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 12:41:02 by hvahib            #+#    #+#             */
-/*   Updated: 2025/05/11 18:01:15 by hvahib           ###   ########.fr       */
+/*   Updated: 2025/05/15 16:59:07 by hvahib           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ static void	handle_file_redirection(t_cmd *cur, char **tokenz, int *i,
 			printf("error opening outfile\n");
 		cur->append = (mode == 'a');
 	}
-	*i = *i + 1;
+	*i = *i + 2;
 }
 
 static void	handle_heredoc(t_cmd *cur, char **tokenz, int *i)
@@ -41,6 +41,7 @@ static void	handle_heredoc(t_cmd *cur, char **tokenz, int *i)
 	cur->is_heredoc = ft_strdup(tokenz[*i + 1]);
 	cur->heredoc_limiters = limiter_collector(cur->heredoc_limiters,
 			cur->is_heredoc);
+	// *i = *i + 2;
 	*i = *i + 1;
 }
 
@@ -77,8 +78,10 @@ static void	parse_tokens(t_cmd *cmd_list, char **tokenz)
 
 	i = 0;
 	cur = &cmd_list[0];
-	while (tokenz[i] != NULL)
+	while (tokenz && tokenz[i] != NULL)
 	{
+		if (!tokenz)
+			return ;
 		if (tokenz[i] && ft_strncmp(tokenz[i], "<", 1) == 0
 			&& tokenz[i][1] != '<')
 			handle_file_redirection(cur, tokenz, &i, 'i');

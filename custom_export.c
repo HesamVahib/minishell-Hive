@@ -6,7 +6,7 @@
 /*   By: hvahib <hvahib@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 12:39:20 by hvahib            #+#    #+#             */
-/*   Updated: 2025/05/15 12:26:50 by hvahib           ###   ########.fr       */
+/*   Updated: 2025/05/15 13:30:53 by hvahib           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ t_env_pack	export_std_fd(t_env_pack env_pack)
 	return (env_pack);
 }
 
-t_env	*update_env(t_env *env_list, char *key, char *value)
+static t_env	*update_env(t_env *env_list, char *key, char *value)
 {
 	t_env	*new;
 	t_env	*temp;
