@@ -55,11 +55,11 @@ typedef struct s_env_pack
 
 typedef struct s_cmd
 {
-	char **argv;             // command and args {"ls", "-l", NULL}
-	char *infile;            // for <
-	char *outfile;           // for > or >>
-								// int	infile_fd;
-								// int	outfile_fd;
+	char **argv;   // command and args {"ls", "-l", NULL}
+	char *infile;  // for <
+	char *outfile; // for > or >>
+	int				infile_fd;
+	int				outfile_fd;
 	int append;              // 1 for >>, 0 for >
 	int is_piped;            // if pipe comes after 1, 0 if does not
 	char *is_heredoc;        // if there is something means it is for heredoc,
@@ -151,7 +151,7 @@ t_cmd				*cmd_args_extractor(char **tokenz);
 // lexer_utils.c
 int					pipe_counter(char **tokenz);
 void				init_cmd_list(t_cmd *cmd_list, int n_pipe);
-int					open_create_files(const char *filename, char *type);
+int					open_create_files(t_cmd *cmd_list, char *type);
 char				**limiter_collector(char **delim_list, char *new_delim);
 
 // cmd_syntax_analyzer.c
