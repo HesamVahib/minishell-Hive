@@ -6,7 +6,7 @@
 /*   By: hvahib <hvahib@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 12:42:21 by hvahib            #+#    #+#             */
-/*   Updated: 2025/05/08 14:11:21 by hvahib           ###   ########.fr       */
+/*   Updated: 2025/05/11 21:57:06 by hvahib           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,8 @@ t_env	*remove_node(t_env *head, t_env *node)
 		previous_node = temp;
 		temp = temp->next;
 	}
+	if (!temp)
+		return head;
 	previous_node->next = node->next;
 	free(node->key);
 	free(node->value);

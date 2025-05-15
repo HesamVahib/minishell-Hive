@@ -6,7 +6,7 @@
 /*   By: hvahib <hvahib@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 19:15:43 by michoi            #+#    #+#             */
-/*   Updated: 2025/05/11 20:29:47 by hvahib           ###   ########.fr       */
+/*   Updated: 2025/05/15 12:27:15 by hvahib           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,15 +56,16 @@ static int	change_pwd_vars(t_env *env)
 
 	old_pwd = find_value_from_env(env, "PWD");
 	if (!old_pwd)
-		return (FAILURE);
-	old_pwd_cpy = ft_strdup(old_pwd);
+		old_pwd_cpy = NULL;
+	else
+		old_pwd_cpy = ft_strdup(old_pwd);
 	new_pwd = getcwd(NULL, 0);
 	if (!new_pwd)
 	{
 		perror("cd: getcwd");
 		return (free(old_pwd_cpy), free(new_pwd), FAILURE);
 	}
-	if (!custom_export(env, "OLDPWD", old_pwd_cpy))
+	if (old_pwd_cpy && !custom_export(env, "OLDPWD", old_pwd_cpy))
 		return (free(old_pwd_cpy), free(new_pwd), FAILURE);
 	if (!custom_export(env, "PWD", new_pwd))
 		return (free(old_pwd_cpy), free(new_pwd), FAILURE);
