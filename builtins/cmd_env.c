@@ -6,7 +6,7 @@
 /*   By: michoi <michoi@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/11 21:47:16 by michoi            #+#    #+#             */
-/*   Updated: 2025/05/11 20:16:45 by michoi           ###   ########.fr       */
+/*   Updated: 2025/05/15 20:04:13 by michoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,23 +14,24 @@
 
 /**
  * Print out a set of current environment variables.
- * @param env: current list of environment variables (should be replaced with the minishell struct later?)
- * @param args: are forbidden but the function will throw an error when it's provided.
- * @return
+
+	* @param env: current list of environment variables (should be replaced with the minishell struct later?)
+
+	* @param args: are forbidden but the function will throw an error when it's provided.
+	* @return
 		SUCCESS - Operation completed successfully.
 
 		FAILURE - Operation failed due to an error.
  */
 int	cmd_env(t_env *env, char **args)
 {
-	int i = 0;
+	int	i;
+
+	i = 0;
 	if (*args)
 	{
-		ft_putstr_fd("env: ‘", STDERR_FILENO);
-		ft_putstr_fd(*args, STDERR_FILENO);
-		ft_putendl_fd("‘: No such file or directory", STDERR_FILENO);
-		//exit code 127
-		return (FAILURE);
+		print_cmd_err_with_arg("env: ‘", *args, "‘: No such file or directory");
+		return (FAILURE); // exit code 127
 	}
 	while (env)
 	{
@@ -44,9 +45,5 @@ int	cmd_env(t_env *env, char **args)
 		env = env->next;
 		i++;
 	}
-
-	// puts("-------------------------------------");
-	// printf("env count: %d\n", i);
-	// puts("--------------------------------------");
 	return (SUCCESS);
 }

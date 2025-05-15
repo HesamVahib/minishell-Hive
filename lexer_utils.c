@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hvahib <hvahib@student.hive.fi>            +#+  +:+       +#+        */
+/*   By: michoi <michoi@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 12:40:40 by hvahib            #+#    #+#             */
-/*   Updated: 2025/05/08 12:40:42 by hvahib           ###   ########.fr       */
+/*   Updated: 2025/05/15 14:33:29 by michoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,8 @@ void	init_cmd_list(t_cmd *cmd_list, int n_pipe)
 	{
 		cmd_list[k].infile = NULL;
 		cmd_list[k].outfile = NULL;
+		cmd_list[k].infile_fd = -1;
+		cmd_list[k].outfile_fd = -1;
 		cmd_list[k].append = 0;
 		cmd_list[k].is_heredoc = NULL;
 		cmd_list[k].heredoc_limiters = NULL;
@@ -54,27 +56,33 @@ void	init_cmd_list(t_cmd *cmd_list, int n_pipe)
 	}
 }
 
-int	open_create_files(const char *filename, char *type)
+int	open_create_files(t_cmd *cmd_list, char *type)
 {
 	int	fd;
 
 	if (ft_strncmp(type, "outfile", 7) == 0)
 	{
-		fd = open(filename, O_CREAT | O_WRONLY, 0644);
+		fd = open(cmd_list->outfile, O_CREAT | O_WRONLY, 0644);
 		if (fd == -1)
 			return (-1);
-		close(fd);
+		cmd_list->outfile_fd = fd;
+		// printf("%d, %s\n", fd, cmd_list->outfile);
 		return (1);
 	}
 	else if (ft_strncmp(type, "infile", 6) == 0)
 	{
-		fd = open(filename, O_RDONLY);
+		if (cmd_list->infile_fd >= 0)
+			close(cmd_list->infile_fd);
+		fd = open(cmd_list->infile, O_RDONLY);
 		if (fd == -1)
 		{
 			if (errno == ENOENT)
-				return (printf("%s: No such file or directory\n", filename), 0);
+				return (print_cmd_err((char *)cmd_list->infile, strerror(errno)), 0);
+			return (-1);
 		}
-		close(fd);
+		cmd_list->infile_fd = fd;
+		// printf("cmdlist infile fd: %d\n",cmd_list->infile_fd);
+		// close(fd);
 		return (1);
 	}
 	return (0);
