@@ -80,6 +80,7 @@ clean:
 
 fclean: clean
 	@$(RM) $(NAME)
+	@$(RM) .bonus
 
 re: fclean all
 

@@ -6,7 +6,7 @@
 /*   By: hvahib <hvahib@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 22:01:29 by michoi            #+#    #+#             */
-/*   Updated: 2025/05/11 21:24:35 by hvahib           ###   ########.fr       */
+/*   Updated: 2025/05/15 12:30:36 by hvahib           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,20 +46,22 @@ int	exec_cmd(t_cmd *cmd_args, t_env *env)
 				}
 				if (child_pid == 0)
 				{
-					printf("cmd is : %s", cmd_args->argv[0]);
 					env_arr = get_env_arr(env);
 					// close file?
 					if (!env_arr)
 						exit(EXIT_FAILURE);
 					cp.path = get_cmd_path(env, cmd_args->argv[0]);
-					cp.args = cmd_args->argv;
 					if (!cp.path)
 					{
-						printf("no path for execve\n");
+						if (errno == EACCES || errno == ENOENT || errno == EISDIR)
+							print_cmd_err(cmd_args->argv[0], strerror(errno));
+						else
+							print_basic_error(cmd_args->argv[0], "command not found");
 						free_array(&env_arr);
 						exit(EXIT_FAILURE);
 						// close file
 					}
+					cp.args = cmd_args->argv;
 					// execve
 					if (execve(cp.path, cp.args, env_arr))
 					{
