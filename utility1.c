@@ -6,7 +6,7 @@
 /*   By: hvahib <hvahib@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 12:43:02 by hvahib            #+#    #+#             */
-/*   Updated: 2025/05/08 12:43:03 by hvahib           ###   ########.fr       */
+/*   Updated: 2025/05/16 12:52:38 by hvahib           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,8 @@ char	*append_char(char *str, char c)
 {
 	char	*temp;
 
+	if (!str)
+		return (NULL);
 	temp = ft_strnjoin(str, &c, 1);
 	free(str);
 	return (temp);

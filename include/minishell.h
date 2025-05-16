@@ -55,9 +55,10 @@ typedef struct s_env_pack
 
 typedef struct s_cmd
 {
-	char **argv;   // command and args {"ls", "-l", NULL}
-	char *infile;  // for <
-	char *outfile; // for > or >>
+	bool error; // if the cmd itself has an error so it is non-executable!
+	char **argv; // command and args {"ls", "-l", NULL}
+	char *infile;     // for <
+	char *outfile;    // for > or >>
 	int				infile_fd;
 	int				outfile_fd;
 	int append;              // 1 for >>, 0 for >
@@ -67,7 +68,7 @@ typedef struct s_cmd
 	char **heredoc_limiters; // all limiters
 	struct s_cmd *next;      // linked to the next one if it exists
 	struct s_cmd	*previous;
-}					t_cmd; // WHAT ABOUT HEREDOC
+} t_cmd; // WHAT ABOUT HEREDOC
 
 // clean_utility.c
 void				clean_out_all(t_env *env1, t_env *env2, char *str1,

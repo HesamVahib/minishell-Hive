@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: michoi <michoi@student.hive.fi>            +#+  +:+       +#+        */
+/*   By: hvahib <hvahib@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 12:40:40 by hvahib            #+#    #+#             */
-/*   Updated: 2025/05/15 22:57:31 by michoi           ###   ########.fr       */
+/*   Updated: 2025/05/16 15:25:50 by hvahib           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,11 @@ void	init_cmd_list(t_cmd *cmd_list, int n_pipe)
 	int	k;
 
 	k = 0;
+	if (!cmd_list)
+		return ;
 	while (k <= n_pipe)
 	{
+		cmd_list[k].error = false;
 		cmd_list[k].infile = NULL;
 		cmd_list[k].outfile = NULL;
 		cmd_list[k].infile_fd = -1;

@@ -6,7 +6,7 @@
 /*   By: hvahib <hvahib@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 12:39:15 by hvahib            #+#    #+#             */
-/*   Updated: 2025/05/08 13:35:18 by hvahib           ###   ########.fr       */
+/*   Updated: 2025/05/16 15:05:03 by hvahib           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,11 +23,11 @@ static int	is_operator(char *token)
 // Checks for syntax errors between consecutive tokens
 static int	check_consecutive_ops(char **tokenz, int i)
 {
-	if (!tokenz[i + 1] || is_operator(tokenz[i + 1]))
+	if (!tokenz[i + 1] || (is_operator(tokenz[i + 1]) && tokenz[i][0] != '|'))
 	{
 		if (!tokenz[i + 1])
 			return (printf("syntax error near unexpected token `newline'\n"),
-				1);
+					1);
 		return (printf("syntax error near unexpected token `%s'\n",
 				tokenz[i + 1]), 1);
 	}

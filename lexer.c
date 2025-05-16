@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: michoi <michoi@student.hive.fi>            +#+  +:+       +#+        */
+/*   By: hvahib <hvahib@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 12:41:02 by hvahib            #+#    #+#             */
-/*   Updated: 2025/05/15 22:56:28 by michoi           ###   ########.fr       */
+/*   Updated: 2025/05/16 15:06:27 by hvahib           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,14 +19,20 @@ static void	handle_file_redirection(t_cmd *cur, char **tokenz, int *i,
 	{
 		cur->infile = ft_strdup(tokenz[*i + 1]);
 		if (!open_create_files(cur, "infile"))
+		{
 			printf("error opening infile\n");
+			cur->error = true;
+		}
 	}
 	else if (mode == 'o' || mode == 'a')
 	{
 		cur->outfile = ft_strdup(tokenz[*i + 1]);
 		cur->append = (mode == 'a');
 		if (!open_create_files(cur, "outfile"))
+		{
 			printf("error opening outfile\n");
+			cur->error = true;
+		}
 	}
 	*i = *i + 2;
 }
@@ -36,13 +42,14 @@ static void	handle_heredoc(t_cmd *cur, char **tokenz, int *i)
 	if (!tokenz[*i + 1])
 	{
 		printf("syntax error near unexpected token `newline'\n");
+		cur->error = true;
 		return ;
 	}
 	cur->is_heredoc = ft_strdup(tokenz[*i + 1]);
 	cur->heredoc_limiters = limiter_collector(cur->heredoc_limiters,
 			cur->is_heredoc);
-	// *i = *i + 2;
-	*i = *i + 1;
+	*i = *i + 2;
+	// *i = *i + 1;
 }
 
 static void	extract_arguments(t_cmd *cur, char **tokenz, int *i)
@@ -80,8 +87,6 @@ static void	parse_tokens(t_cmd *cmd_list, char **tokenz)
 	cur = &cmd_list[0];
 	while (tokenz && tokenz[i] != NULL)
 	{
-		if (!tokenz)
-			return ;
 		if (tokenz[i] && ft_strncmp(tokenz[i], "<", 1) == 0
 			&& tokenz[i][1] != '<')
 			handle_file_redirection(cur, tokenz, &i, 'i');

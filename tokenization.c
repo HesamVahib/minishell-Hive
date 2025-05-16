@@ -6,7 +6,7 @@
 /*   By: hvahib <hvahib@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 12:42:40 by hvahib            #+#    #+#             */
-/*   Updated: 2025/05/08 13:58:37 by hvahib           ###   ########.fr       */
+/*   Updated: 2025/05/16 12:30:08 by hvahib           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,10 @@ static char	*prepare_line(char *line)
 
 	new_line = double_backslash_remover(line);
 	if (!new_line)
-		printf("double_backslash_remover does not work\n");
+	{
+		printf("double_backslash_remover does not work\n"); // SHOULD BE DELETED !!!!
+		return (NULL);
+	}
 	return (new_line);
 }
 

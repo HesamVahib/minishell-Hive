@@ -6,7 +6,7 @@
 /*   By: hvahib <hvahib@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 12:41:23 by hvahib            #+#    #+#             */
-/*   Updated: 2025/05/11 20:21:44 by hvahib           ###   ########.fr       */
+/*   Updated: 2025/05/16 15:42:31 by hvahib           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,33 @@ static int	executable(char *line)
 	return (0);
 }
 
+void	free_cmd_list(t_cmd *cmd_args)
+{
+	t_cmd *tmp;
+
+	while (cmd_args)
+	{
+		tmp = cmd_args->next;
+		if (cmd_args->argv)
+		{
+			for (int i = 0; cmd_args->argv[i]; i++)
+				free(cmd_args->argv[i]);
+			free(cmd_args->argv);
+		}
+		free(cmd_args->infile);
+		free(cmd_args->outfile);
+		free(cmd_args->is_heredoc);
+		if (cmd_args->heredoc_limiters)
+		{
+			for (int i = 0; cmd_args->heredoc_limiters[i]; i++)
+				free(cmd_args->heredoc_limiters[i]);
+			free(cmd_args->heredoc_limiters);
+		}
+		free(cmd_args);
+		cmd_args = tmp;
+	}
+}
+
 void	minishell(t_env_pack env_pack)
 {
 	char	*line;
@@ -37,12 +64,16 @@ void	minishell(t_env_pack env_pack)
 
 	while (1)
 	{
+		cmd_args = NULL;
 		if (change_mode(WAIT_FOR_COMMAND))
 			clean_out_all(env_pack.sys_envlist, env_pack.mshell_env, NULL,
 				NULL);
 		line = readline(SHELL_PROMPT);
 		if (!line)
+		{
+			free(line);
 			exit_preparation(env_pack);
+		}
 		if (executable(line))
 		{
 			add_history(line);
@@ -55,10 +86,7 @@ void	minishell(t_env_pack env_pack)
 				i = heredoc_processing(cmd_args);
 			}
 			else
-			{
-				init_cmd_list(cmd_args, 0);
 				printf("something HAPPENED in tokenization\n");
-			}
 			printf("\n\nExecution...\n\n");
 			// 🌟 execute_cmd
 			if (cmd_args && cmd_args->argv)
