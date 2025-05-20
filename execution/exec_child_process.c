@@ -6,7 +6,7 @@
 /*   By: michoi <michoi@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/17 18:27:17 by michoi            #+#    #+#             */
-/*   Updated: 2025/05/17 22:56:26 by michoi           ###   ########.fr       */
+/*   Updated: 2025/05/18 00:47:01 by michoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,8 @@ void	exec_external_cmd(t_cmd *cmd, t_env *env)
 		exit(EXIT_FAILURE);
 		// close file
 	}
+	if (open_files(cmd))
+		exit(EXIT_FAILURE);
 	if (duplicate_files(cmd))
 	{
 		free_array(&env_arr);

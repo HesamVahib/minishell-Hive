@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hvahib <hvahib@student.hive.fi>            +#+  +:+       +#+        */
+/*   By: michoi <michoi@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 12:41:02 by hvahib            #+#    #+#             */
-/*   Updated: 2025/05/16 15:06:27 by hvahib           ###   ########.fr       */
+/*   Updated: 2025/05/18 00:39:39 by michoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,17 +18,23 @@ static void	handle_file_redirection(t_cmd *cur, char **tokenz, int *i,
 	if (mode == 'i')
 	{
 		cur->infile = ft_strdup(tokenz[*i + 1]);
-		if (!open_create_files(cur, "infile"))
+		if (access(cur->infile, F_OK))
 		{
+			print_cmd_err(cur->infile, strerror(errno));
 			printf("error opening infile\n");
 			cur->error = true;
 		}
+		// if (!open_create_files(cur, "infile"))
+		// {
+		// 	printf("error opening infile\n");
+		// 	cur->error = true;
+		// }
 	}
 	else if (mode == 'o' || mode == 'a')
 	{
 		cur->outfile = ft_strdup(tokenz[*i + 1]);
 		cur->append = (mode == 'a');
-		if (!open_create_files(cur, "outfile"))
+		if (open_create_files(cur, "outfile") == -1)
 		{
 			printf("error opening outfile\n");
 			cur->error = true;
