@@ -6,7 +6,7 @@
 /*   By: hvahib <hvahib@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 12:39:20 by hvahib            #+#    #+#             */
-/*   Updated: 2025/05/15 13:30:53 by hvahib           ###   ########.fr       */
+/*   Updated: 2025/05/21 14:53:05 by hvahib           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ t_env_pack	std_fd_custom_exporter(t_env_pack env_pack, int fd_std, char *key)
 	if (fd == -1)
 		clean_out_all(env_pack.sys_envlist, env_pack.mshell_env, NULL, NULL);
 	std_itoa = ft_itoa(fd);
+	// close(fd);
 	if (!std_itoa)
 		clean_out_all(env_pack.sys_envlist, env_pack.mshell_env, NULL, NULL);
 	env_pack.mshell_env = custom_export(env_pack.mshell_env, key, std_itoa);

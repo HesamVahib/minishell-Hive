@@ -6,7 +6,7 @@
 /*   By: hvahib <hvahib@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 12:40:30 by hvahib            #+#    #+#             */
-/*   Updated: 2025/05/15 16:43:31 by hvahib           ###   ########.fr       */
+/*   Updated: 2025/05/21 16:39:13 by hvahib           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,17 +18,18 @@ static void	sigint_handler_heredoc(int sig)
 	g_signal = SIGINT;
 }
 
-static int	open_heredoc_file(char *limiter, char **filename)
+static int	open_heredoc_file(char *limiter)
 {
 	int	fd;
+	char *filename;
 
-	*filename = ft_strjoin(limiter, ".txt");
-	if (!(*filename))
+	filename = ft_strjoin(limiter, ".txt");
+	if (!filename)
 		return (-1);
-	fd = open(*filename, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	fd = open(filename, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if (fd == -1)
-		return (-1);
-	return (fd);
+		return (free(filename), -1);
+	return (free(filename), fd);
 }
 
 static void	write_heredoc_content(int fd, char *limiter)
@@ -54,36 +55,49 @@ static void	write_heredoc_content(int fd, char *limiter)
 		free(line);
 		free(temp);
 	}
-	// if (line)
-	// 	free(line);
 }
 
-char	*open_heredoc(char **limiters)
+static	char *find_last_limiter(char **limiters)
+{
+	int	i;
+	char *main_limiter;
+	
+	i = 0;
+	main_limiter = NULL;
+	while (limiters[i])
+	{
+		if (!limiters[i + 1])
+		{
+			main_limiter = ft_strdup(limiters[i]);
+			return (main_limiter);
+		}
+		i++;
+	}
+	return (NULL);
+}
+
+static	void	open_heredoc(char **limiters)
 {
 	int		fd;
-	char	*filename;
+	char	*main_limiter;
 	int		i;
+	char	*filename;
 
 	i = 0;
+	main_limiter = find_last_limiter(limiters);
 	filename = NULL;
 	rl_on_new_line();
 	rl_replace_line("", 0);
 	while (limiters[i] != NULL)
 	{
-		printf("in open\n");
-		if (filename)
-		{
-			remove(filename);
-			free(filename);
-		}
-		fd = open_heredoc_file(limiters[i], &filename);
+		fd = open_heredoc_file(main_limiter);
 		if (fd == -1)
-			return (free(filename), NULL);
+			return (free(main_limiter));
 		write_heredoc_content(fd, limiters[i]);
 		close(fd);
 		i++;
 	}
-	return (filename);
+	free(main_limiter);
 }
 
 int	is_all_heredoc(t_cmd *cmd)
@@ -100,25 +114,19 @@ int	is_all_heredoc(t_cmd *cmd)
 int	heredoc_processing(t_cmd *cmd_args)
 {
 	t_cmd	*temp;
-	char	*txt_filename;
 
 	if (!cmd_args)
 		return (0);
 	temp = cmd_args;
-	txt_filename = NULL;
 	if (!is_all_heredoc(temp))
 		return (0);
 	while (cmd_args && cmd_args->is_heredoc)
 	{
-		if (txt_filename)
-			remove(txt_filename);
-		txt_filename = open_heredoc(cmd_args->heredoc_limiters);
+		open_heredoc(cmd_args->heredoc_limiters);
 		if (g_signal == SIGINT)
 		{
-			if (txt_filename)
-				remove(txt_filename);
 			rl_event_hook = NULL;
-			return (free(txt_filename), 0);
+			return (0);
 		}
 		cmd_args = cmd_args->next;
 	}

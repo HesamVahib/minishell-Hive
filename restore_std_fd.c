@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   restore_std_fd.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: michoi <michoi@student.hive.fi>            +#+  +:+       +#+        */
+/*   By: hvahib <hvahib@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 12:42:18 by hvahib            #+#    #+#             */
-/*   Updated: 2025/05/15 22:37:14 by michoi           ###   ########.fr       */
+/*   Updated: 2025/05/21 14:50:06 by hvahib           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,13 @@
 
 static void	restore_fd(t_env_pack env_pack, int std_fd, char *key)
 {
-	char	*fd_value;
+	char	*fd;
 	int		cur_fd;
 
-	fd_value = find_value_from_env(env_pack.mshell_env, key);
-	cur_fd = ft_atoi(fd_value);
-	if (fd_value)
+	fd = find_value_from_env(env_pack.mshell_env, key);
+	if (fd)
 	{
-		cur_fd = ft_atoi(fd_value);
+		cur_fd = ft_atoi(fd);
 		if (cur_fd >= 0)
 		{
 			if (std_fd != STDIN_FILENO)

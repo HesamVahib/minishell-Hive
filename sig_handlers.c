@@ -6,7 +6,7 @@
 /*   By: hvahib <hvahib@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 12:42:32 by hvahib            #+#    #+#             */
-/*   Updated: 2025/05/08 13:58:05 by hvahib           ###   ########.fr       */
+/*   Updated: 2025/05/21 14:56:32 by hvahib           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ void	sighandler(int signal)
 		rl_on_new_line();
 		rl_replace_line("", STDIN_FILENO);
 		rl_redisplay();
+		
 	}
 	else if (signal == SIGQUIT)
 		printf("Quit: %d\n", signal);

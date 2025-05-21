@@ -6,7 +6,7 @@
 /*   By: hvahib <hvahib@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 12:40:40 by hvahib            #+#    #+#             */
-/*   Updated: 2025/05/16 15:25:50 by hvahib           ###   ########.fr       */
+/*   Updated: 2025/05/21 14:33:02 by hvahib           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ int	open_create_files(t_cmd *cmd_list, char *type)
 			fd = open(cmd_list->outfile, O_CREAT | O_WRONLY | O_TRUNC, 0644);
 		if (fd == -1)
 			return (-1);
-		cmd_list->outfile_fd = fd;
+		close(fd);
 		return (1);
 	}
 	else if (ft_strncmp(type, "infile", 6) == 0)
@@ -85,8 +85,7 @@ int	open_create_files(t_cmd *cmd_list, char *type)
 				return (print_cmd_err((char *)cmd_list->infile, strerror(errno)), 0);
 			return (-1);
 		}
-		cmd_list->infile_fd = fd;
-		// close(fd);
+		close(fd);
 		return (1);
 	}
 	return (0);
