@@ -6,7 +6,7 @@
 /*   By: hvahib <hvahib@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 12:41:02 by hvahib            #+#    #+#             */
-/*   Updated: 2025/05/22 15:48:22 by hvahib           ###   ########.fr       */
+/*   Updated: 2025/05/22 17:18:56 by hvahib           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,6 @@ static void	handle_heredoc(t_cmd *cur, char **tokenz, int *i)
 	cur->heredoc_limiters = limiter_collector(cur->heredoc_limiters,
 			cur->is_heredoc);
 	*i = *i + 2;
-	// *i = *i + 1;
 }
 
 static void	extract_arguments(t_cmd *cur, char **tokenz, int *i)
@@ -68,17 +67,16 @@ static void	extract_arguments(t_cmd *cur, char **tokenz, int *i)
 		*i = *i + 1;
 		argc++;
 	}
-	printf("argc: %d\n", argc);
 	cur->argv = ft_calloc(argc + 1, sizeof(char *));
 	k = 0;
 	while (k < argc)
 	{
-		printf("arg: %s\n", tokenz[arg_start + k]);
 		cur->argv[k] = ft_strdup(tokenz[arg_start + k]);
 		k++;
 	}
 	cur->argv[argc] = NULL;
 }
+
 
 static void	parse_tokens(t_cmd *cmd_list, char **tokenz)
 {
@@ -106,7 +104,7 @@ static void	parse_tokens(t_cmd *cmd_list, char **tokenz)
 				cur = cur->next;
 			i++;
 		}
-		else if (tokenz[i])
+		else
 			extract_arguments(cur, tokenz, &i);
 	}
 }

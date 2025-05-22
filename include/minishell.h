@@ -139,7 +139,7 @@ char				**adjacent_quotes(char **cmd_line);
 // tokenz_util_wsplitter.c
 char				**word_splitter(char *line);
 
-// tokenz_util.c
+// tokenz_utils.c
 char				*double_backslash_remover(char *cmd_line);
 
 // lexer.c
@@ -148,10 +148,14 @@ void				init_cmd_list(t_cmd *cmd_list, int n_pipe);
 t_cmd				*cmd_args_extractor(char **tokenz);
 
 // lexer_utils.c
+bool				special_char(char *tokenz);
 int					pipe_counter(char **tokenz);
 void				init_cmd_list(t_cmd *cmd_list, int n_pipe);
 int					open_create_files(t_cmd *cmd_list, char *type);
 char				**limiter_collector(char **delim_list, char *new_delim);
+
+// lexer_utils.c
+int	count_arguments(char **tokenz);
 
 // cmd_syntax_analyzer.c
 char				**syntax_analyzer(char **tokenz);

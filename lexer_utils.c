@@ -6,11 +6,19 @@
 /*   By: hvahib <hvahib@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 12:40:40 by hvahib            #+#    #+#             */
-/*   Updated: 2025/05/21 14:33:02 by hvahib           ###   ########.fr       */
+/*   Updated: 2025/05/22 16:26:50 by hvahib           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "include/minishell.h"
+
+bool special_char(char *tokenz)
+{
+	return (ft_strncmp(tokenz, "|", 1) == 0
+		|| ft_strncmp(tokenz, "<", 1) == 0 || ft_strncmp(tokenz, ">",
+			1) == 0 || ft_strncmp(tokenz, ">>", 2) == 0
+		|| ft_strncmp(tokenz, "<<", 2) == 0);
+}
 
 int	pipe_counter(char **tokenz)
 {

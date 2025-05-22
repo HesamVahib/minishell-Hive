@@ -33,6 +33,7 @@ SRC_PART = 	main.c \
 			tokenz_util.c \
 			expansion_utils.c \
 			lexer_utils.c \
+			lexer_utils2.c \
 			sig_handlers.c \
 			ft_cmdlen.c \
 			tokenz_util_quotes.c \
