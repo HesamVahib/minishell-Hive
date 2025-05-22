@@ -6,7 +6,7 @@
 /*   By: hvahib <hvahib@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 12:41:02 by hvahib            #+#    #+#             */
-/*   Updated: 2025/05/16 15:06:27 by hvahib           ###   ########.fr       */
+/*   Updated: 2025/05/22 15:48:22 by hvahib           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,10 +68,12 @@ static void	extract_arguments(t_cmd *cur, char **tokenz, int *i)
 		*i = *i + 1;
 		argc++;
 	}
+	printf("argc: %d\n", argc);
 	cur->argv = ft_calloc(argc + 1, sizeof(char *));
 	k = 0;
 	while (k < argc)
 	{
+		printf("arg: %s\n", tokenz[arg_start + k]);
 		cur->argv[k] = ft_strdup(tokenz[arg_start + k]);
 		k++;
 	}

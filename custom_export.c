@@ -6,7 +6,7 @@
 /*   By: hvahib <hvahib@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 12:39:20 by hvahib            #+#    #+#             */
-/*   Updated: 2025/05/21 14:53:05 by hvahib           ###   ########.fr       */
+/*   Updated: 2025/05/22 15:52:30 by hvahib           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ static t_env	*update_env(t_env *env_list, char *key, char *value)
 	t_env	*new;
 	t_env	*temp;
 
-	if (!key || !value)
+	if (!key)
 		return (NULL);
 	new = malloc(sizeof(t_env));
 	if (!new)
