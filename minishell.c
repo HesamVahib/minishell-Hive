@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hvahib <hvahib@student.hive.fi>            +#+  +:+       +#+        */
+/*   By: michoi <michoi@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 12:41:23 by hvahib            #+#    #+#             */
 /*   Updated: 2025/05/21 15:08:55 by hvahib           ###   ########.fr       */
@@ -87,10 +87,8 @@ void	minishell(t_env_pack env_pack)
 			}
 			else
 				printf("something HAPPENED in tokenization\n");
-			printf("\n\nExecution...\n\n");
-			// 🌟 execute_cmd
 			if (cmd_args && cmd_args->argv)
-				exec_cmd(cmd_args, env_pack.mshell_env);
+				execution(cmd_args, env_pack.mshell_env);
 			restore_std_fd(env_pack);
 			// reset the the fd's to get back to the default one if something like | (pipe) had appled on std's
 		}

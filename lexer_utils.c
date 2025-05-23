@@ -73,12 +73,17 @@ int	open_create_files(t_cmd *cmd_list, char *type)
 	
 	if (ft_strncmp(type, "outfile", 7) == 0)
 	{
+		if (cmd_list->outfile_fd >= 0)
+			close(cmd_list->outfile_fd);
 		if (cmd_list->append)
 			fd = open(cmd_list->outfile, O_CREAT | O_WRONLY | O_APPEND, 0644);
 		else
 			fd = open(cmd_list->outfile, O_CREAT | O_WRONLY | O_TRUNC, 0644);
 		if (fd == -1)
+		{
+			print_cmd_err(cmd_list->outfile, strerror(errno));
 			return (-1);
+		}
 		close(fd);
 		return (1);
 	}
@@ -87,6 +92,9 @@ int	open_create_files(t_cmd *cmd_list, char *type)
 		fd = open(cmd_list->infile, O_RDONLY);
 		if (fd == -1)
 		{
+
+		//	return (print_cmd_err((char *)cmd_list->infile, strerror(errno)), -1);
+			// return (-1);
 			if (errno == ENOENT)
 				return (0);
 			return (-1);

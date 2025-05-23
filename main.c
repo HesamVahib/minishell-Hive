@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hvahib <hvahib@student.hive.fi>            +#+  +:+       +#+        */
+/*   By: michoi <michoi@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 12:41:07 by hvahib            #+#    #+#             */
-/*   Updated: 2025/05/08 13:53:43 by hvahib           ###   ########.fr       */
+/*   Updated: 2025/05/18 00:08:51 by michoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,5 @@ int	main(int ac, char **av, char **envp)
 		return (free(cur_dir), 1);
 	env_pack = init_env_pack(envp, cur_dir);
 	minishell(env_pack);
-	printf("\n\nfinished\n\n");
 	return (0);
 }

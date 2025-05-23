@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   minishell.h                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: michoi <michoi@student.hive.fi>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/05/23 13:35:50 by michoi            #+#    #+#             */
+/*   Updated: 2025/05/23 13:35:51 by michoi           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef MINISHELL_H
 # define MINISHELL_H
 # define _GNU_SOURCE // for O_TMPFILE flag, only available on linux
@@ -55,10 +67,10 @@ typedef struct s_env_pack
 
 typedef struct s_cmd
 {
-	bool error; // if the cmd itself has an error so it is non-executable!
-	char **argv; // command and args {"ls", "-l", NULL}
-	char *infile;     // for <
-	char *outfile;    // for > or >>
+	bool error;    // if the cmd itself has an error so it is non-executable!
+	char **argv;   // command and args {"ls", "-l", NULL}
+	char *infile;  // for <
+	char *outfile; // for > or >>
 	int				infile_fd;
 	int				outfile_fd;
 	int append;              // 1 for >>, 0 for >
@@ -97,6 +109,7 @@ t_env				*set_start(t_env *env_list);
 // custom_export.c
 t_env_pack			export_std_fd(t_env_pack env_pack);
 t_env				*node_finder(t_env *env_list, char *key);
+t_env				*update_env(t_env *env_list, char *key, char *value);
 t_env				*custom_export(t_env *env_list, char *key, char *value);
 
 // extract_env_list.c

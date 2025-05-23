@@ -60,7 +60,7 @@ int	cmd_exit(char **args)
 		exit_stat = 0;
 	else
 	{
-		if (!is_numeric(*args))
+		if (*args && !is_numeric(*args))
 		{
 			print_str_arg_err(*args);
 			// cleanup

@@ -1,15 +1,15 @@
 NAME = minishell
 FLAGS = -Wall -Werror -Wextra -g
 CC = cc
-
+DEBUG_FLAGS = -fsanitize=leak -fsanitize=address -fsanitize=undefined
 LIBFT_DIR = ./lib/libft
 LIBFT = $(LIBFT_DIR)/libft.a
 VPATH = builtins execution
 
 SRC_BUILTIN = builtins.c cmd_cd.c cmd_echo.c cmd_env.c cmd_exit.c \
-				cmd_pwd.c cmd_utils.c cmd_export.c cmd_unset.c
+				cmd_pwd.c cmd_utils.c cmd_unset.c cmd_export.c
 
-SRC_EXEC =	execution.c exec_path.c exec_utils.c
+SRC_EXEC =	execution.c exec_path.c exec_utils.c exec_child_process.c exec_init.c exec_open.c
 
 SRC_PART = 	main.c \
 			clean_utility.c \
@@ -63,8 +63,11 @@ fclean: clean
 	@/bin/rm -f $(NAME)
 	@echo "\033[90m[\033[91mDeleting\033[90m]\033[31m Executable $(NAME) is deleted.\033[0m"
 
+debug: FLAGS += $(DEBUG_FLAGS)
+debug: all
+
 re: fclean all
 
-.PHONY: all clean fclean re
+.PHONY: all clean fclean re debug
 
-#.SECONDARY: $(OBJ_PART)
+.SECONDARY: $(OBJ_PART)
