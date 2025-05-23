@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: michoi <michoi@student.hive.fi>            +#+  +:+       +#+        */
+/*   By: hvahib <hvahib@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 12:41:02 by hvahib            #+#    #+#             */
-/*   Updated: 2025/05/23 14:27:03 by hvahib           ###   ########.fr       */
+/*   Updated: 2025/05/23 15:16:57 by hvahib           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,16 +18,16 @@ static void	handle_file_redirection(t_cmd *cur, char **tokenz, int *i,
 	if (mode == 'i')
 	{
 		cur->infile = ft_strdup(tokenz[*i + 1]);
-		if (access(cur->infile, F_OK))
+		// if (access(cur->infile, F_OK))
+		// {
+		// 	print_cmd_err(cur->infile, strerror(errno));
+		// 	cur->error = true;
+		// }
+		if (!open_create_files(cur, "infile"))
 		{
 			print_cmd_err(cur->infile, strerror(errno));
 			cur->error = true;
 		}
-		// if (!open_create_files(cur, "infile"))
-		// {
-		// 	printf("error opening infile\n");
-		// 	cur->error = true;
-		// }
 	}
 	else if (mode == 'o' || mode == 'a')
 	{

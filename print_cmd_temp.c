@@ -6,7 +6,7 @@
 /*   By: hvahib <hvahib@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 12:42:14 by hvahib            #+#    #+#             */
-/*   Updated: 2025/05/15 15:43:58 by hvahib           ###   ########.fr       */
+/*   Updated: 2025/05/23 15:18:04 by hvahib           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@ void	print_cmd_temp(t_cmd *cmd_args)
 	while (cmd_args != NULL)
 	{
 		printf("=== Command %d ===\n", i);
+		if (cmd_args->error)
+			printf("Error Happening\n");
 		if (cmd_args->argv)
 		{
 			for (int j = 0; cmd_args->argv[j]; j++)

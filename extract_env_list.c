@@ -6,7 +6,7 @@
 /*   By: hvahib <hvahib@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 12:40:01 by hvahib            #+#    #+#             */
-/*   Updated: 2025/05/08 13:51:02 by hvahib           ###   ########.fr       */
+/*   Updated: 2025/05/23 15:56:17 by hvahib           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,8 +42,11 @@ t_env	*extract_env_list(char **envp)
 	int		env_count;
 
 	env_count = arrlen(envp);
-	env_list = create_env_list(env_count);
+	if (env_count == 0)
+		env_list = create_env_list(3);
+	else
+		env_list = create_env_list(env_count);
 	if (!env_list)
-		return (printf("env_list is null"), NULL);
+		return (printf("env list creation failed\n"), NULL);
 	return (process_env_vars(env_list, envp, env_count));
 }
