@@ -155,7 +155,10 @@ int					open_create_files(t_cmd *cmd_list, char *type);
 char				**limiter_collector(char **delim_list, char *new_delim);
 
 // lexer_utils.c
-int	count_arguments(char **tokenz);
+int count_arguments(char **tokenz, int *j);
+int is_redirection(const char *token);
+int is_pipe(const char *token);
+void	handle_next_command(t_cmd **cur, int *i);
 
 // cmd_syntax_analyzer.c
 char				**syntax_analyzer(char **tokenz);

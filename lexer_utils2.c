@@ -6,31 +6,48 @@
 /*   By: hvahib <hvahib@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 16:34:02 by hvahib            #+#    #+#             */
-/*   Updated: 2025/05/22 16:34:15 by hvahib           ###   ########.fr       */
+/*   Updated: 2025/05/23 12:50:03 by hvahib           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "include/minishell.h"
 
-int	count_arguments(char **tokenz)
+int count_arguments(char **tokenz, int *j)
 {
-	int argc = 0;
-	int i = 0;
+    int argc = 0;
+    
+    while (tokenz[*j] && !is_pipe(tokenz[*j]))
+    {
+        if (is_redirection(tokenz[*j]))
+        {
+            (*j)++;
+            if (tokenz[*j])
+                (*j)++;
+        }
+        else
+        {
+            argc++;
+            (*j)++;
+        }
+    }
+    return argc;
+}
 
-	while (tokenz[i])
-	{
-		if (special_char(tokenz[i]))
-		{
-			if (ft_strncmp(tokenz[i], "|", 1) == 0)
-				i += 1;
-			else
-				i += 2;
-		}
-		else
-		{
-			argc++;
-			i++;
-		}
-	}
-	return (argc);
+int	is_redirection(const char *token)
+{
+	return (ft_strncmp(token, "<", 1) == 0 || ft_strncmp(token, ">", 1) == 0
+		|| ft_strncmp(token, ">>", 2) == 0 || ft_strncmp(token, "<<", 2) == 0);
+}
+
+int	is_pipe(const char *token)
+{
+	return (ft_strncmp(token, "|", 1) == 0);
+}
+
+void	handle_next_command(t_cmd **cur, int *i)
+{
+	(*cur)->is_piped = 1;
+	if ((*cur)->next)
+		*cur = (*cur)->next;
+	(*i)++;
 }
