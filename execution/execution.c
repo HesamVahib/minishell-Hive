@@ -40,6 +40,7 @@ int	execute_single_cmd(const char **builtins, t_cmd *cmd, t_env *env)
 
 	if (is_in_array(builtins, cmd->argv[0]))
 	{
+		// Do i really need to open infiles here?!
 		if (duplicate_files(cmd))
 			return (FAILURE);
 		if (exec_builtin(env, cmd->argv[0], cmd->argv + 1))
@@ -71,6 +72,7 @@ int	execution(t_cmd *cmd_args, t_env *env)
 	pid_t		child_pid;
 	int			wait_stat;
 
+	// single cmd
 	if (!cmd_args->next)
 	{
 		if (cmd_args->error)
@@ -80,6 +82,7 @@ int	execution(t_cmd *cmd_args, t_env *env)
 		// // !!!!exit stat code!!!!
 		return (SUCCESS);
 	}
+
 	// multiple cmds
 	ft_bzero(&cmd_pipe, sizeof(t_pipe));
 	cmd_pipe.prev_fd = -1;
@@ -94,6 +97,9 @@ int	execution(t_cmd *cmd_args, t_env *env)
 		child_pid = init_child_process();
 		if (child_pid == -1)
 			return (FAILURE);
+
+
+
 		if (child_pid == 0)
 		{
 			if (cmd_pipe.prev_fd != -1)
@@ -109,12 +115,14 @@ int	execution(t_cmd *cmd_args, t_env *env)
 			close_fd(cmd_pipe.pipe_fd[0]);
 			exec_external_cmd(cmd_args, env);
 		}
+
+
 		close_fd(cmd_pipe.pipe_fd[1]);
 		if (cmd_pipe.prev_fd != -1)
 			close_fd(cmd_pipe.prev_fd);
 		cmd_pipe.prev_fd = cmd_pipe.pipe_fd[0];
 		if (cmd_args->outfile_fd > -1)
-			close_fd(cmd_args->outfile_fd);		
+			close_fd(cmd_args->outfile_fd);
 		if (waitpid(child_pid, &wait_stat, 0) == -1)
 			return (FAILURE);
 		cmd_args = cmd_args->next;

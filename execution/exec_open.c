@@ -23,7 +23,7 @@ int	close_fd(int fd)
 	return (SUCCESS);
 }
 
-int	open_files(t_cmd *cmd_list)
+int	open_infile(t_cmd *cmd_list)
 {
 	int	infile_fd;
 	// int outfile_fd;

@@ -18,10 +18,7 @@ pid_t	init_child_process(void)
 
 	cp = fork();
 	if (cp == -1)
-	{
 		perror("Fork failed");
-		return (-1);
-	}
 	return (cp);
 }
 

@@ -21,7 +21,6 @@ static void	handle_file_redirection(t_cmd *cur, char **tokenz, int *i,
 		if (access(cur->infile, F_OK))
 		{
 			print_cmd_err(cur->infile, strerror(errno));
-			printf("error opening infile\n");
 			cur->error = true;
 		}
 		// if (!open_create_files(cur, "infile"))

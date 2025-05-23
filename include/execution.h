@@ -41,7 +41,7 @@ int						init_pipe(int pipe_fd[2]);
 int						duplicate_fd(int file_fd, int old_fd);
 int						duplicate_files(t_cmd *cmd_arg);
 int						close_fd(int fd);
-int						open_files(t_cmd *cmd_list);
+int						open_infile(t_cmd *cmd_list);
 // ─── ⋆⋅☆⋅⋆ ── cmd path ─── ⋆⋅☆⋅⋆ ──
 
 char					**get_env_arr(t_env *env);

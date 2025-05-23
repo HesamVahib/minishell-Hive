@@ -36,7 +36,7 @@ t_env_pack	export_std_fd(t_env_pack env_pack)
 	return (env_pack);
 }
 
-static t_env	*update_env(t_env *env_list, char *key, char *value)
+t_env	*update_env(t_env *env_list, char *key, char *value)
 {
 	t_env	*new;
 	t_env	*temp;

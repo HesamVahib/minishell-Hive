@@ -12,40 +12,66 @@
 
 #include "../include/builtins.h"
 
-// void	sort_export_list(t_env **env)
-// {
-// 	t_env	*head;
-// 	t_env	*former;
-// 	t_env	*latter;
-// 	bool	swapped;
+// number, underscore, alphabets
+bool	is_right_key_name(char *key)
+{
+	if (!key || !*key)
+		return (false);
+	if (!ft_isalpha(*key) && *key != '_')
+		return (false);
+	key++;
+	while (*key != '=')
+	{
+		if (!ft_isdigit(*key) && !ft_isalpha(*key) && *key != '_')
+			return (false);
+		key++;
+	}
+	return (true);
+}
 
-// 	head = *env;
-// 	former = *env;
+t_env	*export_with_null(t_env *env_list, char *key, char *value)
+{
+	t_env	*temp;
+	char	*temp_key;
+	char	*temp_value;
 
-// 	while (!swapped)
-// 	{
-// 		swapped = false;
-// 		while (former->next)
-// 		{
-// 			latter = former->next;
-// 			if (ft_strcmp(former->key, latter->key))
-// 			{
-// 				former->next = latter->next;
-// 				latter->next = former;
-// 				if (former == head)
-// 					head = latter;
-// 			}
-// 			former = former->next;
-// 		}
-// 	}
-// }
+	temp_value = NULL;
+	temp = node_finder(env_list, key);
+	if (temp)
+	{
+		if (temp->value)
+			free(temp->value);
+		if (value && *value)
+		{
+			temp->value = ft_strdup(value);
+			if (!temp->value)
+				clean_out_all(env_list, NULL, NULL, NULL);
+		}
+		return (env_list);
+	}
+	else
+	{
+		temp_key = ft_strdup(key);
+		if (!temp_key)
+			clean_out_all(env_list, NULL, NULL, NULL);
+		if (value && *value)
+		{
+			temp_value = ft_strdup(value);
+			if (!temp_value)
+				clean_out_all(env_list, NULL, NULL, NULL);
+		}
+		env_list = update_env(env_list, temp_key, temp_value);
+		if (!env_list)
+			clean_out_all(env_list, NULL, NULL, NULL);
+		return (env_list);
+	}
+}
 
 void	print_export_list(t_env *env)
 {
 	if (!env)
-		return (ft_putendl_fd("print export list error", STDERR_FILENO));
-	//sort_export_list(&env);
-
+		return ;
+	// sort_export_list(&env);
 	while (env)
 	{
 		ft_putstr_fd("declare -x ", STDOUT_FILENO);
@@ -61,26 +87,84 @@ void	print_export_list(t_env *env)
 		env = env->next;
 	}
 }
+int	get_idx(char *s, char c)
+{
+	int	i;
+
+	i = 0;
+	while (s[i])
+	{
+		if (s[i] == c)
+			return (i);
+		i++;
+	}
+	return (-1);
+}
 
 int	cmd_export(t_env **env, char **args)
 {
-	t_env **temp_env;
+	t_env	**temp_env;
+	char	*key;
+	char	*value;
+	int		key_index;
 
+	value = NULL;
 	temp_env = env;
 	if (!args || !*args)
 	{
 		print_export_list(*temp_env);
 		return (SUCCESS);
 	}
-	// if (*args) return error?
-	if (!ft_strncmp("-", *args, ft_strlen(*args)))
+	while (*args)
 	{
-		ft_putstr_fd("(what the)shell: ", STDERR_FILENO);
-		ft_putstr_fd("export: `", STDERR_FILENO);
-		ft_putstr_fd(*args, STDERR_FILENO);
-		ft_putendl_fd("': not a valid identifier", STDERR_FILENO);
-		return (FAILURE); // exit 1
+		if (!is_right_key_name(*args))
+		{
+			ft_putstr_fd("(what the)shell: ", STDERR_FILENO);
+			ft_putstr_fd("export: `", STDERR_FILENO);
+			ft_putstr_fd(*args, STDERR_FILENO);
+			ft_putendl_fd("': not a valid identifier", STDERR_FILENO);
+			return (FAILURE); // exit 1
+		}
+		
+		// split with =
+		key_index = get_idx(*args, '=');
+		if (key_index == -1)
+			key_index = ft_strlen(*args) - 1;
+		key = ft_substr(*args, 0, key_index);
+		if (!key)
+		{
+			ft_putendl_fd("export: failed to get key", STDERR_FILENO);
+			return (FAILURE);
+		}
+		if (args[key_index + 1] != NULL)
+		{
+			value = ft_substr(*args, key_index + 1, ft_strlen(*args));
+			if (!value)
+			{
+				ft_putendl_fd("export: failed to get value", STDERR_FILENO);
+				return (FAILURE);
+			}
+		}
+		printf("key: %s, val: %s idx: %d\n", key, value, key_index);
+		// // free key and val
+		export_with_null(*env, key, value);
+		free(key);
+		free(value);
+		args++;
 	}
 	// exit code 127 --> what was that :D
 	return (SUCCESS);
 }
+
+/*
+michoi@c3r2p7:~$ export abc = hi n = 123
+bash: export: `=': not a valid identifier
+bash: export: `=': not a valid identifier
+bash: export: `123': not a valid identifier
+declare -x a="123"
+declare -x abc
+declare -x b="234"
+declare -x hi
+declare -x n="0"
+
+*/

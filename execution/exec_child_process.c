@@ -35,10 +35,11 @@ void	exec_external_cmd(t_cmd *cmd, t_env *env)
 	{
 		free_array(&env_arr);
 		print_path_err(cmd);
+		close_fd(cmd->outfile_fd);
 		exit(EXIT_FAILURE);
 		// close file
 	}
-	if (open_files(cmd))
+	if (open_infile(cmd))
 		exit(EXIT_FAILURE);
 	if (duplicate_files(cmd))
 	{
