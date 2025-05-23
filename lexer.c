@@ -6,7 +6,7 @@
 /*   By: michoi <michoi@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 12:41:02 by hvahib            #+#    #+#             */
-/*   Updated: 2025/05/18 00:39:39 by michoi           ###   ########.fr       */
+/*   Updated: 2025/05/23 14:27:03 by hvahib           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,33 +54,35 @@ static void	handle_heredoc(t_cmd *cur, char **tokenz, int *i)
 	cur->heredoc_limiters = limiter_collector(cur->heredoc_limiters,
 			cur->is_heredoc);
 	*i = *i + 2;
-	// *i = *i + 1;
 }
 
 static void	extract_arguments(t_cmd *cur, char **tokenz, int *i)
 {
 	int	argc;
-	int	arg_start;
 	int	k;
+	int	j;
+	int start;
 
-	arg_start = *i;
-	argc = 0;
-	while (tokenz[*i] && ft_strncmp(tokenz[*i], "|", 1) != 0
-		&& ft_strncmp(tokenz[*i], "<", 1) != 0 && ft_strncmp(tokenz[*i], ">",
-			1) != 0 && ft_strncmp(tokenz[*i], ">>", 2) != 0
-		&& ft_strncmp(tokenz[*i], "<<", 2) != 0)
-	{
-		*i = *i + 1;
-		argc++;
-	}
-	cur->argv = ft_calloc(argc + 1, sizeof(char *));
 	k = 0;
-	while (k < argc)
+	j = *i;
+	start = (*i);
+	argc = count_arguments(tokenz, &j);
+	cur->argv = ft_calloc(argc + 1, sizeof(char *));
+	if (!cur->argv)
+		return ;
+	while (*i < j)
 	{
-		cur->argv[k] = ft_strdup(tokenz[arg_start + k]);
-		k++;
+		if (is_redirection(tokenz[*i]))
+		{
+			(*i)++;
+			if (tokenz[*i])
+				(*i)++;
+		}
+		else
+			cur->argv[k++] = ft_strdup(tokenz[(*i)++]);
 	}
-	cur->argv[argc] = NULL;
+	(*i) = start;
+	cur->argv[k] = NULL;
 }
 
 static void	parse_tokens(t_cmd *cmd_list, char **tokenz)
@@ -89,28 +91,25 @@ static void	parse_tokens(t_cmd *cmd_list, char **tokenz)
 	t_cmd	*cur;
 
 	i = 0;
-	cur = &cmd_list[0];
-	while (tokenz && tokenz[i] != NULL)
+	cur = cmd_list;
+	while (tokenz && tokenz[i])
 	{
-		if (tokenz[i] && ft_strncmp(tokenz[i], "<", 1) == 0
-			&& tokenz[i][1] != '<')
-			handle_file_redirection(cur, tokenz, &i, 'i');
-		else if (tokenz[i] && ft_strncmp(tokenz[i], ">", 1) == 0
-			&& tokenz[i][1] != '>')
-			handle_file_redirection(cur, tokenz, &i, 'o');
-		else if (tokenz[i] && ft_strncmp(tokenz[i], ">>", 2) == 0)
-			handle_file_redirection(cur, tokenz, &i, 'a');
-		else if (tokenz[i] && ft_strncmp(tokenz[i], "<<", 2) == 0)
-			handle_heredoc(cur, tokenz, &i);
-		else if (tokenz[i] && ft_strncmp(tokenz[i], "|", 1) == 0)
+		extract_arguments(cur, tokenz, &i);
+		while (tokenz[i] && !is_pipe(tokenz[i]))
 		{
-			cur->is_piped = 1;
-			if (cur->next)
-				cur = cur->next;
-			i++;
+			if (ft_strncmp(tokenz[i], "<", 1) == 0 && tokenz[i][1] != '<')
+				handle_file_redirection(cur, tokenz, &i, 'i');
+			else if (ft_strncmp(tokenz[i], ">", 1) == 0 && tokenz[i][1] != '>')
+				handle_file_redirection(cur, tokenz, &i, 'o');
+			else if (ft_strncmp(tokenz[i], ">>", 2) == 0)
+				handle_file_redirection(cur, tokenz, &i, 'a');
+			else if (ft_strncmp(tokenz[i], "<<", 2) == 0)
+				handle_heredoc(cur, tokenz, &i);
+			else
+				i++;
 		}
-		else if (tokenz[i])
-			extract_arguments(cur, tokenz, &i);
+		if (tokenz[i] && is_pipe(tokenz[i]))
+			handle_next_command(&cur, &i);
 	}
 }
 

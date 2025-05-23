@@ -6,11 +6,19 @@
 /*   By: hvahib <hvahib@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 12:40:40 by hvahib            #+#    #+#             */
-/*   Updated: 2025/05/16 15:25:50 by hvahib           ###   ########.fr       */
+/*   Updated: 2025/05/23 13:14:15 by hvahib           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "include/minishell.h"
+
+bool special_char(char *tokenz)
+{
+	return (ft_strncmp(tokenz, "|", 1) == 0
+		|| ft_strncmp(tokenz, "<", 1) == 0 || ft_strncmp(tokenz, ">",
+			1) == 0 || ft_strncmp(tokenz, ">>", 2) == 0
+		|| ft_strncmp(tokenz, "<<", 2) == 0);
+}
 
 int	pipe_counter(char **tokenz)
 {
@@ -76,21 +84,22 @@ int	open_create_files(t_cmd *cmd_list, char *type)
 			print_cmd_err(cmd_list->outfile, strerror(errno));
 			return (-1);
 		}
-		cmd_list->outfile_fd = fd;
+		close(fd);
 		return (1);
 	}
 	else if (ft_strncmp(type, "infile", 6) == 0)
 	{
-		if (cmd_list->infile_fd >= 0)
-			close(cmd_list->infile_fd);
 		fd = open(cmd_list->infile, O_RDONLY);
 		if (fd == -1)
 		{
-			return (print_cmd_err((char *)cmd_list->infile, strerror(errno)), -1);
+
+		//	return (print_cmd_err((char *)cmd_list->infile, strerror(errno)), -1);
 			// return (-1);
+			if (errno == ENOENT)
+				return (0);
+			return (-1);
 		}
-		cmd_list->infile_fd = fd;
-		// close(fd);
+		close(fd);
 		return (1);
 	}
 	return (0);
