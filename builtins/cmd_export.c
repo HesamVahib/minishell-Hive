@@ -6,14 +6,14 @@
 /*   By: michoi <michoi@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/11 21:47:21 by michoi            #+#    #+#             */
-/*   Updated: 2025/05/10 21:56:43 by michoi           ###   ########.fr       */
+/*   Updated: 2025/05/23 13:47:40 by michoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/builtins.h"
 
 // number, underscore, alphabets
-bool	is_right_key_name(char *key)
+static bool	is_right_key_name(char *key)
 {
 	if (!key || !*key)
 		return (false);
@@ -67,7 +67,7 @@ t_env	*export_with_null(t_env *env_list, char *key, char *value)
 	}
 }
 
-void	print_export_list(t_env *env)
+static void	print_export_list(t_env *env)
 {
 	if (!env)
 		return ;

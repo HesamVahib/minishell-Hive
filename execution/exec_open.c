@@ -6,7 +6,7 @@
 /*   By: michoi <michoi@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/18 00:44:35 by michoi            #+#    #+#             */
-/*   Updated: 2025/05/18 01:06:08 by michoi           ###   ########.fr       */
+/*   Updated: 2025/05/24 19:48:19 by michoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 int	close_fd(int fd)
 {
-	// printf("closing %d\n", fd);
 	if (close(fd))
 	{
 		perror("close failed");
@@ -22,7 +21,7 @@ int	close_fd(int fd)
 	}
 	return (SUCCESS);
 }
-
+//check - remove or edit?
 int	open_infile(t_cmd *cmd_list)
 {
 	int	infile_fd;
@@ -53,6 +52,21 @@ int	open_infile(t_cmd *cmd_list)
 			return (FAILURE);
 		}
 		cmd_list->infile_fd = infile_fd;
+	}
+	return (SUCCESS);
+}
+
+int	close_files(t_cmd *cmd)
+{
+	if (cmd->infile_fd > -1)
+	{
+		if (close_fd(cmd->infile_fd))
+			return (FAILURE);
+	}
+	if (cmd->outfile_fd > -1)
+	{
+		if (close_fd(cmd->infile_fd))
+			return (FAILURE);
 	}
 	return (SUCCESS);
 }
