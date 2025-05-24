@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   custom_export.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hvahib <hvahib@student.hive.fi>            +#+  +:+       +#+        */
+/*   By: michoi <michoi@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 12:39:20 by hvahib            #+#    #+#             */
-/*   Updated: 2025/05/22 15:52:30 by hvahib           ###   ########.fr       */
+/*   Updated: 2025/05/25 01:02:29 by michoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,21 +84,31 @@ t_env	*custom_export(t_env *env_list, char *key, char *value)
 	char	*temp_key;
 	char	*temp_value;
 	
+	temp_value = NULL;
 	temp = node_finder(env_list, key);
-	if (temp && temp->value)
+	if (temp)
 	{
-		free(temp->value);
-		temp->value = ft_strdup(value);
-		if (!temp->value)
-			clean_out_all(env_list, NULL, NULL, NULL);
+		if (temp->value)
+			free(temp->value);
+		if (value && *value)
+		{
+			temp->value = ft_strdup(value);
+			if (!temp->value)
+				clean_out_all(env_list, NULL, NULL, NULL);
+		}
 		return (env_list);
 	}
 	else
 	{
 		temp_key = ft_strdup(key);
-		temp_value = ft_strdup(value);
-		if (!temp_key || !temp_value)
+		if (!temp_key)
 			clean_out_all(env_list, NULL, NULL, NULL);
+		if (value && *value)
+		{
+			temp_value = ft_strdup(value);
+			if (!temp_value)
+				clean_out_all(env_list, NULL, NULL, NULL);
+		}
 		env_list = update_env(env_list, temp_key, temp_value);
 		if (!env_list)
 			clean_out_all(env_list, NULL, NULL, NULL);

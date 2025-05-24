@@ -6,7 +6,7 @@
 /*   By: michoi <michoi@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/11 21:47:21 by michoi            #+#    #+#             */
-/*   Updated: 2025/05/23 13:47:40 by michoi           ###   ########.fr       */
+/*   Updated: 2025/05/25 01:07:34 by michoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,12 @@ static bool	is_right_key_name(char *key)
 	if (!key || !*key)
 		return (false);
 	if (!ft_isalpha(*key) && *key != '_')
+	{
+		printf("is false: %d, %d", !ft_isalpha(*key), *key != '_');
 		return (false);
+	}
 	key++;
-	while (*key != '=')
+	while (*key && *key != '=')
 	{
 		if (!ft_isdigit(*key) && !ft_isalpha(*key) && *key != '_')
 			return (false);
@@ -29,43 +32,43 @@ static bool	is_right_key_name(char *key)
 	return (true);
 }
 
-t_env	*export_with_null(t_env *env_list, char *key, char *value)
-{
-	t_env	*temp;
-	char	*temp_key;
-	char	*temp_value;
+// t_env	*export_with_null(t_env *env_list, char *key, char *value)
+// {
+// 	t_env	*temp;
+// 	char	*temp_key;
+// 	char	*temp_value;
 
-	temp_value = NULL;
-	temp = node_finder(env_list, key);
-	if (temp)
-	{
-		if (temp->value)
-			free(temp->value);
-		if (value && *value)
-		{
-			temp->value = ft_strdup(value);
-			if (!temp->value)
-				clean_out_all(env_list, NULL, NULL, NULL);
-		}
-		return (env_list);
-	}
-	else
-	{
-		temp_key = ft_strdup(key);
-		if (!temp_key)
-			clean_out_all(env_list, NULL, NULL, NULL);
-		if (value && *value)
-		{
-			temp_value = ft_strdup(value);
-			if (!temp_value)
-				clean_out_all(env_list, NULL, NULL, NULL);
-		}
-		env_list = update_env(env_list, temp_key, temp_value);
-		if (!env_list)
-			clean_out_all(env_list, NULL, NULL, NULL);
-		return (env_list);
-	}
-}
+// 	temp_value = NULL;
+// 	temp = node_finder(env_list, key);
+// 	if (temp)
+// 	{
+// 		if (temp->value)
+// 			free(temp->value);
+// 		if (value && *value)
+// 		{
+// 			temp->value = ft_strdup(value);
+// 			if (!temp->value)
+// 				clean_out_all(env_list, NULL, NULL, NULL);
+// 		}
+// 		return (env_list);
+// 	}
+// 	else
+// 	{
+// 		temp_key = ft_strdup(key);
+// 		if (!temp_key)
+// 			clean_out_all(env_list, NULL, NULL, NULL);
+// 		if (value && *value)
+// 		{
+// 			temp_value = ft_strdup(value);
+// 			if (!temp_value)
+// 				clean_out_all(env_list, NULL, NULL, NULL);
+// 		}
+// 		env_list = update_env(env_list, temp_key, temp_value);
+// 		if (!env_list)
+// 			clean_out_all(env_list, NULL, NULL, NULL);
+// 		return (env_list);
+// 	}
+// }
 
 static void	print_export_list(t_env *env)
 {
@@ -125,18 +128,17 @@ int	cmd_export(t_env **env, char **args)
 			ft_putendl_fd("': not a valid identifier", STDERR_FILENO);
 			return (FAILURE); // exit 1
 		}
-		
 		// split with =
 		key_index = get_idx(*args, '=');
 		if (key_index == -1)
-			key_index = ft_strlen(*args) - 1;
+			key_index = ft_strlen(*args);
 		key = ft_substr(*args, 0, key_index);
 		if (!key)
 		{
 			ft_putendl_fd("export: failed to get key", STDERR_FILENO);
 			return (FAILURE);
 		}
-		if (args[key_index + 1] != NULL)
+		if ((*args) + (key_index + 1) != NULL)
 		{
 			value = ft_substr(*args, key_index + 1, ft_strlen(*args));
 			if (!value)
@@ -147,7 +149,7 @@ int	cmd_export(t_env **env, char **args)
 		}
 		printf("key: %s, val: %s idx: %d\n", key, value, key_index);
 		// // free key and val
-		export_with_null(*env, key, value);
+		custom_export(*env, key, value);
 		free(key);
 		free(value);
 		args++;
