@@ -6,7 +6,7 @@
 /*   By: michoi <michoi@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 19:24:15 by michoi            #+#    #+#             */
-/*   Updated: 2025/05/13 16:21:29 by michoi           ###   ########.fr       */
+/*   Updated: 2025/05/25 01:25:37 by michoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ int						cmd_cd(t_env *env, char **args);
 int						cmd_echo(char **args);
 int						cmd_env(t_env *env, char **args);
 int						cmd_exit(char **args);
-int						cmd_export(t_env **env, char **args);
+int						cmd_export(t_env *env, char **args);
 int						cmd_pwd(void);
 int						cmd_unset(t_env **env, char **args);
 

@@ -6,7 +6,7 @@
 /*   By: michoi <michoi@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/11 21:47:21 by michoi            #+#    #+#             */
-/*   Updated: 2025/05/25 01:07:34 by michoi           ###   ########.fr       */
+/*   Updated: 2025/05/25 01:42:40 by michoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,7 @@ static bool	is_right_key_name(char *key)
 	if (!key || !*key)
 		return (false);
 	if (!ft_isalpha(*key) && *key != '_')
-	{
-		printf("is false: %d, %d", !ft_isalpha(*key), *key != '_');
 		return (false);
-	}
 	key++;
 	while (*key && *key != '=')
 	{
@@ -104,54 +101,76 @@ int	get_idx(char *s, char c)
 	return (-1);
 }
 
-int	cmd_export(t_env **env, char **args)
+static int	check_key_name(char *arg)
 {
-	t_env	**temp_env;
+	if (!is_right_key_name(arg))
+	{
+		ft_putstr_fd("(what the)shell: ", STDERR_FILENO);
+		ft_putstr_fd("export: `", STDERR_FILENO);
+		ft_putstr_fd(arg, STDERR_FILENO);
+		ft_putendl_fd("': not a valid identifier", STDERR_FILENO);
+		return (FAILURE); // exit 1
+	}
+	return (SUCCESS);
+}
+
+static int	get_key_idx(char *arg)
+{
+	int	key_index;
+
+	key_index = get_idx(arg, '=');
+	if (key_index == -1)
+		key_index = ft_strlen(arg);
+	return (key_index);
+}
+
+static int	export_key_value(char *arg, t_env *env)
+{
 	char	*key;
 	char	*value;
 	int		key_index;
 
 	value = NULL;
+	key_index = get_key_idx(arg);
+	key = ft_substr(arg, 0, key_index);
+	if (!key)
+	{
+		ft_putendl_fd("export: failed to get key", STDERR_FILENO);
+		return (FAILURE);
+	}
+	if (arg[key_index] == '=')
+	{
+		value = ft_substr(arg, key_index + 1, ft_strlen(arg) - key_index - 1);
+		if (!value)
+		{
+			ft_putendl_fd("export: failed to get value", STDERR_FILENO);
+			return (free(key), FAILURE);
+		}
+	}
+	custom_export(env, key, value);
+	free(key);
+	free(value);
+	return (SUCCESS);
+}
+
+int	cmd_export(t_env *env, char **args)
+{
+	t_env	*temp_env;
+
 	temp_env = env;
 	if (!args || !*args)
 	{
-		print_export_list(*temp_env);
+		print_export_list(temp_env);
 		return (SUCCESS);
 	}
 	while (*args)
 	{
-		if (!is_right_key_name(*args))
-		{
-			ft_putstr_fd("(what the)shell: ", STDERR_FILENO);
-			ft_putstr_fd("export: `", STDERR_FILENO);
-			ft_putstr_fd(*args, STDERR_FILENO);
-			ft_putendl_fd("': not a valid identifier", STDERR_FILENO);
+		if (check_key_name(*args))
 			return (FAILURE); // exit 1
-		}
 		// split with =
-		key_index = get_idx(*args, '=');
-		if (key_index == -1)
-			key_index = ft_strlen(*args);
-		key = ft_substr(*args, 0, key_index);
-		if (!key)
-		{
-			ft_putendl_fd("export: failed to get key", STDERR_FILENO);
+		if (export_key_value(*args, env))
 			return (FAILURE);
-		}
-		if ((*args) + (key_index + 1) != NULL)
-		{
-			value = ft_substr(*args, key_index + 1, ft_strlen(*args));
-			if (!value)
-			{
-				ft_putendl_fd("export: failed to get value", STDERR_FILENO);
-				return (FAILURE);
-			}
-		}
-		printf("key: %s, val: %s idx: %d\n", key, value, key_index);
-		// // free key and val
-		custom_export(*env, key, value);
-		free(key);
-		free(value);
+		// printf("key: %s, val: %s idx: %d\n", key, value, key_index);
 		args++;
 	}
 	// exit code 127 --> what was that :D
