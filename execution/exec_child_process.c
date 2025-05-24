@@ -6,7 +6,7 @@
 /*   By: michoi <michoi@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/17 18:27:17 by michoi            #+#    #+#             */
-/*   Updated: 2025/05/18 00:47:01 by michoi           ###   ########.fr       */
+/*   Updated: 2025/05/24 19:51:04 by michoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,8 @@ void	exec_external_cmd(t_cmd *cmd, t_env *env)
 	t_cp	cp;
 	char	**env_arr;
 
+	// printf("infile %d, outfile: %d\n", cmd->infile_fd, cmd->outfile_fd);
+
 	ft_bzero(&cp, sizeof(t_cp));
 	env_arr = get_env_arr(env);
 	// close file?
@@ -35,12 +37,13 @@ void	exec_external_cmd(t_cmd *cmd, t_env *env)
 	{
 		free_array(&env_arr);
 		print_path_err(cmd);
-		close_fd(cmd->outfile_fd);
+		close_files(cmd);
 		exit(EXIT_FAILURE);
 		// close file
 	}
 	if (open_infile(cmd))
 		exit(EXIT_FAILURE);
+	// printf("close files in child\n");
 	if (duplicate_files(cmd))
 	{
 		free_array(&env_arr);
