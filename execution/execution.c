@@ -6,7 +6,7 @@
 /*   By: michoi <michoi@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 22:01:29 by michoi            #+#    #+#             */
-/*   Updated: 2025/05/24 20:25:26 by michoi           ###   ########.fr       */
+/*   Updated: 2025/05/25 23:25:16 by michoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,20 @@ void	print_arr(char **arr)
 		printf("%s\n", *arr);
 		arr++;
 	}
+}
+
+int	handle_exit_status(int wait_stat)
+{
+	int	last_exit_stat;
+
+	last_exit_stat = WEXITSTATUS(wait_stat);
+	if (WIFEXITED(wait_stat))
+	{
+		// printf("last exit stat: %d\n", last_exit_stat);
+		// set_and_get_exit_status(last_exit_stat, true);
+		return last_exit_stat;
+	}
+	return -1;
 }
 
 void	run_command(t_cp *cp, char **env_arr)
@@ -58,6 +72,7 @@ int	execute_single_cmd(const char **builtins, t_cmd *cmd, t_env *env)
 			return (FAILURE);
 		if (waitpid(child_pid, &wait_stat, 0) == -1)
 			return (FAILURE);
+		return (handle_exit_status(wait_stat));
 	}
 	// !!!!exit stat code!!!!
 	return (SUCCESS);
@@ -77,9 +92,8 @@ int	execution(t_cmd *cmd_args, t_env *env)
 	{
 		if (cmd_args->error)
 			return (FAILURE);
-		if (execute_single_cmd(builtins, cmd_args, env))
-			return (FAILURE);
 		// // !!!!exit stat code!!!!
+		set_and_get_exit_status(execute_single_cmd(builtins, cmd_args, env), true);
 		return (SUCCESS);
 	}
 	// multiple cmds

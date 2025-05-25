@@ -38,6 +38,7 @@ SRC_PART = 	main.c \
 			ft_cmdlen.c \
 			tokenz_util_quotes.c \
 			print_cmd_temp.c \
+			exit_stat.c \
 			$(SRC_BUILTIN) $(SRC_EXEC)
 
 OBJ_PART = $(SRC_PART:.c=.o)

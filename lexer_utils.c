@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hvahib <hvahib@student.hive.fi>            +#+  +:+       +#+        */
+/*   By: michoi <michoi@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 12:40:40 by hvahib            #+#    #+#             */
-/*   Updated: 2025/05/23 13:14:15 by hvahib           ###   ########.fr       */
+/*   Updated: 2025/05/25 23:00:37 by michoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,7 @@ int	open_create_files(t_cmd *cmd_list, char *type)
 		if (fd == -1)
 		{
 			print_cmd_err(cmd_list->outfile, strerror(errno));
+			set_and_get_exit_status(1, true);
 			return (-1);
 		}
 		close(fd);
@@ -92,11 +93,12 @@ int	open_create_files(t_cmd *cmd_list, char *type)
 		fd = open(cmd_list->infile, O_RDONLY);
 		if (fd == -1)
 		{
-
-		//	return (print_cmd_err((char *)cmd_list->infile, strerror(errno)), -1);
-			// return (-1);
-			if (errno == ENOENT)
-				return (0);
+			print_cmd_err(cmd_list->infile, strerror(errno));
+			set_and_get_exit_status(1, true);
+		// //	return (print_cmd_err((char *)cmd_list->infile, strerror(errno)), -1);
+		// 	// return (-1);
+		// 	if (errno == ENOENT)
+		// 		return (0);
 			return (-1);
 		}
 		close(fd);
