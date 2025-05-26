@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: michoi <michoi@student.hive.fi>            +#+  +:+       +#+        */
+/*   By: hvahib <hvahib@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/23 13:35:50 by michoi            #+#    #+#             */
-/*   Updated: 2025/05/23 13:35:51 by michoi           ###   ########.fr       */
+/*   Updated: 2025/05/26 13:07:08 by hvahib           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,6 +133,7 @@ char				*init_getpid(void);
 t_env_pack			init_env_pack(char **envp, char *cur_dir);
 
 // minishell.c
+void	free_cmd_list(t_cmd *cmd_args);
 void				minishell(t_env_pack env_pack);
 
 // restore_std_fd.c

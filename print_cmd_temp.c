@@ -6,7 +6,7 @@
 /*   By: hvahib <hvahib@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 12:42:14 by hvahib            #+#    #+#             */
-/*   Updated: 2025/05/23 15:18:04 by hvahib           ###   ########.fr       */
+/*   Updated: 2025/05/26 12:15:55 by hvahib           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 void	print_cmd_temp(t_cmd *cmd_args)
 {
 	int i = 0;
-	printf("in printing temp funtion\n");
 
 	while (cmd_args != NULL)
 	{
@@ -46,4 +45,6 @@ void	print_cmd_temp(t_cmd *cmd_args)
 		cmd_args = cmd_args->next;
 		i++;
 	}
+	printf("End of Printing\n");
+	printf("====Execution====\n");
 }

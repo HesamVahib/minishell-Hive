@@ -6,7 +6,7 @@
 /*   By: hvahib <hvahib@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 12:42:40 by hvahib            #+#    #+#             */
-/*   Updated: 2025/05/16 12:30:08 by hvahib           ###   ########.fr       */
+/*   Updated: 2025/05/26 16:36:09 by hvahib           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@ static char	*prepare_line(char *line)
 {
 	char	*new_line;
 
+	if (!line)
+		return (NULL);
 	new_line = double_backslash_remover(line);
 	if (!new_line)
 	{
@@ -29,6 +31,8 @@ static char	**tokenize_and_check(char *new_line)
 {
 	char	**cmd_line;
 
+	if (!new_line)
+		return (NULL);
 	cmd_line = word_splitter(new_line);
 	if (!cmd_line || !*cmd_line)
 		return (printf("it is not splitted properly\n"), NULL);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: michoi <michoi@student.hive.fi>            +#+  +:+       +#+        */
+/*   By: hvahib <hvahib@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 22:01:29 by michoi            #+#    #+#             */
-/*   Updated: 2025/05/24 20:25:26 by michoi           ###   ########.fr       */
+/*   Updated: 2025/05/26 16:07:35 by hvahib           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,8 +123,7 @@ int	execution(t_cmd *cmd_args, t_env *env)
 	}
 	// if (waitpid(child_pid, &wait_stat, 0) == -1)
 	// 	return (FAILURE);
-	while (wait(&wait_stat) > 0)
-		;
+	while (wait(&wait_stat) > 0);
 	close_fd(cmd_pipe.prev_fd);
 	return (SUCCESS);
 }

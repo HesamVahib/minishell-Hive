@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utility2.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: michoi <michoi@student.hive.fi>            +#+  +:+       +#+        */
+/*   By: hvahib <hvahib@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 12:43:09 by hvahib            #+#    #+#             */
-/*   Updated: 2025/05/13 23:52:23 by michoi           ###   ########.fr       */
+/*   Updated: 2025/05/26 12:43:11 by hvahib           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,13 +32,17 @@ char	*ft_strndup(const char *s, int n)
 
 bool	is_in_array(const char **arr, char *s)
 {
-	if (!arr || !*arr)
+	int i;
+	
+	i = 0;
+	
+	if (!arr || !arr[i])
 		return (false);
-	while (*arr)
+	while (arr[i])
 	{
-		if (!ft_strncmp(*arr, s, ft_strlen(*arr)))
+		if (!ft_strncmp(arr[i], s, ft_strlen(arr[i])))
 			return (true);
-		arr++;
+		i++;
 	}
 	return (false);
 }
