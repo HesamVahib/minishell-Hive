@@ -6,7 +6,7 @@
 /*   By: michoi <michoi@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/11 21:47:21 by michoi            #+#    #+#             */
-/*   Updated: 2025/05/23 13:47:40 by michoi           ###   ########.fr       */
+/*   Updated: 2025/05/25 20:27:05 by michoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,51 +20,13 @@ static bool	is_right_key_name(char *key)
 	if (!ft_isalpha(*key) && *key != '_')
 		return (false);
 	key++;
-	while (*key != '=')
+	while (*key && *key != '=')
 	{
 		if (!ft_isdigit(*key) && !ft_isalpha(*key) && *key != '_')
 			return (false);
 		key++;
 	}
 	return (true);
-}
-
-t_env	*export_with_null(t_env *env_list, char *key, char *value)
-{
-	t_env	*temp;
-	char	*temp_key;
-	char	*temp_value;
-
-	temp_value = NULL;
-	temp = node_finder(env_list, key);
-	if (temp)
-	{
-		if (temp->value)
-			free(temp->value);
-		if (value && *value)
-		{
-			temp->value = ft_strdup(value);
-			if (!temp->value)
-				clean_out_all(env_list, NULL, NULL, NULL);
-		}
-		return (env_list);
-	}
-	else
-	{
-		temp_key = ft_strdup(key);
-		if (!temp_key)
-			clean_out_all(env_list, NULL, NULL, NULL);
-		if (value && *value)
-		{
-			temp_value = ft_strdup(value);
-			if (!temp_value)
-				clean_out_all(env_list, NULL, NULL, NULL);
-		}
-		env_list = update_env(env_list, temp_key, temp_value);
-		if (!env_list)
-			clean_out_all(env_list, NULL, NULL, NULL);
-		return (env_list);
-	}
 }
 
 static void	print_export_list(t_env *env)
@@ -101,55 +63,76 @@ int	get_idx(char *s, char c)
 	return (-1);
 }
 
-int	cmd_export(t_env **env, char **args)
+static int	check_key_name(char *arg)
 {
-	t_env	**temp_env;
+	if (!is_right_key_name(arg))
+	{
+		ft_putstr_fd("(what the)shell: ", STDERR_FILENO);
+		ft_putstr_fd("export: `", STDERR_FILENO);
+		ft_putstr_fd(arg, STDERR_FILENO);
+		ft_putendl_fd("': not a valid identifier", STDERR_FILENO);
+		return (FAILURE); // exit 1
+	}
+	return (SUCCESS);
+}
+
+static int	get_key_idx(char *arg)
+{
+	int	key_index;
+
+	key_index = get_idx(arg, '=');
+	if (key_index == -1)
+		key_index = ft_strlen(arg);
+	return (key_index);
+}
+
+static int	export_key_value(char *arg, t_env *env)
+{
 	char	*key;
 	char	*value;
 	int		key_index;
 
 	value = NULL;
+	key_index = get_key_idx(arg);
+	key = ft_substr(arg, 0, key_index);
+	if (!key)
+	{
+		ft_putendl_fd("export: failed to get key", STDERR_FILENO);
+		return (FAILURE);
+	}
+	if (arg[key_index] == '=')
+	{
+		value = ft_substr(arg, key_index + 1, ft_strlen(arg) - key_index - 1);
+		if (!value)
+		{
+			ft_putendl_fd("export: failed to get value", STDERR_FILENO);
+			return (free(key), FAILURE);
+		}
+	}
+	custom_export(env, key, value);
+	free(key);
+	free(value);
+	return (SUCCESS);
+}
+
+int	cmd_export(t_env *env, char **args)
+{
+	t_env	*temp_env;
+
 	temp_env = env;
 	if (!args || !*args)
 	{
-		print_export_list(*temp_env);
+		print_export_list(temp_env);
 		return (SUCCESS);
 	}
 	while (*args)
 	{
-		if (!is_right_key_name(*args))
-		{
-			ft_putstr_fd("(what the)shell: ", STDERR_FILENO);
-			ft_putstr_fd("export: `", STDERR_FILENO);
-			ft_putstr_fd(*args, STDERR_FILENO);
-			ft_putendl_fd("': not a valid identifier", STDERR_FILENO);
+		if (check_key_name(*args))
 			return (FAILURE); // exit 1
-		}
-		
 		// split with =
-		key_index = get_idx(*args, '=');
-		if (key_index == -1)
-			key_index = ft_strlen(*args) - 1;
-		key = ft_substr(*args, 0, key_index);
-		if (!key)
-		{
-			ft_putendl_fd("export: failed to get key", STDERR_FILENO);
+		if (export_key_value(*args, env))
 			return (FAILURE);
-		}
-		if (args[key_index + 1] != NULL)
-		{
-			value = ft_substr(*args, key_index + 1, ft_strlen(*args));
-			if (!value)
-			{
-				ft_putendl_fd("export: failed to get value", STDERR_FILENO);
-				return (FAILURE);
-			}
-		}
-		printf("key: %s, val: %s idx: %d\n", key, value, key_index);
-		// // free key and val
-		export_with_null(*env, key, value);
-		free(key);
-		free(value);
+		// printf("key: %s, val: %s idx: %d\n", key, value, key_index);
 		args++;
 	}
 	// exit code 127 --> what was that :D
