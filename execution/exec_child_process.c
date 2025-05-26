@@ -6,7 +6,7 @@
 /*   By: hvahib <hvahib@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/17 18:27:17 by michoi            #+#    #+#             */
-/*   Updated: 2025/05/26 15:54:19 by hvahib           ###   ########.fr       */
+/*   Updated: 2025/05/26 16:43:22 by hvahib           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ void	exec_external_cmd(t_cmd *cmd, t_env *env)
 		free_array(&env_arr);
 		print_path_err(cmd);
 		close_files(cmd);
-		exit(EXIT_FAILURE);
+		exit(127);
 		// close file
 	}
 	if (open_infile(cmd))

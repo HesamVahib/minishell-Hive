@@ -6,7 +6,7 @@
 /*   By: hvahib <hvahib@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/23 13:35:50 by michoi            #+#    #+#             */
-/*   Updated: 2025/05/26 13:07:08 by hvahib           ###   ########.fr       */
+/*   Updated: 2025/05/26 16:44:13 by hvahib           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -169,10 +169,10 @@ int					open_create_files(t_cmd *cmd_list, char *type);
 char				**limiter_collector(char **delim_list, char *new_delim);
 
 // lexer_utils.c
-int count_arguments(char **tokenz, int *j);
-int is_redirection(const char *token);
-int is_pipe(const char *token);
-void	handle_next_command(t_cmd **cur, int *i);
+int					count_arguments(char **tokenz, int *j);
+int					is_redirection(const char *token);
+int					is_pipe(const char *token);
+void				handle_next_command(t_cmd **cur, int *i);
 
 // cmd_syntax_analyzer.c
 char				**syntax_analyzer(char **tokenz);
@@ -203,4 +203,5 @@ void				print_cmd_temp(t_cmd *cmd_args);
 int					update_node(t_env *env, char *key, char *new_value);
 bool				is_in_array(const char **arr, char *s);
 int					envlen(t_env *env);
+int					set_and_get_exit_status(int code, bool set);
 #endif

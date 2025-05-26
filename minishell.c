@@ -6,7 +6,7 @@
 /*   By: hvahib <hvahib@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 12:41:23 by hvahib            #+#    #+#             */
-/*   Updated: 2025/05/26 15:42:06 by hvahib           ###   ########.fr       */
+/*   Updated: 2025/05/26 16:43:11 by hvahib           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,6 +93,7 @@ void	minishell(t_env_pack env_pack)
 			// free_cmd_list(cmd_args);
 			restore_std_fd(env_pack);
 			// reset the the fd's to get back to the default one if something like | (pipe) had appled on std's
+			printf("exit stat: %d\n", set_and_get_exit_status(-1, false));
 		}
 		free(line);
 	}
