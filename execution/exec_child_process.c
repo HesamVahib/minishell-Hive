@@ -6,7 +6,7 @@
 /*   By: michoi <michoi@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/17 18:27:17 by michoi            #+#    #+#             */
-/*   Updated: 2025/05/25 23:07:04 by michoi           ###   ########.fr       */
+/*   Updated: 2025/05/27 16:11:19 by michoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,13 +20,23 @@ void	print_path_err(t_cmd *cmd)
 		print_basic_error(cmd->argv[0], "command not found");
 }
 
+int	set_path_exit_code(int err_no)
+{
+	int	code;
+
+	if (err_no == EACCES || err_no == EISDIR)
+		code = 126;
+	else
+		code = 127;
+	return (code);
+}
+
 void	exec_external_cmd(t_cmd *cmd, t_env *env)
 {
 	t_cp	cp;
 	char	**env_arr;
 
 	// printf("infile %d, outfile: %d\n", cmd->infile_fd, cmd->outfile_fd);
-
 	ft_bzero(&cp, sizeof(t_cp));
 	env_arr = get_env_arr(env);
 	// close file?
@@ -38,7 +48,7 @@ void	exec_external_cmd(t_cmd *cmd, t_env *env)
 		free_array(&env_arr);
 		print_path_err(cmd);
 		close_files(cmd);
-		exit(127);
+		exit(set_path_exit_code(errno));
 		// close file
 	}
 	if (open_infile(cmd))

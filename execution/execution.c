@@ -6,7 +6,7 @@
 /*   By: michoi <michoi@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 22:01:29 by michoi            #+#    #+#             */
-/*   Updated: 2025/05/25 23:25:16 by michoi           ###   ########.fr       */
+/*   Updated: 2025/05/26 15:16:16 by michoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,9 +31,9 @@ int	handle_exit_status(int wait_stat)
 	{
 		// printf("last exit stat: %d\n", last_exit_stat);
 		// set_and_get_exit_status(last_exit_stat, true);
-		return last_exit_stat;
+		return (last_exit_stat);
 	}
-	return -1;
+	return (-1);
 }
 
 void	run_command(t_cp *cp, char **env_arr)
@@ -93,9 +93,14 @@ int	execution(t_cmd *cmd_args, t_env *env)
 		if (cmd_args->error)
 			return (FAILURE);
 		// // !!!!exit stat code!!!!
-		set_and_get_exit_status(execute_single_cmd(builtins, cmd_args, env), true);
+		set_and_get_exit_status(execute_single_cmd(builtins, cmd_args, env),
+			true);
 		return (SUCCESS);
 	}
+
+
+
+	
 	// multiple cmds
 	ft_bzero(&cmd_pipe, sizeof(t_pipe));
 	cmd_pipe.prev_fd = -1;

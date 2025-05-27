@@ -6,7 +6,7 @@
 /*   By: michoi <michoi@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 12:41:23 by hvahib            #+#    #+#             */
-/*   Updated: 2025/05/25 23:00:07 by michoi           ###   ########.fr       */
+/*   Updated: 2025/05/27 14:29:19 by michoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ void	minishell(t_env_pack env_pack)
 			}
 			else
 				printf("something HAPPENED in tokenization\n");
-			if (cmd_args && cmd_args->argv)
+			if (cmd_args && cmd_args->argv && *(cmd_args->argv))
 				execution(cmd_args, env_pack.mshell_env);
 			restore_std_fd(env_pack);
 			// reset the the fd's to get back to the default one if something like | (pipe) had appled on std's
