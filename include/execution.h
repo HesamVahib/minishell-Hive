@@ -6,7 +6,7 @@
 /*   By: michoi <michoi@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 22:34:15 by michoi            #+#    #+#             */
-/*   Updated: 2025/05/24 22:46:53 by michoi           ###   ########.fr       */
+/*   Updated: 2025/05/27 21:30:06 by michoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ int						init_pipe(int pipe_fd[2]);
 int						duplicate_fd(int file_fd, int old_fd);
 int						duplicate_files(t_cmd *cmd_arg);
 int						close_fd(int fd);
-int						open_infile(t_cmd *cmd_list);
+int						open_files(t_cmd *cmd_list);
 int						close_files(t_cmd *cmd);
 // ─── ⋆⋅☆⋅⋆ ── cmd path ─── ⋆⋅☆⋅⋆ ──
 

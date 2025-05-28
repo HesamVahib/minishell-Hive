@@ -6,7 +6,7 @@
 /*   By: michoi <michoi@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/17 18:27:17 by michoi            #+#    #+#             */
-/*   Updated: 2025/05/27 16:11:19 by michoi           ###   ########.fr       */
+/*   Updated: 2025/05/27 21:30:06 by michoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,13 +45,14 @@ void	exec_external_cmd(t_cmd *cmd, t_env *env)
 	cp.path = get_cmd_path(env, cmd->argv[0]);
 	if (!cp.path)
 	{
+		// printf("execution error\n");
 		free_array(&env_arr);
 		print_path_err(cmd);
 		close_files(cmd);
 		exit(set_path_exit_code(errno));
 		// close file
 	}
-	if (open_infile(cmd))
+	if (open_files(cmd))
 		exit(EXIT_FAILURE);
 	// printf("close files in child\n");
 	if (duplicate_files(cmd))
