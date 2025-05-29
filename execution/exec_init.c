@@ -6,7 +6,7 @@
 /*   By: michoi <michoi@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/17 18:27:27 by michoi            #+#    #+#             */
-/*   Updated: 2025/05/17 23:47:17 by michoi           ###   ########.fr       */
+/*   Updated: 2025/05/29 23:32:52 by michoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,31 +32,35 @@ int	init_pipe(int pipe_fd[2])
 	return (SUCCESS);
 }
 
-int	duplicate_fd(int file_fd, int old_fd)
+int	duplicate_fd(int old_fd, int new_fd)
 {
-	if (dup2(file_fd, old_fd) == -1)
+	int status;
+
+	status = SUCCESS;
+	if (dup2(old_fd, new_fd) == -1)
 	{
 		perror("dup2 failed");
-		return (FAILURE);
+		status = FAILURE;
 	}
-	return (SUCCESS);
+	if (close_fd(old_fd))
+		status = FAILURE;
+	return (status);
 }
 
 int	duplicate_files(t_cmd *cmd_arg)
 {
+	int status;
+
+	status = SUCCESS;
 	if (cmd_arg->infile_fd > -1)
 	{
 		if (duplicate_fd(cmd_arg->infile_fd, STDIN_FILENO))
-			return (FAILURE);
-		if (close_fd(cmd_arg->infile_fd))
-			return (FAILURE);
+			status = FAILURE;
 	}
 	if (cmd_arg->outfile_fd > -1)
 	{
 		if (duplicate_fd(cmd_arg->outfile_fd, STDOUT_FILENO))
-			return (FAILURE);
-		if (close_fd(cmd_arg->outfile_fd))
-			return (FAILURE);
+			status = FAILURE;
 	}
-	return (SUCCESS);
+	return (status);
 }

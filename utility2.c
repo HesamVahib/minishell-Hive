@@ -6,7 +6,7 @@
 /*   By: michoi <michoi@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 12:43:09 by hvahib            #+#    #+#             */
-/*   Updated: 2025/05/26 15:17:10 by michoi           ###   ########.fr       */
+/*   Updated: 2025/05/29 22:27:34 by michoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ bool	is_in_array(const char **arr, char *s)
 		return (false);
 	while (*arr)
 	{
-		if (!ft_strncmp(*arr, s, ft_strlen(*arr)))
+		if (!ft_strncmp(*arr, s, ft_strlen(s)))
 			return (true);
 		arr++;
 	}

@@ -9,7 +9,8 @@ VPATH = builtins execution
 SRC_BUILTIN = builtins.c cmd_cd.c cmd_echo.c cmd_env.c cmd_exit.c \
 				cmd_pwd.c cmd_utils.c cmd_unset.c cmd_export.c
 
-SRC_EXEC =	execution.c exec_path.c exec_utils.c exec_child_process.c exec_init.c exec_open.c
+SRC_EXEC =	execution.c exec_path.c exec_utils.c exec_child_process.c exec_init.c exec_open.c \
+			exec_wait.c
 
 SRC_PART = 	main.c \
 			clean_utility.c \

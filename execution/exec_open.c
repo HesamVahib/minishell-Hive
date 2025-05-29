@@ -6,7 +6,7 @@
 /*   By: michoi <michoi@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/18 00:44:35 by michoi            #+#    #+#             */
-/*   Updated: 2025/05/28 12:45:59 by michoi           ###   ########.fr       */
+/*   Updated: 2025/05/29 23:43:15 by michoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	close_fd(int fd)
 {
-	if (close(fd))
+	if (close(fd) == -1)
 	{
 		perror("close failed");
 		return (FAILURE);
