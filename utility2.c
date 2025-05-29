@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utility2.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hvahib <hvahib@student.hive.fi>            +#+  +:+       +#+        */
+/*   By: michoi <michoi@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 12:43:09 by hvahib            #+#    #+#             */
-/*   Updated: 2025/05/29 22:27:34 by michoi           ###   ########.fr       */
+/*   Updated: 2025/05/30 00:00:58 by michoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,11 +34,11 @@ bool	is_in_array(const char **arr, char *s)
 {
 	if (!arr || !*arr || !s || !*s)
 		return (false);
-	while (arr[i])
+	while (*arr)
 	{
 		if (!ft_strncmp(*arr, s, ft_strlen(s)))
 			return (true);
-		i++;
+		arr++;
 	}
 	return (false);
 }
