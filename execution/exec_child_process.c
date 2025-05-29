@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   exec_child_process.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: michoi <michoi@student.hive.fi>            +#+  +:+       +#+        */
+/*   By: hvahib <hvahib@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/17 18:27:17 by michoi            #+#    #+#             */
 /*   Updated: 2025/05/29 23:39:10 by michoi           ###   ########.fr       */

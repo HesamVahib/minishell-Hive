@@ -6,7 +6,7 @@
 /*   By: hvahib <hvahib@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 12:42:52 by hvahib            #+#    #+#             */
-/*   Updated: 2025/05/08 12:42:53 by hvahib           ###   ########.fr       */
+/*   Updated: 2025/05/26 16:33:14 by hvahib           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,8 @@ char	**word_splitter(char *line)
 	int		i;
 	int		j;
 
+	if (!line)
+		return (NULL);
 	size = ft_cmdlen(line);
 	splitted_line = (char **)malloc((size + 1) * sizeof(char *));
 	if (!splitted_line)

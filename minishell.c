@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: michoi <michoi@student.hive.fi>            +#+  +:+       +#+        */
+/*   By: hvahib <hvahib@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 12:41:23 by hvahib            #+#    #+#             */
-/*   Updated: 2025/05/27 14:29:19 by michoi           ###   ########.fr       */
+/*   Updated: 2025/05/26 16:43:11 by hvahib           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,7 @@ void	minishell(t_env_pack env_pack)
 			free(line);
 			exit_preparation(env_pack);
 		}
+		tokenz = NULL;
 		if (executable(line))
 		{
 			add_history(line);
@@ -89,6 +90,7 @@ void	minishell(t_env_pack env_pack)
 				printf("something HAPPENED in tokenization\n");
 			if (cmd_args && cmd_args->argv && *(cmd_args->argv))
 				execution(cmd_args, env_pack.mshell_env);
+			// free_cmd_list(cmd_args);
 			restore_std_fd(env_pack);
 			// reset the the fd's to get back to the default one if something like | (pipe) had appled on std's
 			printf("exit stat: %d\n", set_and_get_exit_status(-1, false));
