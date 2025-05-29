@@ -6,7 +6,7 @@
 /*   By: hvahib <hvahib@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 12:43:09 by hvahib            #+#    #+#             */
-/*   Updated: 2025/05/26 12:43:11 by hvahib           ###   ########.fr       */
+/*   Updated: 2025/05/29 22:27:34 by michoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,15 +32,11 @@ char	*ft_strndup(const char *s, int n)
 
 bool	is_in_array(const char **arr, char *s)
 {
-	int i;
-	
-	i = 0;
-	
-	if (!arr || !arr[i])
+	if (!arr || !*arr || !s || !*s)
 		return (false);
 	while (arr[i])
 	{
-		if (!ft_strncmp(arr[i], s, ft_strlen(arr[i])))
+		if (!ft_strncmp(*arr, s, ft_strlen(s)))
 			return (true);
 		i++;
 	}

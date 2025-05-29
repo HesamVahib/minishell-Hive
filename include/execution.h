@@ -6,7 +6,7 @@
 /*   By: michoi <michoi@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 22:34:15 by michoi            #+#    #+#             */
-/*   Updated: 2025/05/24 22:46:53 by michoi           ###   ########.fr       */
+/*   Updated: 2025/05/29 23:40:48 by michoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,15 +41,26 @@ int						init_pipe(int pipe_fd[2]);
 int						duplicate_fd(int file_fd, int old_fd);
 int						duplicate_files(t_cmd *cmd_arg);
 int						close_fd(int fd);
-int						open_infile(t_cmd *cmd_list);
+int						open_files(t_cmd *cmd_list);
 int						close_files(t_cmd *cmd);
+void					print_path_err(t_cmd *cmd);
+int						redirect_pipe(t_cmd cmd, t_pipe cmd_pipe);
+
 // ─── ⋆⋅☆⋅⋆ ── cmd path ─── ⋆⋅☆⋅⋆ ──
 
 char					**get_env_arr(t_env *env);
 char					*get_cmd_path(t_env *env, char *cmd);
 
 // ─── ⋆⋅☆⋅⋆ ── execution ─── ⋆⋅☆⋅⋆ ──
+int						run_single_cmd(const char **builtins, t_cmd *cmd,
+							t_env *env);
 void					run_command(t_cp *cp, char **env_arr);
 void					exec_external_cmd(t_cmd *cmd, t_env *env);
+
+// ─── ⋆⋅☆⋅⋆ ── wait && exit ─── ⋆⋅☆⋅⋆ ──
+int						wait_for_pid(pid_t pid, int *stat);
+int						handle_exit_status(int wait_stat);
+int						wait_and_set_exit_status(pid_t last_pid);
+int						set_path_exit_code(int err_no);
 
 #endif

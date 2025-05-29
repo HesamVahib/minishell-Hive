@@ -88,7 +88,7 @@ void	minishell(t_env_pack env_pack)
 			}
 			else
 				printf("something HAPPENED in tokenization\n");
-			if (cmd_args && cmd_args->argv)
+			if (cmd_args && cmd_args->argv && *(cmd_args->argv))
 				execution(cmd_args, env_pack.mshell_env);
 			// free_cmd_list(cmd_args);
 			restore_std_fd(env_pack);
