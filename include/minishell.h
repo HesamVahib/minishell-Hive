@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hvahib <hvahib@student.hive.fi>            +#+  +:+       +#+        */
+/*   By: michoi <michoi@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/23 13:35:50 by michoi            #+#    #+#             */
-/*   Updated: 2025/05/26 16:44:13 by hvahib           ###   ########.fr       */
+/*   Updated: 2025/05/30 18:15:01 by michoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,7 @@ typedef struct s_cmd
 	char *outfile; // for > or >>
 	int				infile_fd;
 	int				outfile_fd;
+	int				heredoc_fd;
 	int append;              // 1 for >>, 0 for >
 	int is_piped;            // if pipe comes after 1, 0 if does not
 	char *is_heredoc;        // if there is something means it is for heredoc,
@@ -133,7 +134,7 @@ char				*init_getpid(void);
 t_env_pack			init_env_pack(char **envp, char *cur_dir);
 
 // minishell.c
-void	free_cmd_list(t_cmd *cmd_args);
+void				free_cmd_list(t_cmd *cmd_args);
 void				minishell(t_env_pack env_pack);
 
 // restore_std_fd.c

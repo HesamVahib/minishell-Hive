@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expansion_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hvahib <hvahib@student.hive.fi>            +#+  +:+       +#+        */
+/*   By: michoi <michoi@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 12:39:52 by hvahib            #+#    #+#             */
-/*   Updated: 2025/05/08 13:39:22 by hvahib           ###   ########.fr       */
+/*   Updated: 2025/05/30 20:16:58 by michoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ static char	*handle_double_dollar(char *res, int *i)
 {
 	char	*pid_str;
 
-	pid_str = ft_itoa(getpid());
+	pid_str = ft_strdup("$$");
 	res = ft_strjoin(res, pid_str);
 	free(pid_str);
 	*i = *i + 2;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_env_pack.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hvahib <hvahib@student.hive.fi>            +#+  +:+       +#+        */
+/*   By: michoi <michoi@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 12:40:34 by hvahib            #+#    #+#             */
-/*   Updated: 2025/05/23 16:14:54 by hvahib           ###   ########.fr       */
+/*   Updated: 2025/05/30 21:11:44 by michoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,28 +14,7 @@
 
 char	*init_getpid(void)
 {
-	int		pid;
-	char	*char_pid;
-
-	pid = getpid();
-	if (pid <= 0)
-	{
-		char_pid = ft_strdup("$$");
-		if (!char_pid)
-		{
-			return (NULL);
-		}
-		return (char_pid);
-	}
-	else
-	{
-		char_pid = ft_itoa(pid);
-		if (!char_pid)
-		{
-			return (NULL);
-		}
-		return (char_pid);
-	}
+	return (ft_strdup("$$"));
 }
 
 static void	initialize_env_lists(char **envp, t_env **sys_envlist,
@@ -84,6 +63,12 @@ t_env_pack	init_env_pack(char **envp, char *cur_dir)
 	t_env		*env_list;
 	t_env		*minishell_env_list;
 
+	if (!cur_dir)
+	{
+		env_pack.sys_envlist = NULL;
+		env_pack.mshell_env = NULL;
+		return (env_pack);
+	}
 	env_list = NULL;
 	minishell_env_list = NULL;
 	initialize_env_lists(envp, &env_list, &minishell_env_list);
@@ -94,7 +79,7 @@ t_env_pack	init_env_pack(char **envp, char *cur_dir)
 	}
 	else
 	{
-		custom_export(minishell_env_list, "PWD", getcwd(NULL, 0));
+		custom_export(minishell_env_list, "PWD", cur_dir);
 		if (find_value_from_env(minishell_env_list, "SHLVL"))
 			custom_export(minishell_env_list, "SHLVL", "2");
 		else

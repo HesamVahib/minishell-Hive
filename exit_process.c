@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit_process.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hvahib <hvahib@student.hive.fi>            +#+  +:+       +#+        */
+/*   By: michoi <michoi@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 12:39:47 by hvahib            #+#    #+#             */
-/*   Updated: 2025/05/08 13:38:20 by hvahib           ###   ########.fr       */
+/*   Updated: 2025/05/30 21:13:00 by michoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	exit_run(t_env *env)
 	int	exit_code;
 
 	printf("exit\n");
-	exit_code = ft_atoi(find_value_from_env(env, "exit_code"));
+	exit_code = set_and_get_exit_status(0, false);
 	cleanup_env(env);
 	if (signal(SIGINT, SIG_DFL) == SIG_ERR)
 		exit(1);
