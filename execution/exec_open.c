@@ -6,7 +6,7 @@
 /*   By: michoi <michoi@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/18 00:44:35 by michoi            #+#    #+#             */
-/*   Updated: 2025/05/29 23:43:15 by michoi           ###   ########.fr       */
+/*   Updated: 2025/05/30 00:09:38 by michoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,11 +22,10 @@ int	close_fd(int fd)
 	return (SUCCESS);
 }
 
-
 int	open_heredoc_file(char *limiter)
 {
-	int	fd;
-	char *filename;
+	int		fd;
+	char	*filename;
 
 	filename = ft_strjoin(limiter, ".txt");
 	if (!filename)
@@ -40,11 +39,11 @@ int	open_heredoc_file(char *limiter)
 int	open_files(t_cmd *cmd_list)
 {
 	int	infile_fd;
-	int outfile_fd;
+	int	outfile_fd;
 	int	heredoc_fd;
 
 	// printf("%s, %s\n", cmd_list->outfile, cmd_list->infile);
-	//Do I have to open heredoc for redirection if I should open the outfile?
+	// Do I have to open heredoc for redirection if I should open the outfile?
 	if (cmd_list->is_heredoc && !(cmd_list->outfile))
 	{
 		heredoc_fd = open_heredoc_file(cmd_list->is_heredoc);
@@ -52,9 +51,11 @@ int	open_files(t_cmd *cmd_list)
 	if (cmd_list->outfile)
 	{
 		if (cmd_list->append)
-			outfile_fd = open(cmd_list->outfile, O_CREAT | O_WRONLY | O_APPEND, 0644);
+			outfile_fd = open(cmd_list->outfile, O_CREAT | O_WRONLY | O_APPEND,
+					0644);
 		else
-			outfile_fd = open(cmd_list->outfile, O_CREAT | O_WRONLY | O_TRUNC, 0644);
+			outfile_fd = open(cmd_list->outfile, O_CREAT | O_WRONLY | O_TRUNC,
+					0644);
 		if (outfile_fd == -1)
 		{
 			print_cmd_err(cmd_list->outfile, strerror(errno));

@@ -6,7 +6,7 @@
 /*   By: michoi <michoi@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/17 18:27:27 by michoi            #+#    #+#             */
-/*   Updated: 2025/05/29 23:32:52 by michoi           ###   ########.fr       */
+/*   Updated: 2025/05/30 00:09:46 by michoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ int	init_pipe(int pipe_fd[2])
 
 int	duplicate_fd(int old_fd, int new_fd)
 {
-	int status;
+	int	status;
 
 	status = SUCCESS;
 	if (dup2(old_fd, new_fd) == -1)
@@ -49,7 +49,7 @@ int	duplicate_fd(int old_fd, int new_fd)
 
 int	duplicate_files(t_cmd *cmd_arg)
 {
-	int status;
+	int	status;
 
 	status = SUCCESS;
 	if (cmd_arg->infile_fd > -1)

@@ -6,7 +6,7 @@
 /*   By: michoi <michoi@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 12:40:40 by hvahib            #+#    #+#             */
-/*   Updated: 2025/05/25 23:00:37 by michoi           ###   ########.fr       */
+/*   Updated: 2025/05/30 21:16:09 by michoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ void	init_cmd_list(t_cmd *cmd_list, int n_pipe)
 		cmd_list[k].outfile = NULL;
 		cmd_list[k].infile_fd = -1;
 		cmd_list[k].outfile_fd = -1;
+		cmd_list[k].heredoc_fd = -1;
 		cmd_list[k].append = 0;
 		cmd_list[k].is_heredoc = NULL;
 		cmd_list[k].heredoc_limiters = NULL;
