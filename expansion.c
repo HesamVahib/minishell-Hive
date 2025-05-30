@@ -6,7 +6,7 @@
 /*   By: hvahib <hvahib@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 12:39:57 by hvahib            #+#    #+#             */
-/*   Updated: 2025/05/23 14:58:58 by hvahib           ###   ########.fr       */
+/*   Updated: 2025/05/30 19:48:29 by hvahib           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,14 +63,20 @@ static char	*copy_or_expand_token(char **tokenz, int i, t_env *env)
 {
 	char	*new_token;
 
-	if (dollar_validated(tokenz[i]) == 1)
-	{
-		new_token = expand_single_token(tokenz[i], env);
-		if (!new_token)
-			return (NULL);
-	}
+	if ((tokenz[i][0] == '$'
+		&& tokenz[i][1] && tokenz[i][1] == '?'))
+			new_token= ft_itoa(set_and_get_exit_status(0, false));
 	else
-		new_token = ft_strdup(tokenz[i]);
+	{
+		if (dollar_validated(tokenz[i]) == 1)
+		{
+			new_token = expand_single_token(tokenz[i], env);
+			if (!new_token)
+				return (NULL);
+		}
+		else
+			new_token = ft_strdup(tokenz[i]);
+	}
 	return (new_token);
 }
 
