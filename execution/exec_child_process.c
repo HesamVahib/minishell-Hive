@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_child_process.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hvahib <hvahib@student.hive.fi>            +#+  +:+       +#+        */
+/*   By: michoi <michoi@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/17 18:27:17 by michoi            #+#    #+#             */
-/*   Updated: 2025/05/29 23:39:10 by michoi           ###   ########.fr       */
+/*   Updated: 2025/05/30 21:49:16 by michoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,11 +84,19 @@ void	exec_external_cmd(t_cmd *cmd, t_env *env)
 	t_cp cp;
 	char **env_arr;
 
+	if (!ft_strcmp(cmd->argv[0], ".."))
+	{
+		print_path_err(cmd);
+		close_files(cmd);
+		exit(set_path_exit_code(127));
+	}
 	ft_bzero(&cp, sizeof(t_cp));
 	env_arr = get_env_arr(env);
-	// close file?
 	if (!env_arr)
+	{
+		close_files(cmd);
 		exit(EXIT_FAILURE);
+	}
 	cp.path = get_cmd_path(env, cmd->argv[0]);
 	if (!cp.path)
 	{
@@ -96,7 +104,6 @@ void	exec_external_cmd(t_cmd *cmd, t_env *env)
 		print_path_err(cmd);
 		close_files(cmd);
 		exit(set_path_exit_code(errno));
-		// close file
 	}
 	if (open_files(cmd))
 		exit(EXIT_FAILURE);
