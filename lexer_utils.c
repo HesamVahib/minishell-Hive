@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: michoi <michoi@student.hive.fi>            +#+  +:+       +#+        */
+/*   By: hvahib <hvahib@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 12:40:40 by hvahib            #+#    #+#             */
-/*   Updated: 2025/05/30 21:16:09 by michoi           ###   ########.fr       */
+/*   Updated: 2025/06/01 23:22:06 by hvahib           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ void	init_cmd_list(t_cmd *cmd_list, int n_pipe)
 		return ;
 	while (k <= n_pipe)
 	{
-		cmd_list[k].error = false;
+		cmd_list[k].error = 0;
 		cmd_list[k].infile = NULL;
 		cmd_list[k].outfile = NULL;
 		cmd_list[k].infile_fd = -1;
@@ -56,6 +56,7 @@ void	init_cmd_list(t_cmd *cmd_list, int n_pipe)
 		cmd_list[k].heredoc_limiters = NULL;
 		cmd_list[k].argv = NULL;
 		cmd_list[k].is_piped = 0;
+		cmd_list[k].redirect_order = 0;
 		if (k < n_pipe)
 			cmd_list[k].next = &cmd_list[k + 1];
 		else
@@ -82,7 +83,7 @@ int	open_create_files(t_cmd *cmd_list, char *type)
 			fd = open(cmd_list->outfile, O_CREAT | O_WRONLY | O_TRUNC, 0644);
 		if (fd == -1)
 		{
-			print_cmd_err(cmd_list->outfile, strerror(errno));
+			// print_cmd_err(cmd_list->outfile, strerror(errno));
 			set_and_get_exit_status(1, true);
 			return (-1);
 		}
@@ -94,12 +95,8 @@ int	open_create_files(t_cmd *cmd_list, char *type)
 		fd = open(cmd_list->infile, O_RDONLY);
 		if (fd == -1)
 		{
-			print_cmd_err(cmd_list->infile, strerror(errno));
+			// print_cmd_err(cmd_list->infile, strerror(errno));
 			set_and_get_exit_status(1, true);
-		// //	return (print_cmd_err((char *)cmd_list->infile, strerror(errno)), -1);
-		// 	// return (-1);
-		// 	if (errno == ENOENT)
-		// 		return (0);
 			return (-1);
 		}
 		close(fd);

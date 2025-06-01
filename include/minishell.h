@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: michoi <michoi@student.hive.fi>            +#+  +:+       +#+        */
+/*   By: hvahib <hvahib@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/23 13:35:50 by michoi            #+#    #+#             */
-/*   Updated: 2025/05/30 18:15:01 by michoi           ###   ########.fr       */
+/*   Updated: 2025/06/01 23:19:21 by hvahib           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ typedef struct s_env_pack
 
 typedef struct s_cmd
 {
-	bool error;    // if the cmd itself has an error so it is non-executable!
+	int error;    // if the cmd itself has an error so it is non-executable!
 	char **argv;   // command and args {"ls", "-l", NULL}
 	char *infile;  // for <
 	char *outfile; // for > or >>
@@ -79,6 +79,7 @@ typedef struct s_cmd
 	char *is_heredoc;        // if there is something means it is for heredoc,
 								// otherwise no heredoc
 	char **heredoc_limiters; // all limiters
+	int		redirect_order; // 1 means infile and 2 means heredoc
 	struct s_cmd *next;      // linked to the next one if it exists
 	struct s_cmd	*previous;
 } t_cmd; // WHAT ABOUT HEREDOC

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_env_pack.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: michoi <michoi@student.hive.fi>            +#+  +:+       +#+        */
+/*   By: hvahib <hvahib@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 12:40:34 by hvahib            #+#    #+#             */
-/*   Updated: 2025/05/30 21:11:44 by michoi           ###   ########.fr       */
+/*   Updated: 2025/06/01 21:55:25 by hvahib           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,6 @@ static void	add_special_vars(t_env **minishell_env_list)
 	if (!init_pid)
 		clean_out_all(NULL, *minishell_env_list, NULL, NULL);
 	*minishell_env_list = custom_export(*minishell_env_list, "pid", init_pid);
-	*minishell_env_list = custom_export(*minishell_env_list, "exit_code", temp);
 	free(temp);
 	free(init_pid);
 }

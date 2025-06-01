@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: michoi <michoi@student.hive.fi>            +#+  +:+       +#+        */
+/*   By: hvahib <hvahib@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 12:41:02 by hvahib            #+#    #+#             */
-/*   Updated: 2025/05/25 22:33:54 by michoi           ###   ########.fr       */
+/*   Updated: 2025/06/01 23:35:42 by hvahib           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,8 @@ static void	handle_file_redirection(t_cmd *cur, char **tokenz, int *i,
 		if (open_create_files(cur, "infile") == -1)
 		{
 			// print_cmd_err(cur->infile, strerror(errno));
-			printf("error opening infile\n");
-			cur->error = true;
+			// printf("error opening infile\n");
+			cur->error = 2;
 		}
 	}
 	else if (mode == 'o' || mode == 'a')
@@ -32,10 +32,11 @@ static void	handle_file_redirection(t_cmd *cur, char **tokenz, int *i,
 		if (open_create_files(cur, "outfile") == -1)
 		{
 			printf("error opening outfile\n");
-			cur->error = true;
+			cur->error = 1;
 		}
 	}
 	*i = *i + 2;
+	cur->redirect_order = 1;
 }
 
 static void	handle_heredoc(t_cmd *cur, char **tokenz, int *i)
@@ -43,13 +44,14 @@ static void	handle_heredoc(t_cmd *cur, char **tokenz, int *i)
 	if (!tokenz[*i + 1])
 	{
 		printf("syntax error near unexpected token `newline'\n");
-		cur->error = true;
+		cur->error = 1;
 		return ;
 	}
 	cur->is_heredoc = ft_strdup(tokenz[*i + 1]);
 	cur->heredoc_limiters = limiter_collector(cur->heredoc_limiters,
 			cur->is_heredoc);
 	*i = *i + 2;
+	cur->redirect_order = 2;
 }
 
 static void	extract_arguments(t_cmd *cur, char **tokenz, int *i)
@@ -103,6 +105,8 @@ static void	parse_tokens(t_cmd *cmd_list, char **tokenz)
 				handle_heredoc(cur, tokenz, &i);
 			else
 				i++;
+			if (cur->error)
+				return ;
 		}
 		if (tokenz[i] && is_pipe(tokenz[i]))
 			handle_next_command(&cur, &i);

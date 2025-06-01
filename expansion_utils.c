@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expansion_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: michoi <michoi@student.hive.fi>            +#+  +:+       +#+        */
+/*   By: hvahib <hvahib@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 12:39:52 by hvahib            #+#    #+#             */
-/*   Updated: 2025/05/30 19:36:41 by hvahib           ###   ########.fr       */
+/*   Updated: 2025/06/01 22:16:59 by hvahib           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 static char	*handle_normal_char(char *res, char *str, int *i)
 {
-	printf("i am here\n");
 	res = append_char(res, str[*i]);
 	*i = *i + 1;
 	return (res);

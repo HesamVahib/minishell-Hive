@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_open.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: michoi <michoi@student.hive.fi>            +#+  +:+       +#+        */
+/*   By: hvahib <hvahib@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/18 00:44:35 by michoi            #+#    #+#             */
-/*   Updated: 2025/05/30 00:09:38 by michoi           ###   ########.fr       */
+/*   Updated: 2025/06/01 23:46:03 by hvahib           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,13 +40,14 @@ int	open_files(t_cmd *cmd_list)
 {
 	int	infile_fd;
 	int	outfile_fd;
-	int	heredoc_fd;
+	// int	heredoc_fd;
 
 	// printf("%s, %s\n", cmd_list->outfile, cmd_list->infile);
 	// Do I have to open heredoc for redirection if I should open the outfile?
 	if (cmd_list->is_heredoc && !(cmd_list->outfile))
 	{
-		heredoc_fd = open_heredoc_file(cmd_list->is_heredoc);
+		puts("am i here?");
+		cmd_list->heredoc_fd = open_heredoc_file(cmd_list->is_heredoc);
 	}
 	if (cmd_list->outfile)
 	{
