@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hvahib <hvahib@student.hive.fi>            +#+  +:+       +#+        */
+/*   By: michoi <michoi@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 12:41:23 by hvahib            #+#    #+#             */
-/*   Updated: 2025/05/26 16:43:11 by hvahib           ###   ########.fr       */
+/*   Updated: 2025/05/31 18:50:52 by michoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ static int	executable(char *line)
 	return (0);
 }
 
+// for loop??????
 void	free_cmd_list(t_cmd *cmd_args)
 {
 	t_cmd *tmp;
@@ -35,22 +36,23 @@ void	free_cmd_list(t_cmd *cmd_args)
 	while (cmd_args)
 	{
 		tmp = cmd_args->next;
+		// printf("cur: %s, tmp: %s\n", cmd_args->argv[0], tmp->argv[0]);
 		if (cmd_args->argv)
-		{
-			for (int i = 0; cmd_args->argv[i]; i++)
-				free(cmd_args->argv[i]);
-			free(cmd_args->argv);
-		}
+			free_array(&cmd_args->argv);
+			// for (int i = 0; cmd_args->argv[i]; i++)
+			// 	free(cmd_args->argv[i]);
+			// free(cmd_args->argv);
 		free(cmd_args->infile);
 		free(cmd_args->outfile);
 		free(cmd_args->is_heredoc);
-		if (cmd_args->heredoc_limiters)
-		{
-			for (int i = 0; cmd_args->heredoc_limiters[i]; i++)
-				free(cmd_args->heredoc_limiters[i]);
-			free(cmd_args->heredoc_limiters);
-		}
-		free(cmd_args);
+		free_array(&cmd_args->heredoc_limiters);
+		// if (cmd_args->heredoc_limiters)
+		// {
+		// 	for (int i = 0; cmd_args->heredoc_limiters[i]; i++)
+		// 		free(cmd_args->heredoc_limiters[i]);
+		// 	free(cmd_args->heredoc_limiters);
+		// }
+		// free(cmd_args);
 		cmd_args = tmp;
 	}
 }
@@ -90,7 +92,7 @@ void	minishell(t_env_pack env_pack)
 				printf("something HAPPENED in tokenization\n");
 			if (cmd_args && cmd_args->argv && *(cmd_args->argv))
 				execution(cmd_args, env_pack.mshell_env);
-			// free_cmd_list(cmd_args);
+			free_cmd_list(cmd_args);
 			restore_std_fd(env_pack);
 			// reset the the fd's to get back to the default one if something like | (pipe) had appled on std's
 			printf("exit stat: %d\n", set_and_get_exit_status(-1, false));

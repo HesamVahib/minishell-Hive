@@ -6,7 +6,7 @@
 /*   By: michoi <michoi@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/17 18:27:27 by michoi            #+#    #+#             */
-/*   Updated: 2025/05/30 00:09:46 by michoi           ###   ########.fr       */
+/*   Updated: 2025/05/31 18:14:35 by michoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,11 @@ int	duplicate_files(t_cmd *cmd_arg)
 	if (cmd_arg->outfile_fd > -1)
 	{
 		if (duplicate_fd(cmd_arg->outfile_fd, STDOUT_FILENO))
+			status = FAILURE;
+	}
+	if (cmd_arg->heredoc_fd > -1)
+	{
+		if (duplicate_fd(cmd_arg->heredoc_fd, STDIN_FILENO))
 			status = FAILURE;
 	}
 	return (status);
