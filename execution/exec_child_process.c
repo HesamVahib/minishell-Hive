@@ -6,7 +6,7 @@
 /*   By: michoi <michoi@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/17 18:27:17 by michoi            #+#    #+#             */
-/*   Updated: 2025/05/30 21:49:16 by michoi           ###   ########.fr       */
+/*   Updated: 2025/05/31 19:23:32 by michoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,11 +84,19 @@ void	exec_external_cmd(t_cmd *cmd, t_env *env)
 	t_cp cp;
 	char **env_arr;
 
-	if (!ft_strcmp(cmd->argv[0], ".."))
+	if (!ft_strcmp(cmd->argv[0], "..") || !ft_strcmp(cmd->argv[0], "."))
 	{
-		print_path_err(cmd);
 		close_files(cmd);
-		exit(set_path_exit_code(127));
+		if (!ft_strcmp(cmd->argv[0], ".."))
+		{
+			print_path_err(cmd);
+			exit(set_path_exit_code(127));
+		}
+		else if (!ft_strcmp(cmd->argv[0], "."))
+		{
+			print_cmd_err(cmd->argv[0], "filename argument required");
+			exit(2);
+		}
 	}
 	ft_bzero(&cp, sizeof(t_cp));
 	env_arr = get_env_arr(env);

@@ -6,7 +6,7 @@
 /*   By: michoi <michoi@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/18 00:44:35 by michoi            #+#    #+#             */
-/*   Updated: 2025/05/30 00:09:38 by michoi           ###   ########.fr       */
+/*   Updated: 2025/05/31 18:12:53 by michoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,9 +44,15 @@ int	open_files(t_cmd *cmd_list)
 
 	// printf("%s, %s\n", cmd_list->outfile, cmd_list->infile);
 	// Do I have to open heredoc for redirection if I should open the outfile?
-	if (cmd_list->is_heredoc && !(cmd_list->outfile))
+	if (cmd_list->is_heredoc)
 	{
 		heredoc_fd = open_heredoc_file(cmd_list->is_heredoc);
+		if (heredoc_fd == -1)
+		{
+			print_cmd_err(cmd_list->is_heredoc, strerror(errno));
+			return (FAILURE);
+		}
+		cmd_list->heredoc_fd = heredoc_fd;
 	}
 	if (cmd_list->outfile)
 	{
