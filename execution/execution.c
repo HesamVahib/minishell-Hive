@@ -6,7 +6,7 @@
 /*   By: hvahib <hvahib@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 22:01:29 by michoi            #+#    #+#             */
-/*   Updated: 2025/05/29 23:39:42 by michoi           ###   ########.fr       */
+/*   Updated: 2025/06/01 23:55:05 by hvahib           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,8 @@ int	execution(t_cmd *cmd_args, t_env *env)
 	t_pipe		cmd_pipe;
 	pid_t		child_pid;
 	pid_t		last_pid;
-
+	
+	last_pid = -1; // PLEASE TAKE CARE THIS NUMBER
 	// single cmd
 	if (!cmd_args->next)
 		return (run_single_cmd(builtins, cmd_args, env));

@@ -6,7 +6,7 @@
 /*   By: hvahib <hvahib@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 12:40:30 by hvahib            #+#    #+#             */
-/*   Updated: 2025/05/23 14:47:24 by hvahib           ###   ########.fr       */
+/*   Updated: 2025/06/01 23:34:24 by hvahib           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,24 +91,13 @@ static	void	open_heredoc(char **limiters)
 	while (limiters[i] != NULL)
 	{
 		fd = open_heredoc_file(main_limiter);
-		if (fd == -1)
+		if (fd == -1 || g_signal == SIGINT)
 			return (free(main_limiter));
 		write_heredoc_content(fd, limiters[i]);
 		close(fd);
 		i++;
 	}
 	free(main_limiter);
-}
-
-int	is_all_heredoc(t_cmd *cmd)
-{
-	while (cmd)
-	{
-		if (cmd->is_heredoc == NULL)
-			return (0);
-		cmd = cmd->next;
-	}
-	return (1);
 }
 
 int	heredoc_processing(t_cmd *cmd_args)
@@ -118,8 +107,7 @@ int	heredoc_processing(t_cmd *cmd_args)
 	if (!cmd_args)
 		return (0);
 	temp = cmd_args;
-	if (!is_all_heredoc(temp))
-		return (0);
+
 	while (cmd_args && cmd_args->is_heredoc)
 	{
 		open_heredoc(cmd_args->heredoc_limiters);

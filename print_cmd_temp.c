@@ -6,7 +6,7 @@
 /*   By: hvahib <hvahib@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 12:42:14 by hvahib            #+#    #+#             */
-/*   Updated: 2025/05/26 12:15:55 by hvahib           ###   ########.fr       */
+/*   Updated: 2025/06/01 23:27:09 by hvahib           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	print_cmd_temp(t_cmd *cmd_args)
 	{
 		printf("=== Command %d ===\n", i);
 		if (cmd_args->error)
-			printf("Error Happening\n");
+			printf("Error Happening \n");
 		if (cmd_args->argv)
 		{
 			for (int j = 0; cmd_args->argv[j]; j++)
@@ -42,6 +42,7 @@ void	print_cmd_temp(t_cmd *cmd_args)
 		}
 		printf("is_piped: %d\n", cmd_args->is_piped);
 
+		printf("redirect flag: %d\n", cmd_args->redirect_order);
 		cmd_args = cmd_args->next;
 		i++;
 	}

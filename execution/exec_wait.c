@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_wait.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: michoi <michoi@student.hive.fi>            +#+  +:+       +#+        */
+/*   By: hvahib <hvahib@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/29 19:10:38 by michoi            #+#    #+#             */
-/*   Updated: 2025/05/29 21:02:50 by michoi           ###   ########.fr       */
+/*   Updated: 2025/06/01 23:51:45 by hvahib           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ int	wait_and_set_exit_status(pid_t last_pid)
 	int	last_wait_stat;
 	int	exit_stat;
 
+	// last_wait_stat = 0;
 	if (wait_for_pid(last_pid, &last_wait_stat))
 		return (FAILURE);
 	if (wait_for_the_rest())

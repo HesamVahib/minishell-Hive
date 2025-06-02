@@ -6,7 +6,7 @@
 /*   By: michoi <michoi@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 12:41:23 by hvahib            #+#    #+#             */
-/*   Updated: 2025/05/31 18:50:52 by michoi           ###   ########.fr       */
+/*   Updated: 2025/06/02 17:59:08 by michoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,21 +39,24 @@ void	free_cmd_list(t_cmd *cmd_args)
 		// printf("cur: %s, tmp: %s\n", cmd_args->argv[0], tmp->argv[0]);
 		if (cmd_args->argv)
 			free_array(&cmd_args->argv);
-			// for (int i = 0; cmd_args->argv[i]; i++)
-			// 	free(cmd_args->argv[i]);
-			// free(cmd_args->argv);
 		free(cmd_args->infile);
 		free(cmd_args->outfile);
 		free(cmd_args->is_heredoc);
 		free_array(&cmd_args->heredoc_limiters);
-		// if (cmd_args->heredoc_limiters)
-		// {
-		// 	for (int i = 0; cmd_args->heredoc_limiters[i]; i++)
-		// 		free(cmd_args->heredoc_limiters[i]);
-		// 	free(cmd_args->heredoc_limiters);
-		// }
-		// free(cmd_args);
 		cmd_args = tmp;
+	}
+}
+
+void error_checking(t_cmd *cmd)
+{
+	while (cmd)
+	{
+		if (cmd->error == 2) // it means no such file or directory
+			print_cmd_err(cmd->infile, strerror(2));
+		if (cmd->error == 1) // it means no such file or directory
+			print_cmd_err(cmd->outfile, strerror(2));
+
+		cmd = cmd->next;
 	}
 }
 
@@ -62,7 +65,6 @@ void	minishell(t_env_pack env_pack)
 	char	*line;
 	char	**tokenz;
 	t_cmd	*cmd_args;
-	int		i;
 
 	while (1)
 	{
@@ -86,7 +88,8 @@ void	minishell(t_env_pack env_pack)
 			{
 				cmd_args = cmd_args_extractor(tokenz);
 				print_cmd_temp(cmd_args);
-				i = heredoc_processing(cmd_args);
+				heredoc_processing(cmd_args);
+				error_checking(cmd_args);
 			}
 			else
 				printf("something HAPPENED in tokenization\n");
