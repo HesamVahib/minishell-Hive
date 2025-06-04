@@ -106,7 +106,11 @@ static void	parse_tokens(t_cmd *cmd_list, char **tokenz)
 			else
 				i++;
 			if (cur->error)
-				return ;
+			{
+				while (tokenz[i] && ft_strncmp(tokenz[i], "|", 1))
+					i++;
+				break ;
+			}
 		}
 		if (tokenz[i] && is_pipe(tokenz[i]))
 			handle_next_command(&cur, &i);
