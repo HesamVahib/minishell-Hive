@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmd_exit.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hvahib <hvahib@student.hive.fi>            +#+  +:+       +#+        */
+/*   By: michoi <michoi@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 21:19:52 by michoi            #+#    #+#             */
-/*   Updated: 2025/05/26 14:56:40 by hvahib           ###   ########.fr       */
+/*   Updated: 2025/06/04 14:32:57 by michoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,14 @@
 
 static void	print_str_arg_err(char *arg)
 {
-	ft_putendl_fd("exit", STDOUT_FILENO);
+	ft_putendl_fd("exit", STDERR_FILENO);
 	print_cmd_err_with_arg("exit", arg, "numeric argument required");
+}
+
+static void	cleanup_exit(t_env *env, t_cmd *head)
+{
+	cleanup_env(env);
+	free_cmd_list(head);
 }
 
 static bool	is_numeric(char *input)
@@ -43,45 +49,31 @@ static bool	is_numeric(char *input)
 	specified  by  the  unsigned  decimal integer n
 	(which belongs to the range of LLONG_MIN - LLONG_MAX).
 */
-// ☠️❓ if it's in a pipe, shell doesn't exit, doesn't print exit. Just changes exit status 🤷‍♀️
-
-// If the current execution environment is a subshell environment,
-// the shell shall exit from the subshell environment
-// with the specified exit status and continue in the environment from which that subshell environment was invoked.
-int	cmd_exit(char **args)
+int	cmd_exit(t_env *env, t_cmd *cmd, t_cmd *head)
 {
-	int	exit_stat;
-	int	argc;
-	int	nbr_range_error;
+	int		exit_stat;
+	int		argc;
+	int		nbr_range_error;
+	char	**args;
 
+	args = cmd->argv + 1;
 	nbr_range_error = 0;
-	// !! fix later. It should have the last command's exit code
-	if (!args)
+	if (!args || !*args)
 		exit_stat = 0;
 	else
 	{
-		if (*args && !is_numeric(*args))
+		exit_stat = ft_atoll(*args, &nbr_range_error);
+		if ((*args && !is_numeric(*args)) || nbr_range_error)
 		{
 			print_str_arg_err(*args);
-			// cleanup
+			cleanup_exit(env, head);
 			exit(2);
 		}
 		argc = arrlen(args);
 		if (is_numeric(*args) && argc > 1)
-		{
-			print_cmd_err("exit", "too many arguments");
-			// doesn't exit, status 1
-			return (FAILURE);
-		}
-		exit_stat = ft_atoll(*args, &nbr_range_error);
-		if (nbr_range_error)
-		{
-			print_str_arg_err(*args);
-			// cleanup
-			exit(2);
-		}
+			return (print_cmd_err("exit", "too many arguments"), FAILURE);
 	}
-	ft_putendl_fd("exit", STDOUT_FILENO);
-	// cleanup before exit?
-	exit(exit_stat & 255);
+	ft_putendl_fd("exit", STDERR_FILENO);
+	cleanup_exit(env, head);
+	exit(exit_stat);
 }

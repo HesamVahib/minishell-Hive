@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenz_util_quotes.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hvahib <hvahib@student.hive.fi>            +#+  +:+       +#+        */
+/*   By: michoi <michoi@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 12:42:47 by hvahib            #+#    #+#             */
-/*   Updated: 2025/05/08 14:08:07 by hvahib           ###   ########.fr       */
+/*   Updated: 2025/06/03 18:33:48 by michoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ char	**quotes_chkr(char **cmd_line)
 		}
 		i++;
 	}
-	if (in_single || in_double)
+	if (in_single || in_double) //leak
 		return (NULL);
 	return (cmd_line);
 
@@ -50,8 +50,10 @@ char	*remove_adjacent_quotes(char *str)
 	char	current_quote;
 	int		in_quote;
 
-
 	new_str = malloc(strlen(str) + 1);
+	// Check this???
+	if (!new_str)
+		return (NULL);
 	j = 0;
 	k = 0;
 	in_quote = 0;

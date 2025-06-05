@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   clean_utility.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hvahib <hvahib@student.hive.fi>            +#+  +:+       +#+        */
+/*   By: michoi <michoi@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 12:39:07 by hvahib            #+#    #+#             */
-/*   Updated: 2025/05/08 13:29:30 by hvahib           ###   ########.fr       */
+/*   Updated: 2025/06/03 00:20:16 by michoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 t_env	*cleanup_env(t_env *env_list)
 {
 	t_env	*temp;
-
+	temp = NULL;
 	while (env_list)
 	{
 		temp = env_list->next;

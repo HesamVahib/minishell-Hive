@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmd_syntax_analyzer.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hvahib <hvahib@student.hive.fi>            +#+  +:+       +#+        */
+/*   By: michoi <michoi@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 12:39:15 by hvahib            #+#    #+#             */
-/*   Updated: 2025/05/16 15:05:03 by hvahib           ###   ########.fr       */
+/*   Updated: 2025/06/03 18:35:46 by michoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,11 +43,11 @@ char	**syntax_analyzer(char **tokenz)
 	{
 		if (!ft_strncmp(tokenz[i], "|", 1) && i == 0)
 			return (printf("syntax error near unexpected token `%s'\n",
-					tokenz[i]), NULL);
+					tokenz[i]), NULL); //leak
 		if (is_operator(tokenz[i]))
 		{
 			if (check_consecutive_ops(tokenz, i))
-				return (NULL);
+				return (NULL); //leak
 		}
 		i++;
 	}

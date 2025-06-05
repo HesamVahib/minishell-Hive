@@ -6,7 +6,7 @@
 /*   By: michoi <michoi@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 12:39:47 by hvahib            #+#    #+#             */
-/*   Updated: 2025/05/30 21:13:00 by michoi           ###   ########.fr       */
+/*   Updated: 2025/06/05 13:35:10 by michoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,15 +16,15 @@ void	exit_run(t_env *env)
 {
 	int	exit_code;
 
-	printf("exit\n");
+	ft_putendl_fd("exit", STDERR_FILENO); //stderr
 	exit_code = set_and_get_exit_status(0, false);
 	cleanup_env(env);
-	if (signal(SIGINT, SIG_DFL) == SIG_ERR)
-		exit(1);
-	if (signal(SIGQUIT, SIG_DFL) == SIG_ERR)
-		exit(1);
-	if (change_mode(RUNNING_COMMAND))
-		exit(1);
+	// if (signal(SIGINT, SIG_DFL) == SIG_ERR)
+	// 	exit(1);
+	// if (signal(SIGQUIT, SIG_DFL) == SIG_ERR)
+	// 	exit(1);
+	// if (change_mode(RUNNING_COMMAND))
+	// 	exit(1);
 	exit(exit_code);
 }
 

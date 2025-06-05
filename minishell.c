@@ -6,7 +6,7 @@
 /*   By: michoi <michoi@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 12:41:23 by hvahib            #+#    #+#             */
-/*   Updated: 2025/06/02 17:59:08 by michoi           ###   ########.fr       */
+/*   Updated: 2025/06/04 14:18:14 by michoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,15 +28,16 @@ static int	executable(char *line)
 	return (0);
 }
 
-// for loop??????
 void	free_cmd_list(t_cmd *cmd_args)
 {
 	t_cmd *tmp;
-
+	t_cmd *head;
+	
+	tmp = NULL;
+	head = cmd_args;
 	while (cmd_args)
 	{
 		tmp = cmd_args->next;
-		// printf("cur: %s, tmp: %s\n", cmd_args->argv[0], tmp->argv[0]);
 		if (cmd_args->argv)
 			free_array(&cmd_args->argv);
 		free(cmd_args->infile);
@@ -45,6 +46,7 @@ void	free_cmd_list(t_cmd *cmd_args)
 		free_array(&cmd_args->heredoc_limiters);
 		cmd_args = tmp;
 	}
+	free(head);
 }
 
 void error_checking(t_cmd *cmd)
@@ -93,12 +95,13 @@ void	minishell(t_env_pack env_pack)
 			}
 			else
 				printf("something HAPPENED in tokenization\n");
+			free(tokenz);
 			if (cmd_args && cmd_args->argv && *(cmd_args->argv))
-				execution(cmd_args, env_pack.mshell_env);
+				execution(cmd_args, &env_pack);
 			free_cmd_list(cmd_args);
 			restore_std_fd(env_pack);
 			// reset the the fd's to get back to the default one if something like | (pipe) had appled on std's
-			printf("exit stat: %d\n", set_and_get_exit_status(-1, false));
+			// printf("exit stat: %d\n", set_and_get_exit_status(-1, false));
 		}
 		free(line);
 	}

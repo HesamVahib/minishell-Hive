@@ -6,7 +6,7 @@
 /*   By: michoi <michoi@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/17 18:27:17 by michoi            #+#    #+#             */
-/*   Updated: 2025/05/31 19:23:32 by michoi           ###   ########.fr       */
+/*   Updated: 2025/06/04 14:20:54 by michoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,15 @@ void	run_command(t_cp *cp, char **env_arr)
 	}
 }
 
-int	execute_single_cmd(const char **builtins, t_cmd *cmd, t_env *env)
+void	cleanup_process(t_cmd *cmd, t_env *env, t_cmd *head)
+{
+	cleanup_env(env);
+	close_files(cmd);
+	free_cmd_list(head);
+}
+
+int	execute_single_cmd(const char **builtins, t_cmd *cmd, t_env *env,
+		t_cmd *head)
 {
 	pid_t	child_pid;
 	int		wait_stat;
@@ -35,7 +43,7 @@ int	execute_single_cmd(const char **builtins, t_cmd *cmd, t_env *env)
 			return (FAILURE);
 		if (duplicate_files(cmd))
 			return (FAILURE);
-		return (exec_builtin(env, cmd->argv[0], cmd->argv + 1));
+		return (exec_builtin(env, cmd, head));
 	}
 	else
 	{
@@ -43,7 +51,7 @@ int	execute_single_cmd(const char **builtins, t_cmd *cmd, t_env *env)
 		if (child_pid == -1)
 			return (FAILURE);
 		if (child_pid == 0)
-			exec_external_cmd(cmd, env);
+			exec_external_cmd(cmd, env, head);
 		if (close_files(cmd))
 			return (FAILURE);
 		if (wait_for_pid(child_pid, &wait_stat))
@@ -53,16 +61,16 @@ int	execute_single_cmd(const char **builtins, t_cmd *cmd, t_env *env)
 	return (SUCCESS);
 }
 
-int	run_single_cmd(const char **builtins, t_cmd *cmd, t_env *env)
+int	run_single_cmd(const char **builtins, t_cmd *cmd, t_env *env, t_cmd *head)
 {
 	if (cmd->error)
 		return (FAILURE);
-	set_and_get_exit_status(execute_single_cmd(builtins, cmd, env), true);
+	set_and_get_exit_status(execute_single_cmd(builtins, cmd, env, head), true);
 	return (SUCCESS);
 }
 
 void	execute_cmd_in_pipe(const char **builtins, t_pipe cmd_pipe,
-		t_cmd *cmd_args, t_env *env)
+		t_cmd *cmd_args, t_env *env, t_cmd *head)
 {
 	if (redirect_pipe(*cmd_args, cmd_pipe))
 		exit(EXIT_FAILURE);
@@ -73,16 +81,16 @@ void	execute_cmd_in_pipe(const char **builtins, t_pipe cmd_pipe,
 			exit(EXIT_FAILURE);
 		if (duplicate_files(cmd_args))
 			exit(EXIT_FAILURE);
-		exit(exec_builtin(env, cmd_args->argv[0], cmd_args->argv + 1));
+		exit(exec_builtin(env, cmd_args, head));
 		// return (FAILURE);
 	}
-	exec_external_cmd(cmd_args, env);
+	exec_external_cmd(cmd_args, env, head);
 }
 
-void	exec_external_cmd(t_cmd *cmd, t_env *env)
+void	exec_external_cmd(t_cmd *cmd, t_env *env, t_cmd *head)
 {
-	t_cp cp;
-	char **env_arr;
+	t_cp	cp;
+	char	**env_arr;
 
 	if (!ft_strcmp(cmd->argv[0], "..") || !ft_strcmp(cmd->argv[0], "."))
 	{
@@ -90,11 +98,15 @@ void	exec_external_cmd(t_cmd *cmd, t_env *env)
 		if (!ft_strcmp(cmd->argv[0], ".."))
 		{
 			print_path_err(cmd);
+			cleanup_env(env);
+			free_cmd_list(head);
 			exit(set_path_exit_code(127));
 		}
 		else if (!ft_strcmp(cmd->argv[0], "."))
 		{
 			print_cmd_err(cmd->argv[0], "filename argument required");
+			cleanup_env(env);
+			free_cmd_list(head);
 			exit(2);
 		}
 	}
@@ -103,6 +115,8 @@ void	exec_external_cmd(t_cmd *cmd, t_env *env)
 	if (!env_arr)
 	{
 		close_files(cmd);
+		cleanup_env(env);
+		free_cmd_list(head);
 		exit(EXIT_FAILURE);
 	}
 	cp.path = get_cmd_path(env, cmd->argv[0]);
@@ -111,14 +125,25 @@ void	exec_external_cmd(t_cmd *cmd, t_env *env)
 		free_array(&env_arr);
 		print_path_err(cmd);
 		close_files(cmd);
+		cleanup_env(env);
+		free_cmd_list(head);
 		exit(set_path_exit_code(errno));
 	}
 	if (open_files(cmd))
+	{
+		free_array(&env_arr);
+		free(cp.path);
+		cleanup_env(env);
+		free_cmd_list(head);
 		exit(EXIT_FAILURE);
+	}
 	if (duplicate_files(cmd))
 	{
 		free_array(&env_arr);
 		free(cp.path);
+		close_files(cmd);
+		cleanup_env(env);
+		free_cmd_list(head);
 		// close in/outfile?
 		exit(EXIT_FAILURE);
 	}

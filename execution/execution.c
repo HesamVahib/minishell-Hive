@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hvahib <hvahib@student.hive.fi>            +#+  +:+       +#+        */
+/*   By: michoi <michoi@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 22:01:29 by michoi            #+#    #+#             */
-/*   Updated: 2025/06/01 23:55:05 by hvahib           ###   ########.fr       */
+/*   Updated: 2025/06/04 15:03:36 by michoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,27 +57,33 @@ int	cleanup_fds_from_parent(t_cmd *cmd, t_pipe cmd_pipe)
 	return (SUCCESS);
 }
 
-int	execution(t_cmd *cmd_args, t_env *env)
+int	execution(t_cmd *cmd_args, t_env_pack *env_pack)
 {
+	t_env *env = env_pack->mshell_env;
+	cleanup_env(env_pack->sys_envlist);
+	env_pack->sys_envlist = NULL;
+	
 	const char	*builtins[] = {CMD_CD, CMD_ECHO, CMD_ENV, CMD_EXPORT, CMD_EXIT,
 			CMD_PWD, CMD_UNSET, NULL};
 	t_pipe		cmd_pipe;
 	pid_t		child_pid;
 	pid_t		last_pid;
+	t_cmd *head;
 	
+	head = cmd_args;
 	last_pid = -1; // PLEASE TAKE CARE THIS NUMBER
 	// single cmd
 	if (!cmd_args->next)
-		return (run_single_cmd(builtins, cmd_args, env));
+		return (run_single_cmd(builtins, cmd_args, env, head));
 	ft_memset(&cmd_pipe, -1, sizeof(t_pipe));
 	// multiple cmds
 	while (cmd_args)
 	{
-		if (cmd_args->error)
-		{
-			cmd_args = cmd_args->next;
-			continue ;
-		}
+		// if (cmd_args->error)
+		// {
+		// 	cmd_args = cmd_args->next;
+		// 	continue ;
+		// }
 		// init pipe
 		if (cmd_args->is_piped)
 		{
@@ -94,17 +100,17 @@ int	execution(t_cmd *cmd_args, t_env *env)
 		{
 			if (redirect_pipe(*cmd_args, cmd_pipe))
 				exit(EXIT_FAILURE);
-			if (is_in_array(builtins, cmd_args->argv[0]))
+			if (cmd_args->argv && is_in_array(builtins, cmd_args->argv[0]))
 			{
 				// cleanup
 				if (open_files(cmd_args))
 					exit(FAILURE);
 				if (duplicate_files(cmd_args))
 					exit(FAILURE);
-				exit(exec_builtin(env, cmd_args->argv[0], cmd_args->argv + 1));
+				exit(exec_builtin(env, cmd_args, head));
 				// return (FAILURE);
 			}
-			exec_external_cmd(cmd_args, env);
+			exec_external_cmd(cmd_args, env, head);
 		}
 		cleanup_fds_from_parent(cmd_args, cmd_pipe);
 		cmd_pipe.prev_fd = cmd_pipe.pipe_fd[0];

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expansion.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hvahib <hvahib@student.hive.fi>            +#+  +:+       +#+        */
+/*   By: michoi <michoi@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 12:39:57 by hvahib            #+#    #+#             */
-/*   Updated: 2025/05/30 19:48:29 by hvahib           ###   ########.fr       */
+/*   Updated: 2025/06/03 18:41:36 by michoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ static char	*copy_or_expand_token(char **tokenz, int i, t_env *env)
 
 	if ((tokenz[i][0] == '$'
 		&& tokenz[i][1] && tokenz[i][1] == '?'))
-			new_token= ft_itoa(set_and_get_exit_status(0, false));
+			new_token = ft_itoa(set_and_get_exit_status(0, false));
 	else
 	{
 		if (dollar_validated(tokenz[i]) == 1)
@@ -85,9 +85,9 @@ char	**dollar_expansion(char **tokenz, t_env *env)
 	char	**res;
 	int		i;
 
-	res = malloc((arrlen(tokenz) + 1) * sizeof(char *));
+	res = malloc((arrlen(tokenz) + 1) * sizeof(char *)); //leak
 	if (!res)
-		return (NULL);
+		return (NULL); //leak
 	i = -1;
 	while (tokenz[++i])
 	{
@@ -103,5 +103,5 @@ char	**dollar_expansion(char **tokenz, t_env *env)
 			return (NULL);
 	}
 	res[i] = NULL;
-	return (res);
+	return (res); //leak
 }

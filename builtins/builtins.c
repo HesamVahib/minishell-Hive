@@ -6,14 +6,19 @@
 /*   By: michoi <michoi@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 17:22:37 by michoi            #+#    #+#             */
-/*   Updated: 2025/05/25 01:25:15 by michoi           ###   ########.fr       */
+/*   Updated: 2025/06/04 13:50:42 by michoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/builtins.h"
 
-int	exec_builtin(t_env *env, char *cmd, char **args)
+int	exec_builtin(t_env *env, t_cmd *cmd_arg, t_cmd *head)
 {
+	char	*cmd;
+	char	**args;
+	
+	cmd = cmd_arg->argv[0];
+	args = cmd_arg->argv + 1;
 	if (!ft_strncmp(cmd, CMD_CD, ft_strlen(cmd)))
 		return (cmd_cd(env, args));
 	if (!ft_strncmp(cmd, CMD_ECHO, ft_strlen(cmd)))
@@ -21,7 +26,7 @@ int	exec_builtin(t_env *env, char *cmd, char **args)
 	if (!ft_strncmp(cmd, CMD_ENV, ft_strlen(cmd)))
 		return (cmd_env(env, args));
 	if (!ft_strncmp(cmd, CMD_EXIT, ft_strlen(cmd)))
-		return (cmd_exit(args));
+		return (cmd_exit(env, cmd_arg, head));
 	if (!ft_strncmp(cmd, CMD_EXPORT, ft_strlen(cmd)))
 		return (cmd_export(env, args));
 	if (!ft_strncmp(cmd, CMD_PWD, ft_strlen(cmd)))
