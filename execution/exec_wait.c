@@ -6,7 +6,7 @@
 /*   By: michoi <michoi@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/29 19:10:38 by michoi            #+#    #+#             */
-/*   Updated: 2025/06/02 23:23:53 by michoi           ###   ########.fr       */
+/*   Updated: 2025/06/06 19:47:25 by michoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,16 @@ int	handle_exit_status(int wait_stat)
 	if (WIFEXITED(wait_stat))
 		return (WEXITSTATUS(wait_stat));
 	if (WIFSIGNALED(wait_stat))
+	{
+		if (WTERMSIG(wait_stat) == SIGINT)
+			write(2, "\n", 1);
+		else if (WTERMSIG(wait_stat) == SIGQUIT)
+		{
+			ft_putstr_fd("hello??", STDERR_FILENO);
+			ft_putstr_fd("Quit\n", STDERR_FILENO);
+		}
 		return (128 + WTERMSIG(wait_stat));
+	}
 	return (-1);
 }
 

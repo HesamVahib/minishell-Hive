@@ -6,20 +6,16 @@
 /*   By: michoi <michoi@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 22:01:29 by michoi            #+#    #+#             */
-/*   Updated: 2025/06/04 15:03:36 by michoi           ###   ########.fr       */
+/*   Updated: 2025/06/06 19:49:00 by michoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/execution.h"
 
-// temp
-void	print_arr(char **arr)
+static void	sigquit_handler(sig)
 {
-	while (*arr)
-	{
-		printf("%s\n", *arr);
-		arr++;
-	}
+	g_signal = sig;
+	write(2, "Quit\n", 5);
 }
 
 int	redirect_pipe(t_cmd cmd, t_pipe cmd_pipe)
@@ -97,7 +93,8 @@ int	execution(t_cmd *cmd_args, t_env_pack *env_pack)
 		if (!cmd_args->next)
 			last_pid = child_pid;
 		if (child_pid == 0)
-		{
+		{		
+			signal(SIGQUIT, sigquit_handler);
 			if (redirect_pipe(*cmd_args, cmd_pipe))
 				exit(EXIT_FAILURE);
 			if (cmd_args->argv && is_in_array(builtins, cmd_args->argv[0]))

@@ -6,7 +6,7 @@
 /*   By: michoi <michoi@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 21:19:52 by michoi            #+#    #+#             */
-/*   Updated: 2025/06/04 14:32:57 by michoi           ###   ########.fr       */
+/*   Updated: 2025/06/06 19:37:23 by michoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,10 +51,10 @@ static bool	is_numeric(char *input)
 */
 int	cmd_exit(t_env *env, t_cmd *cmd, t_cmd *head)
 {
-	int		exit_stat;
-	int		argc;
-	int		nbr_range_error;
-	char	**args;
+	long long	exit_stat;
+	int			argc;
+	int			nbr_range_error;
+	char		**args;
 
 	args = cmd->argv + 1;
 	nbr_range_error = 0;

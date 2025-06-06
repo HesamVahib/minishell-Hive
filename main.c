@@ -6,13 +6,13 @@
 /*   By: michoi <michoi@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 12:41:07 by hvahib            #+#    #+#             */
-/*   Updated: 2025/05/30 20:10:23 by michoi           ###   ########.fr       */
+/*   Updated: 2025/06/06 17:35:57 by michoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./include/minishell.h"
 
-volatile int	g_signal;
+volatile sig_atomic_t	g_signal;
 
 int	main(int ac, char **av, char **envp)
 {
