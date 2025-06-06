@@ -81,11 +81,9 @@ static	void	open_heredoc(char **limiters)
 	int		fd;
 	char	*main_limiter;
 	int		i;
-	char	*filename;
 
 	i = 0;
 	main_limiter = find_last_limiter(limiters);
-	filename = NULL;
 	rl_on_new_line();
 	rl_replace_line("", 0);
 	while (limiters[i] != NULL)
@@ -102,12 +100,8 @@ static	void	open_heredoc(char **limiters)
 
 int	heredoc_processing(t_cmd *cmd_args)
 {
-	t_cmd	*temp;
-
 	if (!cmd_args)
 		return (0);
-	temp = cmd_args;
-
 	while (cmd_args && cmd_args->is_heredoc)
 	{
 		open_heredoc(cmd_args->heredoc_limiters);
