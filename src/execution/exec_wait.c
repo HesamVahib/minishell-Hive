@@ -6,7 +6,7 @@
 /*   By: michoi <michoi@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/29 19:10:38 by michoi            #+#    #+#             */
-/*   Updated: 2025/06/07 20:16:48 by michoi           ###   ########.fr       */
+/*   Updated: 2025/06/07 23:04:30 by michoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 int	wait_for_pid(pid_t pid, int *stat)
 {
 	signal(SIGINT, SIG_IGN);
+	signal(SIGQUIT, SIG_IGN);
 	if (waitpid(pid, stat, 0) == -1)
 	{
 		perror("waitpid failed");
@@ -57,9 +58,7 @@ int	handle_exit_status(int wait_stat)
 		if (WTERMSIG(wait_stat) == SIGINT)
 			ft_putchar_fd('\n', STDERR_FILENO);
 		else if (WTERMSIG(wait_stat) == SIGQUIT)
-		{
-			ft_putstr_fd("Quit (core dumped)\n", STDERR_FILENO);
-		}
+			ft_putendl_fd("Quit (core dumped)", STDERR_FILENO);
 		return (128 + WTERMSIG(wait_stat));
 	}
 	return (-1);

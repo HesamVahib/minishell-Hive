@@ -6,7 +6,7 @@
 /*   By: michoi <michoi@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 12:42:32 by hvahib            #+#    #+#             */
-/*   Updated: 2025/06/07 14:51:09 by michoi           ###   ########.fr       */
+/*   Updated: 2025/06/07 23:08:40 by michoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,10 @@ void	sighandler(int signal)
 		rl_on_new_line();
 		rl_replace_line("", STDIN_FILENO);
 		rl_redisplay();
-		
 	}
 	else if (signal == SIGQUIT)
 		printf("Quit: %d\n", signal);
+	set_and_get_exit_status(128 + signal, true);
 }
 
 int	sig_handler_heredoc(void)

@@ -6,17 +6,11 @@
 /*   By: michoi <michoi@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 22:01:29 by michoi            #+#    #+#             */
-/*   Updated: 2025/06/07 14:49:38 by michoi           ###   ########.fr       */
+/*   Updated: 2025/06/07 23:04:38 by michoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/execution.h"
-
-static void	sigquit_handler(sig)
-{
-	g_signal = sig;
-	write(2, "Quit\n", 5);
-}
 
 int	redirect_pipe(t_cmd cmd, t_pipe cmd_pipe)
 {
@@ -94,7 +88,7 @@ int	execution(t_cmd *cmd_args, t_env_pack *env_pack)
 			last_pid = child_pid;
 		if (child_pid == 0)
 		{		
-			signal(SIGQUIT, sigquit_handler);
+			signal(SIGQUIT, SIG_DFL);
 			if (redirect_pipe(*cmd_args, cmd_pipe))
 				exit(EXIT_FAILURE);
 			if (cmd_args->argv && is_in_array(builtins, cmd_args->argv[0]))

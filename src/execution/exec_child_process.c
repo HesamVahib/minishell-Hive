@@ -6,7 +6,7 @@
 /*   By: michoi <michoi@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/17 18:27:17 by michoi            #+#    #+#             */
-/*   Updated: 2025/06/07 14:49:38 by michoi           ###   ########.fr       */
+/*   Updated: 2025/06/07 23:02:57 by michoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ int	execute_single_cmd(const char **builtins, t_cmd *cmd, t_env *env,
 {
 	pid_t	child_pid;
 	int		wait_stat;
-
+	
 	if (is_in_array(builtins, cmd->argv[0]))
 	{
 		if (open_files(cmd))
@@ -65,6 +65,7 @@ int	run_single_cmd(const char **builtins, t_cmd *cmd, t_env *env, t_cmd *head)
 {
 	if (cmd->error)
 		return (FAILURE);
+	signal(SIGQUIT, SIG_DFL);
 	set_and_get_exit_status(execute_single_cmd(builtins, cmd, env, head), true);
 	return (SUCCESS);
 }
