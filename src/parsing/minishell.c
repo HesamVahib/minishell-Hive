@@ -6,7 +6,7 @@
 /*   By: michoi <michoi@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 12:41:23 by hvahib            #+#    #+#             */
-/*   Updated: 2025/06/07 15:27:09 by michoi           ###   ########.fr       */
+/*   Updated: 2025/06/07 18:58:30 by michoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,6 @@ void error_checking(t_cmd *cmd)
 			print_cmd_err(cmd->infile, strerror(2));
 		if (cmd->error == 1) // it means no such file or directory
 			print_cmd_err(cmd->outfile, strerror(2));
-
 		cmd = cmd->next;
 	}
 }

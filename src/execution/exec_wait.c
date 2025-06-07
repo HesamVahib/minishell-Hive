@@ -6,7 +6,7 @@
 /*   By: michoi <michoi@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/29 19:10:38 by michoi            #+#    #+#             */
-/*   Updated: 2025/06/07 14:49:38 by michoi           ###   ########.fr       */
+/*   Updated: 2025/06/07 20:16:48 by michoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,14 +23,26 @@ int	wait_for_pid(pid_t pid, int *stat)
 	return (SUCCESS);
 }
 
+/*
+	ECHILD: no more children (normal)
+	EINTR: Interrupted: try again
+*/
 static int	wait_for_the_rest(void)
 {
-	while (wait(0) > 0)
+	while (1)
 	{
-		if (errno && errno != ECHILD && errno != EINTR)
+		errno = 0;
+		if (wait(0) == -1)
 		{
-			perror("wait failed");
-			return (FAILURE);
+			if (errno == ECHILD)
+				break;
+			else if (errno == EINTR)
+				continue;
+			else
+			{
+				perror("wait failed");
+				return (FAILURE);
+			}
 		}
 	}
 	return (SUCCESS);
@@ -43,11 +55,10 @@ int	handle_exit_status(int wait_stat)
 	if (WIFSIGNALED(wait_stat))
 	{
 		if (WTERMSIG(wait_stat) == SIGINT)
-			write(2, "\n", 1);
+			ft_putchar_fd('\n', STDERR_FILENO);
 		else if (WTERMSIG(wait_stat) == SIGQUIT)
 		{
-			ft_putstr_fd("hello??", STDERR_FILENO);
-			ft_putstr_fd("Quit\n", STDERR_FILENO);
+			ft_putstr_fd("Quit (core dumped)\n", STDERR_FILENO);
 		}
 		return (128 + WTERMSIG(wait_stat));
 	}

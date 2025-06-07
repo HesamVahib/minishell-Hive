@@ -6,7 +6,7 @@
 /*   By: michoi <michoi@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 21:19:52 by michoi            #+#    #+#             */
-/*   Updated: 2025/06/07 14:50:01 by michoi           ###   ########.fr       */
+/*   Updated: 2025/06/07 20:21:31 by michoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ int	cmd_exit(t_env *env, t_cmd *cmd, t_cmd *head)
 	args = cmd->argv + 1;
 	nbr_range_error = 0;
 	if (!args || !*args)
-		exit_stat = 0;
+		exit_stat = set_and_get_exit_status(0, false);
 	else
 	{
 		exit_stat = ft_atoll(*args, &nbr_range_error);
@@ -75,5 +75,5 @@ int	cmd_exit(t_env *env, t_cmd *cmd, t_cmd *head)
 	}
 	ft_putendl_fd("exit", STDERR_FILENO);
 	cleanup_exit(env, head);
-	exit(exit_stat);
+	exit(exit_stat & 255);
 }

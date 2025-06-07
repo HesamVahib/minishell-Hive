@@ -6,7 +6,7 @@
 /*   By: michoi <michoi@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 14:44:09 by michoi            #+#    #+#             */
-/*   Updated: 2025/05/10 16:06:47 by michoi           ###   ########.fr       */
+/*   Updated: 2025/06/07 18:06:30 by michoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ char	*ft_strdup(const char *s)
 	int		len;
 	char	*dup;
 
-	if(!s)
+	if (!s)
 		return (0);
 	len = ft_strlen(s);
 	dup = (char *)malloc(sizeof(char) * (len + 1));

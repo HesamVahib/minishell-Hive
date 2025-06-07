@@ -6,7 +6,7 @@
 /*   By: michoi <michoi@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/18 00:44:35 by michoi            #+#    #+#             */
-/*   Updated: 2025/06/07 14:49:38 by michoi           ###   ########.fr       */
+/*   Updated: 2025/06/07 19:04:50 by michoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,16 +43,31 @@ int	open_files(t_cmd *cmd_list)
 	int	heredoc_fd;
 
 	// printf("%s, %s\n", cmd_list->outfile, cmd_list->infile);
-	// Do I have to open heredoc for redirection if I should open the outfile?
-	if (cmd_list->is_heredoc)
+	if (cmd_list->redirect_order && cmd_list->redirect_order == 1)
 	{
-		heredoc_fd = open_heredoc_file(cmd_list->is_heredoc);
-		if (heredoc_fd == -1)
+		if (cmd_list->infile)
 		{
-			print_cmd_err(cmd_list->is_heredoc, strerror(errno));
-			return (FAILURE);
+			infile_fd = open(cmd_list->infile, O_RDONLY);
+			if (infile_fd == -1)
+			{
+				// print_cmd_err(cmd_list->infile, strerror(errno));
+				return (FAILURE);
+			}
+			cmd_list->infile_fd = infile_fd;
 		}
-		cmd_list->heredoc_fd = heredoc_fd;
+	}
+	else if (cmd_list->redirect_order && cmd_list->redirect_order == 2)
+	{
+		if (cmd_list->is_heredoc)
+		{
+			heredoc_fd = open_heredoc_file(cmd_list->is_heredoc);
+			if (heredoc_fd == -1)
+			{
+				// print_cmd_err(cmd_list->is_heredoc, strerror(errno));
+				return (FAILURE);
+			}
+			cmd_list->heredoc_fd = heredoc_fd;
+		}
 	}
 	if (cmd_list->outfile)
 	{
@@ -68,16 +83,6 @@ int	open_files(t_cmd *cmd_list)
 			return (FAILURE);
 		}
 		cmd_list->outfile_fd = outfile_fd;
-	}
-	if (cmd_list->infile)
-	{
-		infile_fd = open(cmd_list->infile, O_RDONLY);
-		if (infile_fd == -1)
-		{
-			print_cmd_err(cmd_list->infile, strerror(errno));
-			return (FAILURE);
-		}
-		cmd_list->infile_fd = infile_fd;
 	}
 	return (SUCCESS);
 }
