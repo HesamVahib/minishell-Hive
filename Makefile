@@ -1,18 +1,20 @@
 NAME = minishell
 FLAGS = -Wall -Werror -Wextra -g
 CC = cc
+SRCDIR=src
+OBJDIR=obj
 DEBUG_FLAGS = -fsanitize=leak -fsanitize=address -fsanitize=undefined
 LIBFT_DIR = ./lib/libft
 LIBFT = $(LIBFT_DIR)/libft.a
 VPATH = builtins execution
 
-SRC_BUILTIN = builtins.c cmd_cd.c cmd_echo.c cmd_env.c cmd_exit.c \
-				cmd_pwd.c cmd_utils.c cmd_unset.c cmd_export.c
+SRC_BUILTIN = $(addprefix builtins/, builtins.c cmd_cd.c cmd_echo.c cmd_env.c cmd_exit.c \
+				cmd_pwd.c cmd_utils.c cmd_unset.c cmd_export.c)
 
-SRC_EXEC =	execution.c exec_path.c exec_utils.c exec_child_process.c exec_init.c exec_open.c \
-			exec_wait.c
+SRC_EXEC =	$(addprefix execution/,execution.c exec_path.c exec_utils.c exec_child_process.c exec_init.c exec_open.c \
+			exec_wait.c)
 
-SRC_PART = 	main.c \
+SRC_PARS = $(addprefix parsing/, main.c \
 			clean_utility.c \
 			custom_export.c \
 			env_list_creator.c \
@@ -39,12 +41,14 @@ SRC_PART = 	main.c \
 			ft_cmdlen.c \
 			tokenz_util_quotes.c \
 			print_cmd_temp.c \
-			exit_stat.c \
-			$(SRC_BUILTIN) $(SRC_EXEC)
+			exit_stat.c)
+			
+SRC_PART = $(addprefix $(SRCDIR)/,$(SRC_BUILTIN) $(SRC_EXEC) $(SRC_PARS))
 
-OBJ_PART = $(SRC_PART:.c=.o)
+OBJ_PART = $(SRC_PART:$(SRCDIR)%.c=$(OBJDIR)%.o)
 
-%.o: %.c
+$(OBJDIR)/%.o: $(SRCDIR)/%.c
+	@mkdir -p $(dir $@)
 	@$(CC) $(FLAGS) -o $@ -c $<
 	@echo "\033[90m[\033[32mOK\033[90m]\033[34m Compiling $<\033[0m"
 
@@ -57,7 +61,7 @@ all: $(NAME)
 
 clean:
 	@$(MAKE) clean -C $(LIBFT_DIR)
-	@/bin/rm -f $(OBJ_PART)
+	@/bin/rm -rf $(OBJ_PART) $(OBJDIR)
 	@echo "\033[90m[\033[91mDeleting\033[90m]\033[31m Object files deleted\033[0m"
 
 fclean: clean
