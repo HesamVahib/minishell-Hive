@@ -6,11 +6,85 @@
 /*   By: michoi <michoi@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/11 21:47:21 by michoi            #+#    #+#             */
-/*   Updated: 2025/06/07 14:50:01 by michoi           ###   ########.fr       */
+/*   Updated: 2025/06/09 21:08:20 by michoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/builtins.h"
+
+t_env	*clone_env_node(t_env *env)
+{
+	t_env	*env_node_copy;
+
+	if (!env)
+		return (NULL);
+	env_node_copy = malloc(sizeof(t_env));
+	if (!env_node_copy)
+		return (NULL);
+	env_node_copy->key = ft_strdup(env->key);
+	env_node_copy->value = ft_strdup(env->value);
+	env_node_copy->next = NULL;
+	return (env_node_copy);
+}
+
+t_env	*clone_env_list(t_env *env)
+{
+	t_env	*head;
+	t_env	*cur;
+	t_env	*new_env;
+
+	if (!env)
+		return (NULL);
+	head = clone_env_node(env);
+	if (!head)
+		return (NULL);
+	env = env->next;
+	cur = head;
+	while (env)
+	{
+		new_env = clone_env_node(env);
+		if (!new_env)
+		{
+			cleanup_env(head);
+			return (NULL);
+		}
+		cur->next = new_env;
+		cur = new_env;
+		env = env->next;
+	}
+	return (head);
+}
+
+t_env	*sort_export_list(t_env **env)
+{
+	t_env	*head;
+	t_env	*former;
+	t_env	*latter;
+	bool	swapped;
+
+	if(!env || !*env)
+		return (NULL);
+	head = *env;
+	former = *env;
+	swapped = true;
+	while (swapped)
+	{
+		swapped = false;
+		while (former->next)
+		{
+			latter = former->next;
+			if (ft_strcmp(former->key, latter->key) > 0)
+			{
+				former->next = latter->next;
+				latter->next = former;
+				if (former == head)
+					head = latter;
+			}
+			former = former->next;
+		}
+	}
+	return (head);
+}
 
 // number, underscore, alphabets
 static bool	is_right_key_name(char *key)
@@ -31,36 +105,36 @@ static bool	is_right_key_name(char *key)
 
 static void	print_export_list(t_env *env)
 {
+	t_env	*env_copy;
+	t_env	*env_copy_head;
+
 	if (!env)
+	{
+		ft_putendl_fd("env list is empty", STDERR_FILENO);
 		return ;
-	// sort_export_list(&env);
-	while (env)
+	}
+	env_copy = clone_env_list(env);
+	if (!env_copy)
+		return ;
+	sort_export_list(&env_copy);
+	if (!env_copy)
+		return ;
+	env_copy_head = env_copy;
+	while (env_copy)
 	{
 		ft_putstr_fd("declare -x ", STDOUT_FILENO);
-		ft_putstr_fd(env->key, STDOUT_FILENO);
-		if (env->value)
+		ft_putstr_fd(env_copy->key, STDOUT_FILENO);
+		if (env_copy->value)
 		{
 			ft_putstr_fd("=\"", STDOUT_FILENO);
-			ft_putstr_fd(env->value, STDOUT_FILENO);
+			ft_putstr_fd(env_copy->value, STDOUT_FILENO);
 			ft_putendl_fd("\"", STDOUT_FILENO);
 		}
 		else
 			ft_putchar_fd('\n', STDOUT_FILENO);
-		env = env->next;
+		env_copy = env_copy->next;
 	}
-}
-int	get_idx(char *s, char c)
-{
-	int	i;
-
-	i = 0;
-	while (s[i])
-	{
-		if (s[i] == c)
-			return (i);
-		i++;
-	}
-	return (-1);
+	cleanup_env(env_copy_head);
 }
 
 static int	check_key_name(char *arg)
@@ -71,7 +145,7 @@ static int	check_key_name(char *arg)
 		ft_putstr_fd("export: `", STDERR_FILENO);
 		ft_putstr_fd(arg, STDERR_FILENO);
 		ft_putendl_fd("': not a valid identifier", STDERR_FILENO);
-		return (FAILURE); // exit 1
+		return (FAILURE);
 	}
 	return (SUCCESS);
 }
@@ -128,14 +202,13 @@ int	cmd_export(t_env *env, char **args)
 	while (*args)
 	{
 		if (check_key_name(*args))
-			return (FAILURE); // exit 1
+			return (FAILURE);
 		// split with =
 		if (export_key_value(*args, env))
 			return (FAILURE);
 		// printf("key: %s, val: %s idx: %d\n", key, value, key_index);
 		args++;
 	}
-	// exit code 127 --> what was that :D
 	return (SUCCESS);
 }
 

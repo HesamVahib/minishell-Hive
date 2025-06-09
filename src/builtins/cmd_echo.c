@@ -6,7 +6,7 @@
 /*   By: michoi <michoi@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/06 21:39:53 by michoi            #+#    #+#             */
-/*   Updated: 2025/06/07 14:50:01 by michoi           ###   ########.fr       */
+/*   Updated: 2025/06/09 18:10:19 by michoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ static bool	is_valid_n_flag(char *s)
 		return (false);
 	if (s[0] != '-')
 		return (false);
-	if (s[0] == '-' && !s[1])
+	if (s[0] == '-' && s[1] == '\0')
 		return (false);
 	i = 1;
 	while (s[i])

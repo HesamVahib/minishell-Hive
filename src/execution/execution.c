@@ -6,7 +6,7 @@
 /*   By: michoi <michoi@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 22:01:29 by michoi            #+#    #+#             */
-/*   Updated: 2025/06/07 23:04:38 by michoi           ###   ########.fr       */
+/*   Updated: 2025/06/09 19:55:13 by michoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,11 +62,9 @@ int	execution(t_cmd *cmd_args, t_env_pack *env_pack)
 	
 	head = cmd_args;
 	last_pid = -1; // PLEASE TAKE CARE THIS NUMBER
-	// single cmd
 	if (!cmd_args->next)
-		return (run_single_cmd(builtins, cmd_args, env, head));
+		return (run_single_cmd(builtins, cmd_args, env));
 	ft_memset(&cmd_pipe, -1, sizeof(t_pipe));
-	// multiple cmds
 	while (cmd_args)
 	{
 		// if (cmd_args->error)
@@ -80,7 +78,6 @@ int	execution(t_cmd *cmd_args, t_env_pack *env_pack)
 			if (init_pipe(cmd_pipe.pipe_fd))
 				return (FAILURE);
 		}
-		// fork
 		child_pid = init_child_process();
 		if (child_pid == -1)
 			return (FAILURE);
@@ -98,10 +95,9 @@ int	execution(t_cmd *cmd_args, t_env_pack *env_pack)
 					exit(FAILURE);
 				if (duplicate_files(cmd_args))
 					exit(FAILURE);
-				exit(exec_builtin(env, cmd_args, head));
-				// return (FAILURE);
+				exit(exec_builtin(env, cmd_args));
 			}
-			exec_external_cmd(cmd_args, env, head);
+			exec_external_cmd(cmd_args, env);
 		}
 		cleanup_fds_from_parent(cmd_args, cmd_pipe);
 		cmd_pipe.prev_fd = cmd_pipe.pipe_fd[0];

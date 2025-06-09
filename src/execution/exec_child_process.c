@@ -12,38 +12,39 @@
 
 #include "../../include/execution.h"
 
-void	run_command(t_cp *cp, char **env_arr)
+void	cleanup_process(t_cmd *cmd, t_env *env)
+{
+	cleanup_env(env);
+	close_files(cmd);
+	free_cmd_list(cmd);
+}
+
+int	run_command(t_cp *cp, char **env_arr)
 {
 	if (execve(cp->path, cp->args, env_arr))
 	{
 		free(cp->path);
 		free_array(&env_arr);
 		perror("execve failed");
-		exit(EXIT_FAILURE);
+		// exit(EXIT_FAILURE);
 		// close file?
+		return (FAILURE);
 	}
+	return (SUCCESS);
 }
 
-void	cleanup_process(t_cmd *cmd, t_env *env, t_cmd *head)
-{
-	cleanup_env(env);
-	close_files(cmd);
-	free_cmd_list(head);
-}
-
-int	execute_single_cmd(const char **builtins, t_cmd *cmd, t_env *env,
-		t_cmd *head)
+int	execute_single_cmd(const char **builtins, t_cmd *cmd, t_env *env)
 {
 	pid_t	child_pid;
 	int		wait_stat;
-	
+
 	if (is_in_array(builtins, cmd->argv[0]))
 	{
 		if (open_files(cmd))
 			return (FAILURE);
 		if (duplicate_files(cmd))
 			return (FAILURE);
-		return (exec_builtin(env, cmd, head));
+		return (exec_builtin(env, cmd));
 	}
 	else
 	{
@@ -51,7 +52,7 @@ int	execute_single_cmd(const char **builtins, t_cmd *cmd, t_env *env,
 		if (child_pid == -1)
 			return (FAILURE);
 		if (child_pid == 0)
-			exec_external_cmd(cmd, env, head);
+			exec_external_cmd(cmd, env);
 		if (close_files(cmd))
 			return (FAILURE);
 		if (wait_for_pid(child_pid, &wait_stat))
@@ -61,17 +62,17 @@ int	execute_single_cmd(const char **builtins, t_cmd *cmd, t_env *env,
 	return (SUCCESS);
 }
 
-int	run_single_cmd(const char **builtins, t_cmd *cmd, t_env *env, t_cmd *head)
+int	run_single_cmd(const char **builtins, t_cmd *cmd, t_env *env)
 {
 	if (cmd->error)
 		return (FAILURE);
 	signal(SIGQUIT, SIG_DFL);
-	set_and_get_exit_status(execute_single_cmd(builtins, cmd, env, head), true);
+	set_and_get_exit_status(execute_single_cmd(builtins, cmd, env), true);
 	return (SUCCESS);
 }
 
 void	execute_cmd_in_pipe(const char **builtins, t_pipe cmd_pipe,
-		t_cmd *cmd_args, t_env *env, t_cmd *head)
+		t_cmd *cmd_args, t_env *env)
 {
 	if (redirect_pipe(*cmd_args, cmd_pipe))
 		exit(EXIT_FAILURE);
@@ -82,13 +83,13 @@ void	execute_cmd_in_pipe(const char **builtins, t_pipe cmd_pipe,
 			exit(EXIT_FAILURE);
 		if (duplicate_files(cmd_args))
 			exit(EXIT_FAILURE);
-		exit(exec_builtin(env, cmd_args, head));
+		exit(exec_builtin(env, cmd_args));
 		// return (FAILURE);
 	}
-	exec_external_cmd(cmd_args, env, head);
+	exec_external_cmd(cmd_args, env);
 }
 
-void	exec_external_cmd(t_cmd *cmd, t_env *env, t_cmd *head)
+void	exec_external_cmd(t_cmd *cmd, t_env *env)
 {
 	t_cp	cp;
 	char	**env_arr;
@@ -100,14 +101,14 @@ void	exec_external_cmd(t_cmd *cmd, t_env *env, t_cmd *head)
 		{
 			print_path_err(cmd);
 			cleanup_env(env);
-			free_cmd_list(head);
+			free_cmd_list(cmd);
 			exit(set_path_exit_code(127));
 		}
 		else if (!ft_strcmp(cmd->argv[0], "."))
 		{
 			print_cmd_err(cmd->argv[0], "filename argument required");
 			cleanup_env(env);
-			free_cmd_list(head);
+			free_cmd_list(cmd);
 			exit(2);
 		}
 	}
@@ -117,7 +118,7 @@ void	exec_external_cmd(t_cmd *cmd, t_env *env, t_cmd *head)
 	{
 		close_files(cmd);
 		cleanup_env(env);
-		free_cmd_list(head);
+		free_cmd_list(cmd);
 		exit(EXIT_FAILURE);
 	}
 	cp.path = get_cmd_path(env, cmd->argv[0]);
@@ -136,7 +137,7 @@ void	exec_external_cmd(t_cmd *cmd, t_env *env, t_cmd *head)
 		free_array(&env_arr);
 		free(cp.path);
 		cleanup_env(env);
-		free_cmd_list(head);
+		free_cmd_list(cmd);
 		exit(EXIT_FAILURE);
 	}
 	if (duplicate_files(cmd))
@@ -145,10 +146,15 @@ void	exec_external_cmd(t_cmd *cmd, t_env *env, t_cmd *head)
 		free(cp.path);
 		close_files(cmd);
 		cleanup_env(env);
-		free_cmd_list(head);
+		free_cmd_list(cmd);
 		// close in/outfile?
 		exit(EXIT_FAILURE);
 	}
 	cp.args = cmd->argv;
-	run_command(&cp, env_arr);
+	if (run_command(&cp, env_arr))
+	{
+		close_files(cmd);
+		cleanup_env(env);
+		free_cmd_list(cmd);
+	}
 }

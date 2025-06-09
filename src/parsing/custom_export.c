@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   custom_export.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hvahib <hvahib@student.hive.fi>            +#+  +:+       +#+        */
+/*   By: michoi <michoi@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 12:39:20 by hvahib            #+#    #+#             */
 /*   Updated: 2025/06/09 18:30:54 by hvahib           ###   ########.fr       */
@@ -88,7 +88,10 @@ t_env	*custom_export(t_env *env_list, char *key, char *value)
 	if (temp)
 	{
 		if (temp->value)
+		{
 			free(temp->value);
+			temp->value = NULL;
+		}
 		if (value && *value)
 		{
 			temp->value = ft_strdup(value);

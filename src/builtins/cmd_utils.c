@@ -6,14 +6,14 @@
 /*   By: michoi <michoi@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/12 21:26:19 by michoi            #+#    #+#             */
-/*   Updated: 2025/06/07 14:50:01 by michoi           ###   ########.fr       */
+/*   Updated: 2025/06/09 21:10:04 by michoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/builtins.h"
 
 /**
- * Print an error message with a command name to standard error in the basic form.
+ * Print an error message with a command name to stderr in the basic form.
  * @param cmd: command name
  * @param msg: error message
  */
@@ -25,7 +25,7 @@ void	print_basic_error(char *cmd, char *msg)
 }
 
 /**
- * Print an error message with a command name to standard error.
+ * Print an error message with a command name to stderr.
  * @param cmd: command name
  * @param msg: error message
  */
@@ -36,7 +36,7 @@ void	print_cmd_err(char *cmd, char *msg)
 }
 
 /**
- * Print an error message with a command name and its argument to standard error.
+ * Print an error message with a command name and its argument to stderr.
  * @param cmd: command name
  * @param arg: argument name
  * @param msg: error message
