@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hvahib <hvahib@student.hive.fi>            +#+  +:+       +#+        */
+/*   By: michoi <michoi@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 12:40:40 by hvahib            #+#    #+#             */
-/*   Updated: 2025/06/09 14:28:09 by hvahib           ###   ########.fr       */
+/*   Updated: 2025/06/09 16:48:06 by michoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,8 +73,8 @@ int	open_create_files(t_cmd *cmd_list, char *type)
 {
 	int	fd;
 	
-	if (!cmd_list->infile || !cmd_list->outfile)
-		return (0);
+	// if (!cmd_list->infile || !cmd_list->outfile)
+	// 	return (0);
 	if (ft_strncmp(type, "outfile", 7) == 0)
 	{
 		if (cmd_list->outfile_fd >= 0)
