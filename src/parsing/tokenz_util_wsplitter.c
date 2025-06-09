@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenz_util_wsplitter.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: michoi <michoi@student.hive.fi>            +#+  +:+       +#+        */
+/*   By: hvahib <hvahib@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 12:42:52 by hvahib            #+#    #+#             */
-/*   Updated: 2025/06/07 14:51:49 by michoi           ###   ########.fr       */
+/*   Updated: 2025/06/09 21:15:56 by hvahib           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,8 @@ static int	handle_double_operator(char **splitted_line, char *line, int i,
 		int *j)
 {
 	splitted_line[*j] = ft_strndup(&line[i], 2);
+	if (!splitted_line[*j])
+    	return (-1);
 	if (splitted_line[*j])
 		*j = *j + 1;
 	return (i + 2);
@@ -32,6 +34,8 @@ static int	handle_single_operator(char **splitted_line, char *line, int i,
 		int *j)
 {
 	splitted_line[*j] = ft_strndup(&line[i], 1);
+	if (!splitted_line[*j])
+    	return (-1);
 	if (splitted_line[*j])
 		*j = *j + 1;
 	return (i + 1);
@@ -41,6 +45,7 @@ static int	handle_regular_word(char **splitted_line, char *line, int i, int *j)
 {
 	int		start;
 	char	quote;
+	char	*new_token;
 
 	start = i;
 	while (line[i] && line[i] != ' ' && line[i] != '<' && line[i] != '>'
@@ -58,9 +63,11 @@ static int	handle_regular_word(char **splitted_line, char *line, int i, int *j)
 		else
 			i++;
 	}
-	splitted_line[*j] = ft_strndup(&line[start], i - start);
-	if (splitted_line[*j])
-		*j = *j + 1;
+	new_token = ft_strndup(&line[start], i - start);
+	if (!new_token)
+		return (-1);
+	splitted_line[*j] = new_token;
+	*j = *j + 1;
 	return (i);
 }
 
@@ -74,13 +81,14 @@ char	**word_splitter(char *line)
 	if (!line)
 		return (NULL);
 	size = ft_cmdlen(line);
-	splitted_line = (char **)malloc((size + 1) * sizeof(char *));
+	splitted_line = (char **)ft_calloc(size + 1, sizeof(char *));
 	if (!splitted_line)
 		return (NULL);
 	i = 0;
 	j = 0;
 	while (line[i])
 	{
+		printf("i in wsp: %d\n", i);
 		i = skip_spaces(line, i);
 		if (!line[i])
 			break ;
@@ -90,7 +98,14 @@ char	**word_splitter(char *line)
 			i = handle_single_operator(splitted_line, line, i, &j);
 		else
 			i = handle_regular_word(splitted_line, line, i, &j);
+		printf("i in wsp: %d\n", i);
+		if (i == -1)
+		{
+			free_array(&splitted_line);
+			return (NULL);
+		}
 	}
+	printf("i in wsp: %d\n", j);
 	splitted_line[j] = NULL;
 	return (splitted_line);
 }

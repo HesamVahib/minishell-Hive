@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmd_exit.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: michoi <michoi@student.hive.fi>            +#+  +:+       +#+        */
+/*   By: hvahib <hvahib@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 21:19:52 by michoi            #+#    #+#             */
-/*   Updated: 2025/06/07 20:21:31 by michoi           ###   ########.fr       */
+/*   Updated: 2025/06/09 18:48:53 by hvahib           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,8 @@ static void	print_str_arg_err(char *arg)
 
 static void	cleanup_exit(t_env *env, t_cmd *head)
 {
-	cleanup_env(env);
+	// cleanup_env(env);
+	exit_run(env);
 	free_cmd_list(head);
 }
 
