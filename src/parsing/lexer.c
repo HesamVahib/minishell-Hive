@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: michoi <michoi@student.hive.fi>            +#+  +:+       +#+        */
+/*   By: hvahib <hvahib@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 12:41:02 by hvahib            #+#    #+#             */
-/*   Updated: 2025/06/07 16:30:45 by michoi           ###   ########.fr       */
+/*   Updated: 2025/06/09 15:38:32 by hvahib           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ static void	handle_heredoc(t_cmd *cur, char **tokenz, int *i)
 {
 	if (!tokenz[*i + 1])
 	{
-		printf("syntax error near unexpected token `newline'\n");
+		printf("syntax error near unexpected token `%c'\n", tokenz[*i][0]);
 		set_and_get_exit_status(2, true);
 		cur->error = 1;
 		return ;
@@ -112,6 +112,8 @@ static void	parse_tokens(t_cmd *cmd_list, char **tokenz)
 					i++;
 				break ;
 			}
+			if (i >= arrlen(tokenz))
+				return ;
 		}
 		if (tokenz[i] && is_pipe(tokenz[i]))
 			handle_next_command(&cur, &i);

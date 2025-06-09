@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmd_syntax_analyzer.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: michoi <michoi@student.hive.fi>            +#+  +:+       +#+        */
+/*   By: hvahib <hvahib@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 12:39:15 by hvahib            #+#    #+#             */
-/*   Updated: 2025/06/07 16:30:10 by michoi           ###   ########.fr       */
+/*   Updated: 2025/06/09 13:50:56 by hvahib           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,12 +26,12 @@ static int	check_consecutive_ops(char **tokenz, int i)
 	if (!tokenz[i + 1] || (is_operator(tokenz[i + 1]) && tokenz[i][0] != '|'))
 	{
 		set_and_get_exit_status(2, true);
-		if (!tokenz[i + 1])
-			print_basic_error("(what the)shell", "syntax error near unexpected token `newline'");
-			// return (printf("syntax error near unexpected token `newline'\n"),
-			// 		1);
-		else
-			printf("syntax error near unexpected token `%s'\n", tokenz[i + 1]); //stderr
+		// if (!tokenz[i + 1])
+		// 	print_basic_error("(what the)shell", "syntax error near unexpected token `newline'");
+		// 	// return (printf("syntax error near unexpected token `newline'\n"),
+		// 	// 		1);
+		// else
+		printf("(what the)shell: syntax error near unexpected token `%c'\n", tokenz[i][0]); //stderr
 		return (1);
 	}
 	return (0);
@@ -44,8 +44,8 @@ char	**syntax_analyzer(char **tokenz)
 	i = 0;
 	while (tokenz[i])
 	{
-		if (!ft_strncmp(tokenz[i], "|", 1) && i == 0)
-			return (printf("syntax error near unexpected token `%s'\n",
+		if ((!ft_strncmp(tokenz[i], "|", 1) || !ft_strncmp(tokenz[i], ";", 1)) && i == 0)
+			return (printf("(what the)shell: syntax error near unexpected token `%s'\n",
 					tokenz[i]), NULL); //leak
 		if (is_operator(tokenz[i]))
 		{
