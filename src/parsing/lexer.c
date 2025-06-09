@@ -6,7 +6,7 @@
 /*   By: hvahib <hvahib@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 12:41:02 by hvahib            #+#    #+#             */
-/*   Updated: 2025/06/09 15:38:32 by hvahib           ###   ########.fr       */
+/*   Updated: 2025/06/09 16:35:20 by hvahib           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,17 +17,19 @@ static void	handle_file_redirection(t_cmd *cur, char **tokenz, int *i,
 {
 	if (mode == 'i')
 	{
-		cur->infile = ft_strdup(tokenz[*i + 1]);
+		if (tokenz[*i + 1])
+			cur->infile = ft_strdup(tokenz[*i + 1]);
+		else
+			cur->infile = ft_strdup(tokenz[*i]);
 		if (open_create_files(cur, "infile") == -1)
-		{
-			// print_cmd_err(cur->infile, strerror(errno));
-			// printf("error opening infile\n");
 			cur->error = 2;
-		}
 	}
 	else if (mode == 'o' || mode == 'a')
 	{
-		cur->outfile = ft_strdup(tokenz[*i + 1]);
+		if (tokenz[*i + 1])
+			cur->outfile = ft_strdup(tokenz[*i + 1]);
+		else
+			cur->outfile = ft_strdup(tokenz[*i]);
 		cur->append = (mode == 'a');
 		if (open_create_files(cur, "outfile") == -1)
 		{
