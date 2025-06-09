@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hvahib <hvahib@student.hive.fi>            +#+  +:+       +#+        */
+/*   By: michoi <michoi@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 12:41:23 by hvahib            #+#    #+#             */
-/*   Updated: 2025/06/09 21:23:40 by hvahib           ###   ########.fr       */
+/*   Updated: 2025/06/09 22:52:04 by michoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,10 +30,12 @@ static int	executable(char *line)
 
 void	free_cmd_list(t_cmd *cmd_args)
 {
+	t_cmd	*head;
 	t_cmd	*current;
 	t_cmd	*next;
 
-	current = cmd_args;
+	head = find_head(cmd_args);
+	current = head;
 	while (current)
 	{
 		next = current->next;
@@ -62,9 +64,9 @@ void	free_cmd_list(t_cmd *cmd_args)
 			close(current->heredoc_fd);
 		
 		// Free the command node itself
-		free(current);
 		current = next;
 	}
+		free(head);
 }
 
 void error_checking(t_cmd *cmd)
