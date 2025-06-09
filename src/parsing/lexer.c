@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hvahib <hvahib@student.hive.fi>            +#+  +:+       +#+        */
+/*   By: michoi <michoi@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 12:41:02 by hvahib            #+#    #+#             */
-/*   Updated: 2025/06/09 16:35:20 by hvahib           ###   ########.fr       */
+/*   Updated: 2025/06/09 16:50:14 by michoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,14 +108,14 @@ static void	parse_tokens(t_cmd *cmd_list, char **tokenz)
 				handle_heredoc(cur, tokenz, &i);
 			else
 				i++;
+			if (i >= arrlen(tokenz))
+				return ;
 			if (cur->error)
 			{
 				while (tokenz[i] && ft_strncmp(tokenz[i], "|", 1))
 					i++;
 				break ;
 			}
-			if (i >= arrlen(tokenz))
-				return ;
 		}
 		if (tokenz[i] && is_pipe(tokenz[i]))
 			handle_next_command(&cur, &i);

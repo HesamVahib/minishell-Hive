@@ -6,7 +6,7 @@
 /*   By: michoi <michoi@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 12:41:23 by hvahib            #+#    #+#             */
-/*   Updated: 2025/06/07 18:58:30 by michoi           ###   ########.fr       */
+/*   Updated: 2025/06/09 17:11:14 by michoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,10 +91,10 @@ void	minishell(t_env_pack env_pack)
 				print_cmd_temp(cmd_args);
 				heredoc_processing(cmd_args);
 				error_checking(cmd_args);
+				free(tokenz);
 			}
 			else
 				printf("something HAPPENED in tokenization\n");
-			free(tokenz);
 			if (cmd_args && cmd_args->argv && ft_strcmp(*(cmd_args->argv), ""))
 				execution(cmd_args, &env_pack);
 			free_cmd_list(cmd_args);
