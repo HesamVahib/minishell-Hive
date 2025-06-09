@@ -6,7 +6,7 @@
 /*   By: michoi <michoi@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 12:43:09 by hvahib            #+#    #+#             */
-/*   Updated: 2025/06/07 14:51:09 by michoi           ###   ########.fr       */
+/*   Updated: 2025/06/09 18:08:09 by michoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,4 +54,11 @@ int	envlen(t_env *env)
 		env = env->next;
 	}
 	return (i);
+}
+
+t_cmd	*find_head(t_cmd *cmd)
+{
+	while (cmd->previous)
+		cmd = cmd->previous;
+	return (cmd);
 }

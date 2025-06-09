@@ -6,7 +6,7 @@
 /*   By: michoi <michoi@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 12:41:23 by hvahib            #+#    #+#             */
-/*   Updated: 2025/06/09 17:11:14 by michoi           ###   ########.fr       */
+/*   Updated: 2025/06/09 18:08:25 by michoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void	free_cmd_list(t_cmd *cmd_args)
 	t_cmd *head;
 	
 	tmp = NULL;
-	head = cmd_args;
+	head = find_head(cmd_args);
 	while (cmd_args)
 	{
 		tmp = cmd_args->next;
