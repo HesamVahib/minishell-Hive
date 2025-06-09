@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: michoi <michoi@student.hive.fi>            +#+  +:+       +#+        */
+/*   By: hvahib <hvahib@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/23 13:35:50 by michoi            #+#    #+#             */
-/*   Updated: 2025/06/09 21:19:06 by michoi           ###   ########.fr       */
+/*   Updated: 2025/06/09 18:50:45 by hvahib           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,7 +144,8 @@ void							minishell(t_env_pack env_pack);
 void							restore_std_fd(t_env_pack env_pack);
 
 // exit_process.c
-void							exit_preparation(t_env_pack env_pack);
+void	exit_run(t_env *env);
+void				exit_preparation(t_env_pack env_pack);
 
 // tokenization.c
 char							**line_tokenized(char *line, t_env *env);
@@ -156,9 +157,6 @@ char							**adjacent_quotes(char **cmd_line);
 
 // tokenz_util_wsplitter.c
 char							**word_splitter(char *line);
-
-// tokenz_utils.c
-char							*double_backslash_remover(char *cmd_line);
 
 // lexer.c
 char							*append_char(char *str, char c);

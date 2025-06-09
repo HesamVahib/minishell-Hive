@@ -33,7 +33,6 @@ SRC_PARS = $(addprefix parsing/, main.c \
 			expansion.c \
 			heredoc.c \
 			tokenz_util_wsplitter.c \
-			tokenz_util.c \
 			expansion_utils.c \
 			lexer_utils.c \
 			lexer_utils2.c \

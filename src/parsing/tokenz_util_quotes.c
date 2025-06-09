@@ -6,7 +6,7 @@
 /*   By: hvahib <hvahib@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 12:42:47 by hvahib            #+#    #+#             */
-/*   Updated: 2025/06/09 14:47:15 by hvahib           ###   ########.fr       */
+/*   Updated: 2025/06/09 17:49:59 by hvahib           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ char	**quotes_chkr(char **cmd_line)
 		}
 		i++;
 	}
-	if (in_single || in_double) //leak
+	if (in_single || in_double)
 		return (NULL);
 	return (cmd_line);
 
@@ -51,7 +51,6 @@ char	*remove_adjacent_quotes(char *str)
 	int		in_quote;
 
 	new_str = malloc(strlen(str) + 1);
-	// Check this???
 	if (!new_str)
 		return (NULL);
 	j = 0;

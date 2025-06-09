@@ -6,7 +6,7 @@
 /*   By: michoi <michoi@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/17 18:27:17 by michoi            #+#    #+#             */
-/*   Updated: 2025/06/09 21:22:17 by michoi           ###   ########.fr       */
+/*   Updated: 2025/06/09 21:32:19 by michoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,8 +127,9 @@ void	exec_external_cmd(t_cmd *cmd, t_env *env)
 		free_array(&env_arr);
 		print_path_err(cmd);
 		close_files(cmd);
-		cleanup_env(env);
-		free_cmd_list(cmd);
+		// cleanup_env(env);
+		exit_run(env);
+		free_cmd_list(head);
 		exit(set_path_exit_code(errno));
 	}
 	if (open_files(cmd))

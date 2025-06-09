@@ -6,7 +6,7 @@
 /*   By: hvahib <hvahib@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/02 20:01:07 by michoi            #+#    #+#             */
-/*   Updated: 2025/04/27 20:18:22 by hvahib           ###   ########.fr       */
+/*   Updated: 2025/06/09 20:11:15 by hvahib           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ void	free_array(char ***arr)
 	while ((*arr)[i])
 	{
 		free((*arr)[i]);
-		(*arr)[i] = NULL;
+		// (*arr)[i] = NULL;
 		i++;
 	}
 	free(*arr);

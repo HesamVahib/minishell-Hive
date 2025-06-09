@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   cmd_exit.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: michoi <michoi@student.hive.fi>            +#+  +:+       +#+        */
+/*   By: hvahib <hvahib@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 21:19:52 by michoi            #+#    #+#             */
 /*   Updated: 2025/06/09 20:21:24 by michoi           ###   ########.fr       */
@@ -11,6 +11,13 @@
 /* ************************************************************************** */
 
 #include "../../include/builtins.h"
+
+static void	cleanup_exit(t_env *env, t_cmd *head)
+{
+	// cleanup_env(env);
+	exit_run(env);
+	free_cmd_list(head);
+}
 
 static bool	is_numeric(char *input)
 {
