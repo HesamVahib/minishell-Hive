@@ -1,35 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strdup.c                                        :+:      :+:    :+:   */
+/*   cmd_pwd.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: michoi <michoi@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/30 14:44:09 by michoi            #+#    #+#             */
-/*   Updated: 2025/06/07 18:06:30 by michoi           ###   ########.fr       */
+/*   Created: 2025/04/05 17:24:38 by michoi            #+#    #+#             */
+/*   Updated: 2025/06/07 14:50:01 by michoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../../include/builtins.h"
 
-char	*ft_strdup(const char *s)
+/**
+	Print name of current/working directory.
+	This function works without any options.
+	@return
+		SUCCESS - Operation completed successfully.
+
+		FAILURE - Operation failed due to an error.
+*/
+int	cmd_pwd(void)
 {
-	int		i;
-	int		len;
-	char	*dup;
+	char	buffer[PATH_MAX];
 
-	if (!s)
-		return (0);
-	len = ft_strlen(s);
-	dup = (char *)malloc(sizeof(char) * (len + 1));
-	if (!dup)
-		return (0);
-	i = 0;
-	while (i < len)
+	if (!getcwd(buffer, PATH_MAX))
 	{
-		dup[i] = s[i];
-		i++;
+		perror("pwd");
+		return (FAILURE);
 	}
-	dup[i] = '\0';
-	return (dup);
+	ft_putendl_fd(buffer, STDOUT_FILENO);
+	return (SUCCESS);
 }

@@ -1,35 +1,39 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strdup.c                                        :+:      :+:    :+:   */
+/*   tokenz_util.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: michoi <michoi@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/30 14:44:09 by michoi            #+#    #+#             */
-/*   Updated: 2025/06/07 18:06:30 by michoi           ###   ########.fr       */
+/*   Created: 2025/05/08 12:42:57 by hvahib            #+#    #+#             */
+/*   Updated: 2025/06/07 14:51:49 by michoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../../include/minishell.h"
 
-char	*ft_strdup(const char *s)
+char	*double_backslash_remover(char *cmd_line)
 {
 	int		i;
-	int		len;
-	char	*dup;
+	char	*new_str;
+	char	*temp;
 
-	if (!s)
-		return (0);
-	len = ft_strlen(s);
-	dup = (char *)malloc(sizeof(char) * (len + 1));
-	if (!dup)
-		return (0);
 	i = 0;
-	while (i < len)
+	new_str = ft_strdup("");
+	while (cmd_line[i])
 	{
-		dup[i] = s[i];
+		if (cmd_line[i] == '\\'
+			&& (cmd_line[i + 1])
+			&& ((cmd_line[i + 1]) == '\\' || cmd_line[i + 1] == '$'))
+			i++;
+		temp = append_char(new_str, cmd_line[i]);
+		if (!temp)
+		{
+			free(new_str);
+			return (NULL);
+		}
+		new_str = temp;
 		i++;
 	}
-	dup[i] = '\0';
-	return (dup);
+	return (new_str);
 }

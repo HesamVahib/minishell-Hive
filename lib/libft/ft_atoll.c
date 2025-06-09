@@ -6,7 +6,7 @@
 /*   By: michoi <michoi@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 22:23:34 by michoi            #+#    #+#             */
-/*   Updated: 2025/04/29 22:18:26 by michoi           ###   ########.fr       */
+/*   Updated: 2025/06/07 22:22:58 by michoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ static void	check_nbr_in_range(int sign, long long num, char digit,
 {
 	if (sign == -1)
 	{
-		if ((unsigned)num > ((unsigned)(LLONG_MAX) + 1 - (digit - 48)) / 10)
+		if ((unsigned)num > (LLONG_MAX / 10 + (1 - (digit - 48)) / 10))
 			*err_flag = UNDERFLOW;
 	}
 	else

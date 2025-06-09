@@ -6,7 +6,7 @@
 /*   By: michoi <michoi@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 19:24:15 by michoi            #+#    #+#             */
-/*   Updated: 2025/05/25 01:25:37 by michoi           ###   ########.fr       */
+/*   Updated: 2025/06/04 13:50:22 by michoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,15 +27,16 @@
 # define CMD_EXIT "exit"
 
 typedef struct s_env	t_env;
+typedef struct s_cmd	t_cmd;
 
-int						exec_builtin(t_env *env, char *cmd, char **args);
+int						exec_builtin(t_env *env, t_cmd *cmd_arg, t_cmd *head);
 
 // ─── ⋆⋅☆⋅⋆ ── builtin commands ─── ⋆⋅☆⋅⋆ ──
 
 int						cmd_cd(t_env *env, char **args);
 int						cmd_echo(char **args);
 int						cmd_env(t_env *env, char **args);
-int						cmd_exit(char **args);
+int						cmd_exit(t_env *env, t_cmd *cmd, t_cmd *head);
 int						cmd_export(t_env *env, char **args);
 int						cmd_pwd(void);
 int						cmd_unset(t_env **env, char **args);

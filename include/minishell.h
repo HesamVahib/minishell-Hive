@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hvahib <hvahib@student.hive.fi>            +#+  +:+       +#+        */
+/*   By: michoi <michoi@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/23 13:35:50 by michoi            #+#    #+#             */
-/*   Updated: 2025/06/01 23:19:21 by hvahib           ###   ########.fr       */
+/*   Updated: 2025/06/06 17:19:55 by michoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@
 // shell sign
 # define SHELL_PROMPT ANSI_COLOR_GREEN "[(what the)shell]$ " ANSI_COLOR_DEFAULT
 
-extern volatile int	g_signal;
+extern volatile sig_atomic_t	g_signal;
 
 typedef struct s_env
 {

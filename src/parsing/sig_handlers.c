@@ -1,35 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strdup.c                                        :+:      :+:    :+:   */
+/*   sig_handlers.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: michoi <michoi@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/30 14:44:09 by michoi            #+#    #+#             */
-/*   Updated: 2025/06/07 18:06:30 by michoi           ###   ########.fr       */
+/*   Created: 2025/05/08 12:42:32 by hvahib            #+#    #+#             */
+/*   Updated: 2025/06/07 23:08:40 by michoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../../include/minishell.h"
 
-char	*ft_strdup(const char *s)
+void	sighandler(int signal)
 {
-	int		i;
-	int		len;
-	char	*dup;
-
-	if (!s)
-		return (0);
-	len = ft_strlen(s);
-	dup = (char *)malloc(sizeof(char) * (len + 1));
-	if (!dup)
-		return (0);
-	i = 0;
-	while (i < len)
+	if (signal == SIGINT)
 	{
-		dup[i] = s[i];
-		i++;
+		write(STDOUT_FILENO, "\n", 1);
+		rl_on_new_line();
+		rl_replace_line("", STDIN_FILENO);
+		rl_redisplay();
 	}
-	dup[i] = '\0';
-	return (dup);
+	else if (signal == SIGQUIT)
+		printf("Quit: %d\n", signal);
+	set_and_get_exit_status(128 + signal, true);
+}
+
+int	sig_handler_heredoc(void)
+{
+	if (g_signal == SIGINT)
+		rl_done = 1;
+	return (0);
 }
