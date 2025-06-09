@@ -6,13 +6,12 @@
 /*   By: michoi <michoi@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/23 13:35:50 by michoi            #+#    #+#             */
-/*   Updated: 2025/06/09 19:38:40 by michoi           ###   ########.fr       */
+/*   Updated: 2025/06/09 21:19:06 by michoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
-# define _GNU_SOURCE // for O_TMPFILE flag, only available on linux
 
 // system libraries
 # include <fcntl.h>             // For open flags
@@ -212,4 +211,5 @@ bool							is_in_array(const char **arr, char *s);
 int								envlen(t_env *env);
 int								set_and_get_exit_status(int code, bool set);
 t_cmd							*find_head(t_cmd *cmd);
+int	get_idx(char *s, char c);
 #endif

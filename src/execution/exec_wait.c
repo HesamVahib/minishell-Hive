@@ -6,7 +6,7 @@
 /*   By: michoi <michoi@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/29 19:10:38 by michoi            #+#    #+#             */
-/*   Updated: 2025/06/07 23:04:30 by michoi           ###   ########.fr       */
+/*   Updated: 2025/06/09 21:11:04 by michoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,9 +36,9 @@ static int	wait_for_the_rest(void)
 		if (wait(0) == -1)
 		{
 			if (errno == ECHILD)
-				break;
+				break ;
 			else if (errno == EINTR)
-				continue;
+				continue ;
 			else
 			{
 				perror("wait failed");

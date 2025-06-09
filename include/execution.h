@@ -6,7 +6,7 @@
 /*   By: michoi <michoi@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 22:34:15 by michoi            #+#    #+#             */
-/*   Updated: 2025/06/04 13:36:57 by michoi           ###   ########.fr       */
+/*   Updated: 2025/06/09 21:23:11 by michoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,6 @@ typedef struct s_pipe
 
 typedef struct s_child_process
 {
-	int						file;
 	char					*path;
 	char					**args;
 }							t_cp;
@@ -54,10 +53,9 @@ char						*get_cmd_path(t_env *env, char *cmd);
 
 // ─── ⋆⋅☆⋅⋆ ── execution ─── ⋆⋅☆⋅⋆ ──
 int							run_single_cmd(const char **builtins, t_cmd *cmd,
-								t_env *env, t_cmd *head);
-void						run_command(t_cp *cp, char **env_arr);
-void						exec_external_cmd(t_cmd *cmd, t_env *env,
-								t_cmd *head);
+								t_env *env);
+int							run_command(t_cp *cp, char **env_arr);
+void						exec_external_cmd(t_cmd *cmd, t_env *env);
 
 // ─── ⋆⋅☆⋅⋆ ── wait && exit ─── ⋆⋅☆⋅⋆ ──
 int							wait_for_pid(pid_t pid, int *stat);

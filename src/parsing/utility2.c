@@ -6,7 +6,7 @@
 /*   By: michoi <michoi@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 12:43:09 by hvahib            #+#    #+#             */
-/*   Updated: 2025/06/09 18:08:09 by michoi           ###   ########.fr       */
+/*   Updated: 2025/06/09 21:08:25 by michoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,4 +61,18 @@ t_cmd	*find_head(t_cmd *cmd)
 	while (cmd->previous)
 		cmd = cmd->previous;
 	return (cmd);
+}
+
+int	get_idx(char *s, char c)
+{
+	int	i;
+
+	i = 0;
+	while (s[i])
+	{
+		if (s[i] == c)
+			return (i);
+		i++;
+	}
+	return (-1);
 }

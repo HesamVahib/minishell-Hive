@@ -6,7 +6,7 @@
 /*   By: michoi <michoi@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/11 20:19:41 by michoi            #+#    #+#             */
-/*   Updated: 2025/06/07 14:49:38 by michoi           ###   ########.fr       */
+/*   Updated: 2025/06/09 21:14:54 by michoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,11 @@ int	set_path_exit_code(int err_no)
 	return (code);
 }
 
+/**
+ * 1. Is a directory: 126
+ * 2. Permission denied: 126
+ * 3. cmd not found: 127
+ */
 static char	*validate_cmd_path(char *cmd_path)
 {
 	struct stat	sb;
@@ -39,15 +44,15 @@ static char	*validate_cmd_path(char *cmd_path)
 	{
 		if (S_ISDIR(sb.st_mode))
 		{
-			errno = EISDIR; // 126
+			errno = EISDIR;
 			return (NULL);
 		}
 		if (access(cmd_path, X_OK))
-			return (NULL); // 126
+			return (NULL);
 		return (cmd_path);
 	}
 	else
-		return (NULL); // 127
+		return (NULL);
 }
 
 static char	**split_env_path(t_env *env)
@@ -93,6 +98,6 @@ char	*get_cmd_path(t_env *env, char *cmd)
 			return (free_array(&paths), free(cmd_with_slash), exec_path);
 		free(exec_path);
 	}
-	errno = 0; // 127
+	errno = 0;
 	return (free_array(&paths), free(cmd_with_slash), NULL);
 }
