@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utility2.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hvahib <hvahib@student.hive.fi>            +#+  +:+       +#+        */
+/*   By: michoi <michoi@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 12:43:09 by hvahib            #+#    #+#             */
-/*   Updated: 2025/06/09 21:08:25 by michoi           ###   ########.fr       */
+/*   Updated: 2025/06/10 14:24:55 by michoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,8 @@ int	envlen(t_env *env)
 	i = 0;
 	while (env)
 	{
-		i++;
+		if (env->value && *(env->value))
+			i++;
 		env = env->next;
 	}
 	return (i);
