@@ -1,73 +1,77 @@
-<<<<<<< HEAD
+<<<<<<< HEAD:builtins/cmd_unset.c
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strdup.c                                        :+:      :+:    :+:   */
+/*   cmd_unset.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: michoi <michoi@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/30 14:44:09 by michoi            #+#    #+#             */
-/*   Updated: 2025/05/10 16:06:47 by michoi           ###   ########.fr       */
+/*   Created: 2025/04/11 21:47:18 by michoi            #+#    #+#             */
+/*   Updated: 2025/05/10 23:09:32 by michoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../include/builtins.h"
 
-char	*ft_strdup(const char *s)
+/*
+bool	is_option(char *arg)
 {
-	int		i;
-	int		len;
-	char	*dup;
+	int	i;
 
-	if(!s)
-		return (0);
-	len = ft_strlen(s);
-	dup = (char *)malloc(sizeof(char) * (len + 1));
-	if (!dup)
-		return (0);
+	if (!arg || !*arg)
+		return (false);
 	i = 0;
-	while (i < len)
+	if (arg[i] == '-' || arg[i] == '-' && arg[i + 1] == '-')
+	return (false);
+}
+*/
+
+// ~ no options!!! ~
+int	cmd_unset(t_env **env, char **args)
+{
+	t_env	*node;
+
+	if (!args || !*args)
+		return (SUCCESS);
+	while (*args)
 	{
-		dup[i] = s[i];
-		i++;
+		node = node_finder(*env, *args);
+		if (node)
+			remove_node(*env, node);
+		args++;
 	}
-	dup[i] = '\0';
-	return (dup);
+	// if (is_option(*args))
+	// 	return (FAILURE);
+	return (SUCCESS);
 }
 =======
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strdup.c                                        :+:      :+:    :+:   */
+/*   cmd_unset.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: michoi <michoi@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/30 14:44:09 by michoi            #+#    #+#             */
-/*   Updated: 2025/06/07 18:06:30 by michoi           ###   ########.fr       */
+/*   Created: 2025/04/11 21:47:18 by michoi            #+#    #+#             */
+/*   Updated: 2025/06/09 18:09:12 by michoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../../include/builtins.h"
 
-char	*ft_strdup(const char *s)
+int	cmd_unset(t_env **env, char **args)
 {
-	int		i;
-	int		len;
-	char	*dup;
+	t_env	*node;
 
-	if (!s)
-		return (0);
-	len = ft_strlen(s);
-	dup = (char *)malloc(sizeof(char) * (len + 1));
-	if (!dup)
-		return (0);
-	i = 0;
-	while (i < len)
+	if (!args || !*args)
+		return (SUCCESS);
+	while (*args)
 	{
-		dup[i] = s[i];
-		i++;
+		node = node_finder(*env, *args);
+		if (node)
+			remove_node(*env, node);
+		args++;
 	}
-	dup[i] = '\0';
-	return (dup);
+	return (SUCCESS);
 }
->>>>>>> 874a9b48f3199909f568ebc8744a2ebc01ae86ce
+>>>>>>> 874a9b48f3199909f568ebc8744a2ebc01ae86ce:src/builtins/cmd_unset.c
