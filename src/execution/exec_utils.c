@@ -6,7 +6,7 @@
 /*   By: michoi <michoi@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/11 20:20:28 by michoi            #+#    #+#             */
-/*   Updated: 2025/06/10 15:06:34 by michoi           ###   ########.fr       */
+/*   Updated: 2025/06/11 22:58:55 by michoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,28 @@
 
 static void	cleanup_env_arr(char **env_arr, int i)
 {
-		env_arr[i] = NULL;
-		free_array(&env_arr);
+	env_arr[i] = NULL;
+	free_array(&env_arr);
+}
+
+static char	*get_key_value(t_env *env)
+{
+	char	*temp;
+	char	*env_value;
+
+	temp = ft_strjoin(env->key, "=");
+	if (!temp)
+		return (NULL);
+	env_value = ft_strjoin(temp, env->value);
+	free(temp);
+	if (!env_value)
+		return (NULL);
+	return (env_value);
 }
 
 char	**get_env_arr(t_env *env)
 {
 	char	**env_arr;
-	char	*temp;
 	char	*env_value;
 	int		i;
 
@@ -35,19 +49,9 @@ char	**get_env_arr(t_env *env)
 	{
 		if (env->value && *(env->value))
 		{
-			temp = ft_strjoin(env->key, "=");
-			if (!temp)
-			{
-				cleanup_env_arr(env_arr, i);
-				return (NULL);
-			}
-			env_value = ft_strjoin(temp, env->value);
-			free(temp);
+			env_value = get_key_value(env);
 			if (!env_value)
-			{
-				cleanup_env_arr(env_arr, i);
-				return (NULL);
-			}
+				return (cleanup_env_arr(env_arr, i), NULL);
 			env_arr[i] = env_value;
 			i++;
 		}

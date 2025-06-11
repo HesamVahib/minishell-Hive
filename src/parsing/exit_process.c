@@ -6,7 +6,7 @@
 /*   By: michoi <michoi@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 12:39:47 by hvahib            #+#    #+#             */
-/*   Updated: 2025/06/11 17:12:08 by michoi           ###   ########.fr       */
+/*   Updated: 2025/06/12 00:16:49 by michoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,5 +42,5 @@ void	exit_preparation(t_env_pack env_pack)
 	// cleanup_env(env_pack.sys_envlist);
 	exit_run(env_pack.mshell_env);
 	clean_out_all(env_pack.mshell_env, env_pack.sys_envlist, NULL, NULL);
-	exit(exit_code);
+	exit(exit_code & 255);
 }

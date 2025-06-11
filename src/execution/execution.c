@@ -6,7 +6,7 @@
 /*   By: michoi <michoi@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 22:01:29 by michoi            #+#    #+#             */
-/*   Updated: 2025/06/11 18:58:15 by michoi           ###   ########.fr       */
+/*   Updated: 2025/06/11 23:46:27 by michoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,11 +53,16 @@ int	execution(t_cmd *cmd_args, t_env_pack *env_pack)
 	cleanup_env(env_pack->sys_envlist);
 	env_pack->sys_envlist = NULL;
 
-	int argv_i = 0;
-	while (!ft_strcmp(cmd_args->argv[argv_i], ""))
-		argv_i++;
+	// int argv_i = 0;
+	// while (cmd_args->argv[argv_i] && !ft_strcmp(cmd_args->argv[argv_i], ""))
+	// 	argv_i++;
 	
-	printf("argv_i: %d\n", argv_i);
+	// printf("argv_i: %d\n", argv_i);
+
+
+	// if (argv_i == arrlen(cmd_args->argv))
+	// 	cmd_args = cmd_args->next;
+		
 	const char	*builtins[] = {CMD_CD, CMD_ECHO, CMD_ENV, CMD_EXPORT, CMD_EXIT,
 			CMD_PWD, CMD_UNSET, NULL};
 	t_pipe		cmd_pipe;
@@ -96,8 +101,11 @@ int	execution(t_cmd *cmd_args, t_env_pack *env_pack)
 			if (cmd_args->argv && is_in_array(builtins, cmd_args->argv[0]))
 			{
 				// cleanup
+				// fprintf(stderr, "are we here???????? (error: %d)\n", cmd_args->error);
 				if (open_files(cmd_args))
+				{
 					exit(FAILURE);
+				}
 				if (duplicate_files(cmd_args))
 					exit(FAILURE);
 				int exit_builtin = exec_builtin(env, cmd_args);

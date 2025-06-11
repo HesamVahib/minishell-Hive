@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hvahib <hvahib@student.hive.fi>            +#+  +:+       +#+        */
+/*   By: michoi <michoi@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 12:41:23 by hvahib            #+#    #+#             */
-/*   Updated: 2025/06/11 20:58:39 by hvahib           ###   ########.fr       */
+/*   Updated: 2025/06/12 00:15:44 by michoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,7 @@ void	minishell(t_env_pack env_pack)
 			// free(line);
 			// free_array(&tokenz);
 			exit_preparation(env_pack);
-			exit (0);
+			exit (1);
 		}
 		if (executable(line))
 		{
@@ -112,7 +112,7 @@ void	minishell(t_env_pack env_pack)
 			{
 				cmd_args = cmd_args_extractor(tokenz);
 				free_array(&tokenz);
-				print_cmd_temp(cmd_args);
+				// print_cmd_temp(cmd_args);
 				heredoc_processing(cmd_args);
 				error_checking(cmd_args);
 				free(tokenz);

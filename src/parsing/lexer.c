@@ -6,7 +6,7 @@
 /*   By: michoi <michoi@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 12:41:02 by hvahib            #+#    #+#             */
-/*   Updated: 2025/06/11 18:37:18 by michoi           ###   ########.fr       */
+/*   Updated: 2025/06/11 23:50:18 by michoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ static void	handle_file_redirection(t_cmd *cur, char **tokenz, int *i,
 			cur->infile = ft_strdup(tokenz[*i]);
 		if (open_create_files(cur, "infile") == -1)
 			cur->error = 2;
+		cur->redirect_order = 1;
 	}
 	else if (mode == 'o' || mode == 'a')
 	{
@@ -36,9 +37,10 @@ static void	handle_file_redirection(t_cmd *cur, char **tokenz, int *i,
 			// printf("error opening outfile\n");
 			cur->error = 1;
 		}
+		cur->redirect_order = 0;
 	}
 	*i = *i + 2;
-	cur->redirect_order = 1;
+	
 }
 
 static void	handle_heredoc(t_cmd *cur, char **tokenz, int *i)
