@@ -6,7 +6,7 @@
 /*   By: michoi <michoi@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 12:42:18 by hvahib            #+#    #+#             */
-/*   Updated: 2025/06/11 17:02:11 by michoi           ###   ########.fr       */
+/*   Updated: 2025/06/11 18:17:36 by michoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@ static void	restore_fd(t_env_pack env_pack, int std_fd, char *key)
 	int		cur_fd;
 
 	fd = find_value_from_env(env_pack.mshell_env, key);
-	fprintf(stderr, "fd from restore_fd: %s\n", fd);
 	if (fd)
 	{
 		cur_fd = ft_atoi(fd);

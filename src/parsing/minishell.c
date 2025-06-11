@@ -6,7 +6,7 @@
 /*   By: michoi <michoi@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 12:41:23 by hvahib            #+#    #+#             */
-/*   Updated: 2025/06/10 13:53:48 by michoi           ###   ########.fr       */
+/*   Updated: 2025/06/11 18:58:50 by michoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,9 +74,9 @@ void error_checking(t_cmd *cmd)
 	while (cmd)
 	{
 		if (cmd->error == 2) // it means no such file or directory
-			print_cmd_err(cmd->infile, strerror(2));
+			print_cmd_err(cmd->infile, strerror(errno));
 		if (cmd->error == 1) // it means no such file or directory
-			print_cmd_err(cmd->outfile, strerror(2));
+			print_cmd_err(cmd->outfile, strerror(errno));
 		cmd = cmd->next;
 	}
 }
@@ -98,8 +98,8 @@ void	minishell(t_env_pack env_pack)
 		line = readline(SHELL_PROMPT);
 		if (!line)
 		{
-			free(line);
-			free_array(&tokenz);
+			// free(line);
+			// free_array(&tokenz);
 			exit_preparation(env_pack);
 			exit (0);
 		}
@@ -119,12 +119,14 @@ void	minishell(t_env_pack env_pack)
 			}
 			else
 				printf("something HAPPENED in tokenization\n");
-			if (cmd_args && cmd_args->argv && ft_strcmp(*(cmd_args->argv), ""))
+			if (cmd_args && cmd_args->argv )
 				execution(cmd_args, &env_pack);
-			free_array(&tokenz);
+			// free_array(&tokenz);
 			free_cmd_list(cmd_args);
 			restore_std_fd(env_pack);
 		}
 		free(line);
 	}
 }
+
+//&& ft_strcmp(*(cmd_args->argv), "")

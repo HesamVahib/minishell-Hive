@@ -6,7 +6,7 @@
 /*   By: michoi <michoi@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 12:42:47 by hvahib            #+#    #+#             */
-/*   Updated: 2025/06/11 16:43:35 by michoi           ###   ########.fr       */
+/*   Updated: 2025/06/11 18:28:26 by michoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ char	*remove_adjacent_quotes(char *str)
 	char	current_quote;
 	int		in_quote;
 
-	new_str = malloc(strlen(str) + 1);
+	new_str = malloc(ft_strlen(str) + 1);
 	if (!new_str)
 		return (NULL);
 	j = 0;
@@ -87,7 +87,7 @@ char	**adjacent_quotes(char **cmd_line)
 	while (cmd_line[i])
 	{
 		new_str = remove_adjacent_quotes(cmd_line[i]);
-		if (new_str)
+		if (new_str && cmd_line[i])
 			free(cmd_line[i]);
 		else
 			return (NULL);

@@ -6,7 +6,7 @@
 /*   By: michoi <michoi@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 12:40:34 by hvahib            #+#    #+#             */
-/*   Updated: 2025/06/11 16:43:00 by michoi           ###   ########.fr       */
+/*   Updated: 2025/06/11 19:06:14 by michoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,10 @@ t_env_pack	init_env_pack(char **envp, char *cur_dir)
 	{
 		custom_export(minishell_env_list, "PWD", cur_dir);
 		if (find_value_from_env(minishell_env_list, "SHLVL"))
+		{
 			custom_export(minishell_env_list, "SHLVL", "2");
+			printf("HERE\n");
+		}
 		else
 			custom_export(minishell_env_list, "SHLVL", "1");
 		custom_export(minishell_env_list, "_", "/usr/bin/env");

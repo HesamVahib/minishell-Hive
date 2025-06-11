@@ -6,7 +6,7 @@
 /*   By: michoi <michoi@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/18 00:44:35 by michoi            #+#    #+#             */
-/*   Updated: 2025/06/11 16:44:02 by michoi           ###   ########.fr       */
+/*   Updated: 2025/06/11 18:39:02 by michoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ int	open_files(t_cmd *cmd_list)
 					0644);
 		if (outfile_fd == -1)
 		{
-			print_cmd_err(cmd_list->outfile, strerror(errno));
+			// print_cmd_err(cmd_list->outfile, strerror(errno));
 			return (FAILURE);
 		}
 		cmd_list->outfile_fd = outfile_fd;

@@ -6,7 +6,7 @@
 /*   By: michoi <michoi@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 22:01:29 by michoi            #+#    #+#             */
-/*   Updated: 2025/06/11 18:04:21 by michoi           ###   ########.fr       */
+/*   Updated: 2025/06/11 18:58:15 by michoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,12 @@ int	execution(t_cmd *cmd_args, t_env_pack *env_pack)
 	t_env *env = env_pack->mshell_env;
 	cleanup_env(env_pack->sys_envlist);
 	env_pack->sys_envlist = NULL;
+
+	int argv_i = 0;
+	while (!ft_strcmp(cmd_args->argv[argv_i], ""))
+		argv_i++;
 	
+	printf("argv_i: %d\n", argv_i);
 	const char	*builtins[] = {CMD_CD, CMD_ECHO, CMD_ENV, CMD_EXPORT, CMD_EXIT,
 			CMD_PWD, CMD_UNSET, NULL};
 	t_pipe		cmd_pipe;
