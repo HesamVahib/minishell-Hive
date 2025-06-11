@@ -127,8 +127,8 @@ void	exec_external_cmd(t_cmd *cmd, t_env *env)
 		free_array(&env_arr);
 		print_path_err(cmd);
 		close_files(cmd);
-		// cleanup_env(env);
 		exit_run(env);
+		cleanup_env(env);
 		free_cmd_list(cmd);
 		exit(set_path_exit_code(errno));
 	}

@@ -68,5 +68,6 @@ int	cmd_exit(t_env *env, t_cmd *cmd)
 			return (print_cmd_err("exit", "too many arguments"), FAILURE);
 	}
 	cleanup_exit(env, cmd);
+	cleanup_env(env);
 	exit(exit_stat & 255);
 }

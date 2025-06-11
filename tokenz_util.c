@@ -1,40 +1,39 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strjoin.c                                       :+:      :+:    :+:   */
+/*   tokenz_util.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hvahib <hvahib@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/02 17:13:15 by michoi            #+#    #+#             */
-/*   Updated: 2025/05/26 16:23:32 by hvahib           ###   ########.fr       */
+/*   Created: 2025/05/08 12:42:57 by hvahib            #+#    #+#             */
+/*   Updated: 2025/05/26 16:20:08 by hvahib           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "./include/minishell.h"
 
-char	*ft_strjoin(char const *s1, char const *s2)
+char	*double_backslash_remover(char *cmd_line)
 {
 	int		i;
-	char	*str;
+	char	*new_str;
+	char	*temp;
 
-	if (!s1 || !s2)
-		return (NULL);
-	str = malloc((ft_strlen(s1) + ft_strlen(s2) + 1) * sizeof(char));
-	if (!str)
-		return (NULL);
 	i = 0;
-	while (*s1)
+	new_str = ft_strdup("");
+	while (cmd_line[i])
 	{
-		str[i] = *s1;
-		s1++;
+		if (cmd_line[i] == '\\'
+			&& (cmd_line[i + 1])
+			&& ((cmd_line[i + 1]) == '\\' || cmd_line[i + 1] == '$'))
+			i++;
+		temp = append_char(new_str, cmd_line[i]);
+		if (!temp)
+		{
+			free(new_str);
+			return (NULL);
+		}
+		new_str = temp;
 		i++;
 	}
-	while (*s2)
-	{
-		str[i] = *s2;
-		s2++;
-		i++;
-	}
-	str[i] = '\0';
-	return (str);
+	return (new_str);
 }

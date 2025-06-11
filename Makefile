@@ -1,5 +1,5 @@
 NAME = minishell
-FLAGS = -Wall -Werror -Wextra -g
+FLAGS = -Wall -Werror -Wextra
 CC = cc
 SRCDIR=src
 OBJDIR=obj

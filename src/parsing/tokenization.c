@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenization.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hvahib <hvahib@student.hive.fi>            +#+  +:+       +#+        */
+/*   By: michoi <michoi@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 12:42:40 by hvahib            #+#    #+#             */
-/*   Updated: 2025/06/09 21:02:03 by hvahib           ###   ########.fr       */
+/*   Updated: 2025/06/11 16:48:31 by michoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ char	**line_tokenized(char *line, t_env *env)
 		free_array(&cmd_line);  // Free the original array
 		return (printf("Dollar Expansion failed\n"), NULL);
 	}
-	
+	free_array(&cmd_line);
 	cmd_line = adjacent_quotes(expanded_line);
 	if (!cmd_line || !*cmd_line)
 	{

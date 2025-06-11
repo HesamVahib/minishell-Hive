@@ -6,7 +6,7 @@
 /*   By: michoi <michoi@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 12:39:07 by hvahib            #+#    #+#             */
-/*   Updated: 2025/06/07 14:51:09 by michoi           ###   ########.fr       */
+/*   Updated: 2025/06/11 17:12:13 by michoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,12 @@ t_env	*cleanup_env(t_env *env_list)
 	while (env_list)
 	{
 		temp = env_list->next;
-		free(env_list->key);
-		free(env_list->value);
-		free(env_list);
+		if (env_list->key)
+			free(env_list->key);
+		if (env_list->value)
+			free(env_list->value);
+		if (env_list)
+			free(env_list);
 		env_list = temp;
 	}
 	free(temp);
@@ -44,5 +47,4 @@ void	clean_out_all(t_env *env1, t_env *env2, char *str1, char *str2)
 		exit(1);
 	if (change_mode(RUNNING_COMMAND))
 		exit(1);
-	exit(1);
 }
