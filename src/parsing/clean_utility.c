@@ -6,7 +6,7 @@
 /*   By: michoi <michoi@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 12:39:07 by hvahib            #+#    #+#             */
-/*   Updated: 2025/06/11 17:00:27 by michoi           ###   ########.fr       */
+/*   Updated: 2025/06/11 17:12:13 by michoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,5 +47,4 @@ void	clean_out_all(t_env *env1, t_env *env2, char *str1, char *str2)
 		exit(1);
 	if (change_mode(RUNNING_COMMAND))
 		exit(1);
-	exit(1);
 }
