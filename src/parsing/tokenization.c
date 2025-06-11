@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenization.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: michoi <michoi@student.hive.fi>            +#+  +:+       +#+        */
+/*   By: hvahib <hvahib@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 12:42:40 by hvahib            #+#    #+#             */
-/*   Updated: 2025/06/11 18:23:49 by michoi           ###   ########.fr       */
+/*   Updated: 2025/06/11 21:04:19 by hvahib           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,33 +41,35 @@ static char	**tokenize_and_check(char *new_line)
 
 static char	**expand_variables(char **cmd_line, t_env *env)
 {
-	cmd_line = dollar_expansion(cmd_line, env);
-	if (!cmd_line)
+	char **new_cmd;
+	
+	new_cmd = dollar_expansion(cmd_line, env);
+	if (!new_cmd)
 		return (printf("Dollar Expansion failed\n"), NULL);
-	return (cmd_line);
+	return (new_cmd);
 }
 
 char	**line_tokenized(char *line, t_env *env)
 {
 	char	**cmd_line;
 	char	**expanded_line;
+	char	**final_line;
 
 	cmd_line = tokenize_and_check(line);
 	if (!cmd_line)
 		return (NULL);
-	
 	expanded_line = expand_variables(cmd_line, env);
 	if (!expanded_line)
 	{
-		free_array(&cmd_line);  // Free the original array
+		free_array(&cmd_line);
 		return (printf("Dollar Expansion failed\n"), NULL);
 	}
-	free_array(&cmd_line);
-	cmd_line = adjacent_quotes(expanded_line);
-	if (!cmd_line || !*cmd_line)
+	final_line = adjacent_quotes(expanded_line);
+	if (!final_line || !*final_line)
 	{
-		free_array(&cmd_line);
+		free_array(&expanded_line);
 		return (printf("adjacent quotes handling failed\n"), NULL);
 	}
-	return (cmd_line);
+	free_array(&cmd_line);
+	return (final_line);
 }

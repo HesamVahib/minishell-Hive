@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenz_util_quotes.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: michoi <michoi@student.hive.fi>            +#+  +:+       +#+        */
+/*   By: hvahib <hvahib@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 12:42:47 by hvahib            #+#    #+#             */
-/*   Updated: 2025/06/11 18:28:26 by michoi           ###   ########.fr       */
+/*   Updated: 2025/06/11 21:08:08 by hvahib           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,12 +87,12 @@ char	**adjacent_quotes(char **cmd_line)
 	while (cmd_line[i])
 	{
 		new_str = remove_adjacent_quotes(cmd_line[i]);
-		if (new_str && cmd_line[i])
-			free(cmd_line[i]);
-		else
+		if (!new_str)
 			return (NULL);
+		free(cmd_line[i]);
 		cmd_line[i] = new_str;
 		i++;
 	}
 	return (cmd_line);
 }
+

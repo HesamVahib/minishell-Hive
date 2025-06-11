@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: michoi <michoi@student.hive.fi>            +#+  +:+       +#+        */
+/*   By: hvahib <hvahib@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 12:41:23 by hvahib            #+#    #+#             */
-/*   Updated: 2025/06/11 18:58:50 by michoi           ###   ########.fr       */
+/*   Updated: 2025/06/11 20:58:39 by hvahib           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,7 +121,7 @@ void	minishell(t_env_pack env_pack)
 				printf("something HAPPENED in tokenization\n");
 			if (cmd_args && cmd_args->argv )
 				execution(cmd_args, &env_pack);
-			// free_array(&tokenz);
+			free_array(&tokenz);
 			free_cmd_list(cmd_args);
 			restore_std_fd(env_pack);
 		}
