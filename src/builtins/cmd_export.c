@@ -6,7 +6,7 @@
 /*   By: michoi <michoi@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/11 21:47:21 by michoi            #+#    #+#             */
-/*   Updated: 2025/06/10 14:12:39 by michoi           ###   ########.fr       */
+/*   Updated: 2025/06/11 17:32:19 by michoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,7 +143,7 @@ static void	print_export_list(t_env *env)
 			ft_putchar_fd('\n', STDOUT_FILENO);
 		env_copy = env_copy->next;
 	}
-	// cleanup_env(env_copy_head);
+	cleanup_env(env_copy_head);
 }
 
 static int	check_key_name(char *arg)

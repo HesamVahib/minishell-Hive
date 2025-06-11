@@ -6,7 +6,7 @@
 /*   By: michoi <michoi@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 22:01:29 by michoi            #+#    #+#             */
-/*   Updated: 2025/06/10 15:08:07 by michoi           ###   ########.fr       */
+/*   Updated: 2025/06/11 18:04:21 by michoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,11 @@ int	execution(t_cmd *cmd_args, t_env_pack *env_pack)
 					exit(FAILURE);
 				if (duplicate_files(cmd_args))
 					exit(FAILURE);
-				exit(exec_builtin(env, cmd_args));
+				int exit_builtin = exec_builtin(env, cmd_args);
+				exit_run(env);
+				cleanup_env(env);
+				free_cmd_list(cmd_args);
+				exit(exit_builtin);
 			}
 			exec_external_cmd(cmd_args, env);
 		}
