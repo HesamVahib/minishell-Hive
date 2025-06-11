@@ -6,7 +6,7 @@
 /*   By: michoi <michoi@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/11 21:47:21 by michoi            #+#    #+#             */
-/*   Updated: 2025/06/11 16:44:30 by michoi           ###   ########.fr       */
+/*   Updated: 2025/06/10 14:12:39 by michoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,35 +55,44 @@ t_env	*clone_env_list(t_env *env)
 	return (head);
 }
 
-t_env	*sort_export_list(t_env **env)
+void	sort_export_list(t_env **env_ref)
 {
-	t_env	*head;
-	t_env	*former;
-	t_env	*latter;
 	bool	swapped;
+	t_env	*prev;
+	t_env	*head;
+	t_env	*next;
 
-	if(!env || !*env)
-		return (NULL);
-	head = *env;
-	former = *env;
+	if (!env_ref || !*env_ref)
+		return ;
+	head = *env_ref;
 	swapped = true;
 	while (swapped)
 	{
 		swapped = false;
-		while (former->next)
+		(*env_ref) = head;
+		prev = NULL;
+		while ((*env_ref)->next)
 		{
-			latter = former->next;
-			if (ft_strcmp(former->key, latter->key) > 0)
+			next = (*env_ref)->next;
+			if (ft_strcmp((*env_ref)->key, next->key) > 0)
 			{
-				former->next = latter->next;
-				latter->next = former;
-				if (former == head)
-					head = latter;
+				(*env_ref)->next = next->next;
+				next->next = *env_ref;
+				swapped = true;
+				if (prev)
+					prev->next = next;
+				else
+					head = next;
+				prev = next;
 			}
-			former = former->next;
+			else
+			{
+				prev = (*env_ref);
+				*env_ref = (*env_ref)->next;
+			}
 		}
 	}
-	return (head);
+	*env_ref = head;
 }
 
 // number, underscore, alphabets
@@ -134,7 +143,7 @@ static void	print_export_list(t_env *env)
 			ft_putchar_fd('\n', STDOUT_FILENO);
 		env_copy = env_copy->next;
 	}
-	cleanup_env(env_copy_head);
+	// cleanup_env(env_copy_head);
 }
 
 static int	check_key_name(char *arg)
@@ -192,7 +201,7 @@ static int	export_key_value(char *arg, t_env *env)
 int	cmd_export(t_env *env, char **args)
 {
 	t_env	*temp_env;
-
+	
 	temp_env = env;
 	if (!args || !*args)
 	{
@@ -203,24 +212,9 @@ int	cmd_export(t_env *env, char **args)
 	{
 		if (check_key_name(*args))
 			return (FAILURE);
-		// split with =
 		if (export_key_value(*args, env))
 			return (FAILURE);
-		// printf("key: %s, val: %s idx: %d\n", key, value, key_index);
 		args++;
 	}
 	return (SUCCESS);
 }
-
-/*
-michoi@c3r2p7:~$ export abc = hi n = 123
-bash: export: `=': not a valid identifier
-bash: export: `=': not a valid identifier
-bash: export: `123': not a valid identifier
-declare -x a="123"
-declare -x abc
-declare -x b="234"
-declare -x hi
-declare -x n="0"
-
-*/

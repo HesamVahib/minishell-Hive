@@ -6,7 +6,7 @@
 /*   By: michoi <michoi@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 12:42:52 by hvahib            #+#    #+#             */
-/*   Updated: 2025/06/11 16:43:38 by michoi           ###   ########.fr       */
+/*   Updated: 2025/06/10 13:36:15 by michoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,6 @@ char	**word_splitter(char *line)
 	j = 0;
 	while (line[i])
 	{
-		printf("i in wsp: %d\n", i);
 		i = skip_spaces(line, i);
 		if (!line[i])
 			break ;
@@ -98,14 +97,12 @@ char	**word_splitter(char *line)
 			i = handle_single_operator(splitted_line, line, i, &j);
 		else
 			i = handle_regular_word(splitted_line, line, i, &j);
-		printf("i in wsp: %d\n", i);
 		if (i == -1)
 		{
 			free_array(&splitted_line);
 			return (NULL);
 		}
 	}
-	printf("i in wsp: %d\n", j);
 	splitted_line[j] = NULL;
 	return (splitted_line);
 }

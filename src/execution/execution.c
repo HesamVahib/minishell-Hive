@@ -6,7 +6,7 @@
 /*   By: michoi <michoi@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 22:01:29 by michoi            #+#    #+#             */
-/*   Updated: 2025/06/09 19:55:13 by michoi           ###   ########.fr       */
+/*   Updated: 2025/06/10 15:08:07 by michoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ int	execution(t_cmd *cmd_args, t_env_pack *env_pack)
 		if (!cmd_args->next)
 			last_pid = child_pid;
 		if (child_pid == 0)
-		{		
+		{
 			signal(SIGQUIT, SIG_DFL);
 			if (redirect_pipe(*cmd_args, cmd_pipe))
 				exit(EXIT_FAILURE);
