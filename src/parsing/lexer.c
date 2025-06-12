@@ -15,26 +15,29 @@
 static void	handle_file_redirection(t_cmd *cur, char **tokenz, int *i,
 		char mode)
 {
-	if (mode == 'i')
+	if (!cur->error)
 	{
-		if (tokenz[*i + 1])
-			cur->infile = ft_strdup(tokenz[*i + 1]);
-		else
-			cur->infile = ft_strdup(tokenz[*i]);
-		if (open_create_files(cur, "infile") == -1)
-			cur->error = 2;
-	}
-	else if (mode == 'o' || mode == 'a')
-	{
-		if (tokenz[*i + 1])
-			cur->outfile = ft_strdup(tokenz[*i + 1]);
-		else
-			cur->outfile = ft_strdup(tokenz[*i]);
-		cur->append = (mode == 'a');
-		if (open_create_files(cur, "outfile") == -1)
+		if (mode == 'i')
 		{
-			// printf("error opening outfile\n");
-			cur->error = 1;
+			if (tokenz[*i + 1])
+				cur->infile = ft_strdup(tokenz[*i + 1]);
+			else
+				cur->infile = ft_strdup(tokenz[*i]);
+			if (open_create_files(cur, "infile") == -1)
+				cur->error = 2;
+		}
+		else if (mode == 'o' || mode == 'a')
+		{
+			if (tokenz[*i + 1])
+				cur->outfile = ft_strdup(tokenz[*i + 1]);
+			else
+				cur->outfile = ft_strdup(tokenz[*i]);
+			cur->append = (mode == 'a');
+			if (open_create_files(cur, "outfile") == -1)
+			{
+				// printf("error opening outfile\n");
+				cur->error = 1;
+			}
 		}
 	}
 	*i = *i + 2;
@@ -110,12 +113,6 @@ static void	parse_tokens(t_cmd *cmd_list, char **tokenz)
 				i++;
 			if (i >= arrlen(tokenz))
 				return ;
-			if (cur->error)
-			{
-				while (tokenz[i] && ft_strncmp(tokenz[i], "|", 1))
-					i++;
-				break ;
-			}
 		}
 		if (tokenz[i] && is_pipe(tokenz[i]))
 			handle_next_command(&cur, &i);

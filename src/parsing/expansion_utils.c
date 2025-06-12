@@ -55,6 +55,7 @@ static char	*handle_double_dollar(char *res, int *i)
 char	*process_dollars(char *token, t_env *env)
 {
 	char	*res;
+	char	*new_str;
 	char	*str;
 	int		i;
 
@@ -63,13 +64,15 @@ char	*process_dollars(char *token, t_env *env)
 	i = 0;
 	while (str[i])
 	{
-		// free(res);
 		if (str[i] == '$' && (ft_isalpha(str[i + 1]) || str[i + 1] == '_'))
-			res = handle_single_dollar(res, str, &i, env);
+			new_str = handle_single_dollar(res, str, &i, env);
 		else if (str[i] == '$' && str[i + 1] && str[i + 1] == '$')
-			res = handle_double_dollar(res, &i);
+			new_str = handle_double_dollar(res, &i);
 		else
-			res = handle_normal_char(res, str, &i);
+			new_str = handle_normal_char(res, str, &i);
+		if (!new_str)
+			return (NULL);
+		res = new_str;
 	}
 	return (res);
 }

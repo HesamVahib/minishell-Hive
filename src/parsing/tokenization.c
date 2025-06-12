@@ -12,32 +12,30 @@
 
 #include "../../include/minishell.h"
 
-static char	**tokenize_and_check(char *new_line)
+static char **tokenize_and_check(char *new_line)
 {
-	char	**cmd_line;
+    char **cmd_line;
 
-	if (!new_line)
-		return (NULL);
-	cmd_line = word_splitter(new_line);
-	if (!cmd_line || !*cmd_line)
-	{
-		free_array(&cmd_line);
-		return (printf("it is not splitted properly\n"), NULL);
-	}
-	cmd_line = quotes_chkr(cmd_line);
-	if (!cmd_line || !*cmd_line)
-	{
-		free_array(&cmd_line);
-		return (printf("the quotes are not closed\n"), NULL);
-	}
-	cmd_line = syntax_analyzer(cmd_line);
-	if (!cmd_line || !*cmd_line)
-	{
-		free_array(&cmd_line);
-		return (printf("syntax_analyzer error\n"), NULL);
-	}
-	return (cmd_line);
+    if (!new_line)
+        return (NULL);
+    cmd_line = word_splitter(new_line);
+    if (!cmd_line || !*cmd_line)
+        return (free_array(&cmd_line),
+                printf("it is not splitted properly\n"),
+                NULL);
+    if (!quotes_chkr(cmd_line))
+        return (free_array(&cmd_line),
+                printf("the quotes are not closed\n"),
+                NULL);
+    if (!syntax_analyzer(cmd_line))
+        return (free_array(&cmd_line),
+                printf("syntax_analyzer error\n"),
+                NULL);
+    return cmd_line;
 }
+
+
+
 
 static char	**expand_variables(char **cmd_line, t_env *env)
 {
@@ -71,5 +69,6 @@ char	**line_tokenized(char *line, t_env *env)
 		return (printf("adjacent quotes handling failed\n"), NULL);
 	}
 	free_array(&cmd_line);
+	free_array(&expanded_line);
 	return (final_line);
 }

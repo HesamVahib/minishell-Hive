@@ -82,17 +82,26 @@ char	**adjacent_quotes(char **cmd_line)
 {
 	int		i;
 	char	*new_str;
+	char	**new_cmd_line;
 
+	if (!cmd_line)
+		return (NULL);
+	new_cmd_line = malloc(sizeof(char *) * (arrlen(cmd_line) + 1));
+	if (!new_cmd_line)
+		return (NULL);
 	i = 0;
 	while (cmd_line[i])
 	{
 		new_str = remove_adjacent_quotes(cmd_line[i]);
 		if (!new_str)
+		{
+			free_array(&new_cmd_line);
 			return (NULL);
-		free(cmd_line[i]);
-		cmd_line[i] = new_str;
+		}
+		new_cmd_line[i] = new_str;
 		i++;
 	}
-	return (cmd_line);
+	new_cmd_line[i] = NULL;
+	return (new_cmd_line);
 }
 

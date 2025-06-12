@@ -56,6 +56,8 @@ static char	*expand_single_token(char *token, t_env *env)
 	char	*new_token;
 
 	new_token = process_dollars(token, env);
+	if (!new_token)
+		return (free(new_token), NULL);
 	return (new_token);
 }
 
@@ -85,12 +87,9 @@ char	**dollar_expansion(char **tokenz, t_env *env)
 	char	**res;
 	int		i;
 
-	res = malloc((arrlen(tokenz) + 1) * sizeof(char *)); //leak
+	res = malloc((arrlen(tokenz) + 1) * sizeof(char *));
 	if (!res)
-	{
-		free(tokenz);
-		return (NULL); //leak
-	}
+		return (NULL);
 	i = -1;
 	while (tokenz[++i])
 	{
@@ -98,13 +97,15 @@ char	**dollar_expansion(char **tokenz, t_env *env)
 				&& tokenz[i][ft_strlen(tokenz[i]) - 1] == '\'')
 			|| (tokenz[i][0] == '$' && !tokenz[i][1]))
 		{
-			res[i] = tokenz[i];
+			res[i] = ft_strdup(tokenz[i]);
+			if (!res[i])
+				return (free_array(&res), NULL);
 			continue ;
 		}
 		res[i] = copy_or_expand_token(tokenz, i, env);
 		if (!res[i])
-			return (NULL);
+			return (free_array(&res),NULL);
 	}
 	res[i] = NULL;
-	return (res); //leak
+	return (res);
 }

@@ -63,9 +63,9 @@ int	execution(t_cmd *cmd_args, t_env_pack *env_pack)
 	t_pipe		cmd_pipe;
 	pid_t		child_pid;
 	pid_t		last_pid;
-	t_cmd *head;
+	// t_cmd *head;
 	
-	head = cmd_args;
+	// head = cmd_args;
 	last_pid = -1; // PLEASE TAKE CARE THIS NUMBER
 	if (!cmd_args->next)
 		return (run_single_cmd(builtins, cmd_args, env));

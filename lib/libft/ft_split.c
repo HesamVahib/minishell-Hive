@@ -42,12 +42,18 @@ void	free_array(char ***arr)
 	i = 0;
 	while ((*arr)[i])
 	{
-		free((*arr)[i]);
-		(*arr)[i] = NULL;
+		if ((*arr)[i] != NULL)
+		{
+			free((*arr)[i]);
+			(*arr)[i] = NULL;
+		}
 		i++;
 	}
-	free(*arr);
-	*arr = NULL;
+	if (*arr != NULL)
+	{
+		free(*arr);
+		*arr = NULL;
+	}
 }
 
 static char	*allocate_word(int start, int end, char const *s)
