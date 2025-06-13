@@ -6,7 +6,7 @@
 /*   By: michoi <michoi@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 12:39:20 by hvahib            #+#    #+#             */
-/*   Updated: 2025/06/11 16:41:16 by michoi           ###   ########.fr       */
+/*   Updated: 2025/06/13 15:52:21 by michoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ t_env	*custom_export(t_env *env_list, char *key, char *value)
 			free(temp->value);
 			temp->value = NULL;
 		}
-		if (value && *value)
+		if (value)
 		{
 			temp->value = ft_strdup(value);
 			if (!temp->value)
@@ -105,7 +105,7 @@ t_env	*custom_export(t_env *env_list, char *key, char *value)
 		temp_key = ft_strdup(key);
 		if (!temp_key)
 			clean_out_all(env_list, NULL, NULL, NULL);
-		if (value && *value)
+		if (value)
 		{
 			temp_value = ft_strdup(value);
 			if (!temp_value)

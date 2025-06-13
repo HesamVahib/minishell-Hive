@@ -6,7 +6,7 @@
 /*   By: michoi <michoi@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/18 00:44:35 by michoi            #+#    #+#             */
-/*   Updated: 2025/06/12 00:00:54 by michoi           ###   ########.fr       */
+/*   Updated: 2025/06/12 00:38:26 by michoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,28 +60,11 @@ static int	open_input_file(t_cmd *cmd)
 int	open_files(t_cmd *cmd_list)
 {
 	int	outfile_fd;
-// fprintf(stderr, "are we here???????? (%d)%s (error: %d)\n", cmd_list->redirect_order, cmd_list->outfile, cmd_list->error);
-	// int	infile_fd;
-	// int	heredoc_fd;
-	// printf("%s, %s\n", cmd_list->outfile, cmd_list->infile);
+
 	if (cmd_list->redirect_order)
 	{
 		if (open_input_file(cmd_list))
 			return (FAILURE);
-		// if (cmd_list->redirect_order == 1 && cmd_list->infile)
-		// {
-		// 	infile_fd = open(cmd_list->infile, O_RDONLY);
-		// 	if (infile_fd == -1)
-		// 		return (FAILURE);
-		// 	cmd_list->infile_fd = infile_fd;
-		// }
-		// else if (cmd_list->redirect_order == 2 && cmd_list->is_heredoc)
-		// {
-		// 	heredoc_fd = open_heredoc_file(cmd_list->is_heredoc);
-		// 	if (heredoc_fd == -1)
-		// 		return (FAILURE);
-		// 	cmd_list->heredoc_fd = heredoc_fd;
-		// }
 	}
 	if (cmd_list->outfile)
 	{

@@ -6,7 +6,7 @@
 /*   By: michoi <michoi@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/17 18:27:17 by michoi            #+#    #+#             */
-/*   Updated: 2025/06/10 15:08:24 by michoi           ###   ########.fr       */
+/*   Updated: 2025/06/12 00:49:26 by michoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 void	cleanup_process(t_cmd *cmd, t_env *env)
 {
+	exit_run(env);
 	cleanup_env(env);
 	close_files(cmd);
 	free_cmd_list(cmd);
@@ -89,29 +90,32 @@ void	execute_cmd_in_pipe(const char **builtins, t_pipe cmd_pipe,
 	exec_external_cmd(cmd_args, env);
 }
 
-void	exec_external_cmd(t_cmd *cmd, t_env *env)
+void	handle_dots(t_cmd *cmd, t_env *env)
 {
-	t_cp	cp;
-	char	**env_arr;
-
 	if (!ft_strcmp(cmd->argv[0], "..") || !ft_strcmp(cmd->argv[0], "."))
 	{
-		close_files(cmd);
+		// close_files(cmd);
 		if (!ft_strcmp(cmd->argv[0], ".."))
 		{
 			print_path_err(cmd);
-			cleanup_env(env);
-			free_cmd_list(cmd);
+			cleanup_process(cmd, env);
 			exit(set_path_exit_code(127));
 		}
 		else if (!ft_strcmp(cmd->argv[0], "."))
 		{
 			print_cmd_err(cmd->argv[0], "filename argument required");
-			cleanup_env(env);
-			free_cmd_list(cmd);
+			cleanup_process(cmd, env);
 			exit(2);
 		}
 	}
+}
+
+void	exec_external_cmd(t_cmd *cmd, t_env *env)
+{
+	t_cp	cp;
+	char	**env_arr;
+
+	handle_dots(cmd, env);
 	ft_bzero(&cp, sizeof(t_cp));
 	env_arr = get_env_arr(env);
 	if (!env_arr)
