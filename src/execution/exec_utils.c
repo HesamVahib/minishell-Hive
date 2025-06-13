@@ -6,11 +6,28 @@
 /*   By: michoi <michoi@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/11 20:20:28 by michoi            #+#    #+#             */
-/*   Updated: 2025/06/11 22:58:55 by michoi           ###   ########.fr       */
+/*   Updated: 2025/06/14 02:25:37 by michoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/execution.h"
+
+int	check_valid_argv(char **cmd_argv)
+{
+	int	i;
+
+	i = 0;
+	while (i < arrlen(cmd_argv) && !ft_strcmp(cmd_argv[i], ""))
+		i++;
+	return (i);
+}
+
+void	cleanup_exit(t_env *env, t_cmd *cmd)
+{
+	exit_run(env);
+	cleanup_env(env);
+	free_cmd_list(cmd);
+}
 
 static void	cleanup_env_arr(char **env_arr, int i)
 {

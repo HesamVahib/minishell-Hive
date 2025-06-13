@@ -1,5 +1,5 @@
 NAME = minishell
-FLAGS = -Wall -Werror -Wextra -g
+FLAGS = -Wall -Werror -Wextra
 CC = cc
 SRCDIR=src
 OBJDIR=obj
@@ -12,8 +12,8 @@ SRC_BUILTIN = $(addprefix builtins/, builtins.c cmd_cd.c cmd_echo.c cmd_env.c cm
 				cmd_pwd.c cmd_err.c cmd_unset.c cmd_export.c cmd_export_utils_1.c \
 				cmd_export_utils_2.c)
 
-SRC_EXEC =	$(addprefix execution/,execution.c exec_path.c exec_utils.c exec_child_process.c exec_init.c exec_open.c \
-			exec_wait.c)
+SRC_EXEC =	$(addprefix execution/,execution.c exec_path.c exec_utils.c exec_child_process.c exec_init.c exec_files.c \
+			exec_wait.c exec_single_cmd.c)
 
 SRC_PARS = $(addprefix parsing/, main.c \
 			clean_utility.c \

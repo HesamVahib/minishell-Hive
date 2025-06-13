@@ -6,7 +6,7 @@
 /*   By: michoi <michoi@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/18 00:44:35 by michoi            #+#    #+#             */
-/*   Updated: 2025/06/12 00:38:26 by michoi           ###   ########.fr       */
+/*   Updated: 2025/06/13 18:21:12 by michoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,6 +91,11 @@ int	close_files(t_cmd *cmd)
 	if (cmd->outfile_fd > -1)
 	{
 		if (close_fd(cmd->infile_fd))
+			return (FAILURE);
+	}
+	if (cmd->heredoc_fd > -1)
+	{
+		if (close_fd(cmd->heredoc_fd))
 			return (FAILURE);
 	}
 	return (SUCCESS);

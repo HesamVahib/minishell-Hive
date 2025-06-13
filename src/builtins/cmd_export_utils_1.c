@@ -6,7 +6,7 @@
 /*   By: michoi <michoi@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/11 21:42:13 by michoi            #+#    #+#             */
-/*   Updated: 2025/06/11 22:43:31 by michoi           ###   ########.fr       */
+/*   Updated: 2025/06/14 00:53:32 by michoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,28 +55,27 @@ static t_env	*clone_env_list(t_env *env)
 	return (head);
 }
 
-void	swap_nodes(t_env ***env_node, t_env **prev, t_env **head, bool *swapped)
+static bool	swap_env_node(t_env **env_ref, t_env **head, t_env **prev)
 {
-	t_env	*cur = **env_node;
+	t_env	*cur;
 	t_env	*next;
 
+	cur = *env_ref;
 	next = cur->next;
 	if (ft_strcmp(cur->key, next->key) > 0)
 	{
 		cur->next = next->next;
 		next->next = cur;
-		*swapped = true;
 		if (*prev)
 			(*prev)->next = next;
 		else
 			*head = next;
 		*prev = next;
+		return (true);
 	}
-	else
-	{
-		*prev = cur;
-		*env_node = &cur->next;
-	}
+	*prev = cur;
+	*env_ref = cur->next;
+	return (false);
 }
 
 static int	sort_env_list(t_env **env_ref)
@@ -97,24 +96,9 @@ static int	sort_env_list(t_env **env_ref)
 		prev = NULL;
 		while ((*env_ref)->next)
 		{
-			// swap_nodes(&env_ref, &prev, &head, &swapped);
 			next = (*env_ref)->next;
-			if (ft_strcmp((*env_ref)->key, next->key) > 0)
-			{
-				(*env_ref)->next = next->next;
-				next->next = *env_ref;
+			if (swap_env_node(env_ref, &head, &prev))
 				swapped = true;
-				if (prev)
-					prev->next = next;
-				else
-					head = next;
-				prev = next;
-			}
-			else
-			{
-				prev = (*env_ref);
-				*env_ref = (*env_ref)->next;
-			}
 		}
 	}
 	*env_ref = head;
