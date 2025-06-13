@@ -111,15 +111,15 @@ void	minishell(t_env_pack env_pack)
 			{
 				cmd_args = cmd_args_extractor(tokenz);
 				free_array(&tokenz);
-				print_cmd_temp(cmd_args);
+				// print_cmd_temp(cmd_args);
 				heredoc_processing(cmd_args);
 				error_checking(cmd_args);
 				free(tokenz);
 			}
 			else
 				printf("something HAPPENED in tokenization\n");
-			// if (cmd_args && cmd_args->argv )
-			// 	execution(cmd_args, &env_pack);
+			if (cmd_args && cmd_args->argv )
+				execution(cmd_args, &env_pack);
 			free_array(&tokenz);
 			if (cmd_args)
 				free_cmd_list(cmd_args);

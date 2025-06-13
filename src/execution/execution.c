@@ -57,7 +57,7 @@ int	execution(t_cmd *cmd_args, t_env_pack *env_pack)
 	while (!ft_strcmp(cmd_args->argv[argv_i], ""))
 		argv_i++;
 	
-	printf("argv_i: %d\n", argv_i);
+	// printf("argv_i: %d\n", argv_i);
 	const char	*builtins[] = {CMD_CD, CMD_ECHO, CMD_ENV, CMD_EXPORT, CMD_EXIT,
 			CMD_PWD, CMD_UNSET, NULL};
 	t_pipe		cmd_pipe;

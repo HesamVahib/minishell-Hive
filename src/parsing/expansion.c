@@ -64,10 +64,15 @@ static char	*expand_single_token(char *token, t_env *env)
 static char	*copy_or_expand_token(char **tokenz, int i, t_env *env)
 {
 	char	*new_token;
+	char	*temp;
 
 	if ((tokenz[i][0] == '$'
 		&& tokenz[i][1] && tokenz[i][1] == '?'))
-			new_token = ft_itoa(set_and_get_exit_status(0, false));
+		{
+			temp = ft_itoa(set_and_get_exit_status(0, false));
+			new_token = ft_strjoin(temp, &tokenz[i][2]);
+			free(temp);
+		}
 	else
 	{
 		if (dollar_validated(tokenz[i]) == 1)

@@ -25,6 +25,7 @@ static void	handle_file_redirection(t_cmd *cur, char **tokenz, int *i,
 				cur->infile = ft_strdup(tokenz[*i]);
 			if (open_create_files(cur, "infile") == -1)
 				cur->error = 2;
+			cur->redirect_order = 1;
 		}
 		else if (mode == 'o' || mode == 'a')
 		{
@@ -41,7 +42,6 @@ static void	handle_file_redirection(t_cmd *cur, char **tokenz, int *i,
 		}
 	}
 	*i = *i + 2;
-	cur->redirect_order = 1;
 }
 
 static void	handle_heredoc(t_cmd *cur, char **tokenz, int *i)

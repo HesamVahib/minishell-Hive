@@ -73,8 +73,7 @@ int	open_create_files(t_cmd *cmd_list, char *type)
 {
 	int	fd;
 	
-	// if (!cmd_list->infile || !cmd_list->outfile)
-	// 	return (0);
+
 	if (ft_strncmp(type, "outfile", 7) == 0)
 	{
 		if (cmd_list->outfile_fd >= 0)
