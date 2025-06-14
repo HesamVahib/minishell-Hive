@@ -16,7 +16,6 @@ int	run_command(t_cp *cp, char **env_arr)
 {
 	if (execve(cp->path, cp->args, env_arr))
 	{
-		free(cp->path);
 		free_array(&env_arr);
 		perror("execve failed");
 		return (FAILURE);
@@ -58,7 +57,6 @@ static void	run_and_cleanup(t_cmd *cmd, t_env *env, t_cp *cp, char **env_arr)
 	cleanup_env(env);
 	if (run_command(cp, env_arr))
 	{
-		close_files(cmd);
 		free_cmd_list(cmd);
 		exit(EXIT_FAILURE);
 	}
