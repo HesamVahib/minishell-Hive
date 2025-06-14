@@ -9,10 +9,11 @@ LIBFT = $(LIBFT_DIR)/libft.a
 VPATH = builtins execution
 
 SRC_BUILTIN = $(addprefix builtins/, builtins.c cmd_cd.c cmd_echo.c cmd_env.c cmd_exit.c \
-				cmd_pwd.c cmd_utils.c cmd_unset.c cmd_export.c)
+				cmd_pwd.c cmd_err.c cmd_unset.c cmd_export.c cmd_export_utils_1.c \
+				cmd_export_utils_2.c)
 
-SRC_EXEC =	$(addprefix execution/,execution.c exec_path.c exec_utils.c exec_child_process.c exec_init.c exec_open.c \
-			exec_wait.c)
+SRC_EXEC =	$(addprefix execution/,execution.c exec_path.c exec_utils.c exec_child_process.c exec_init.c exec_files.c \
+			exec_wait.c exec_single_cmd.c)
 
 SRC_PARS = $(addprefix parsing/, main.c \
 			clean_utility.c \

@@ -54,7 +54,6 @@ typedef struct s_env
 {
 	char						*key;
 	char						*value;
-	// int				*index;
 	struct s_env				*next;
 }								t_env;
 
@@ -205,6 +204,8 @@ char							*stitch_strings(char **temp_split);
 
 // ft_cmdlen.c
 int								ft_cmdlen(char *line);
+void							write_heredoc_content(int fd, char *limiter);
+
 
 // void	write_heredoc_content(int fd, char *limiter);
 // ┌────────────── ⋆⋅☆⋅⋆ ── Temporary ── ⋆⋅☆⋅⋆ ──────────────┐
@@ -212,8 +213,6 @@ int								ft_cmdlen(char *line);
 void							print_cmd_temp(t_cmd *cmd_args);
 
 // └─────────────────────────────────────────────────────────┘
-
-// Minji
 
 // utils
 int								update_node(t_env *env, char *key,

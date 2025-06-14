@@ -6,7 +6,7 @@
 /*   By: michoi <michoi@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 22:34:15 by michoi            #+#    #+#             */
-/*   Updated: 2025/06/11 16:45:20 by michoi           ###   ########.fr       */
+/*   Updated: 2025/06/14 16:48:25 by michoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,8 +43,11 @@ int							duplicate_files(t_cmd *cmd_arg);
 int							close_fd(int fd);
 int							open_files(t_cmd *cmd_list);
 int							close_files(t_cmd *cmd);
-void						print_path_err(t_cmd *cmd);
-int							redirect_pipe(t_cmd cmd, t_pipe cmd_pipe);
+void						open_dup_files(t_cmd *cmd, t_env *env);
+void						print_path_err(char *cmd);
+void						cleanup_exit(t_env *env, t_cmd *cmd);
+int							check_valid_argv(char **cmd_argv);
+int							open_heredoc_file(char *limiter);
 
 // ─── ⋆⋅☆⋅⋆ ── cmd path ─── ⋆⋅☆⋅⋆ ──
 
@@ -52,12 +55,14 @@ char						**get_env_arr(t_env *env);
 char						*get_cmd_path(t_env *env, char *cmd);
 
 // ─── ⋆⋅☆⋅⋆ ── execution ─── ⋆⋅☆⋅⋆ ──
+
 int							run_single_cmd(const char **builtins, t_cmd *cmd,
 								t_env *env);
 int							run_command(t_cp *cp, char **env_arr);
-void						exec_external_cmd(t_cmd *cmd, t_env *env);
+void						execute_external_cmd(t_cmd *cmd, t_env *env);
 
 // ─── ⋆⋅☆⋅⋆ ── wait && exit ─── ⋆⋅☆⋅⋆ ──
+
 int							wait_for_pid(pid_t pid, int *stat);
 int							handle_exit_status(int wait_stat);
 int							wait_and_set_exit_status(pid_t last_pid);

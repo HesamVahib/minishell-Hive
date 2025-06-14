@@ -6,7 +6,7 @@
 /*   By: michoi <michoi@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/17 18:27:27 by michoi            #+#    #+#             */
-/*   Updated: 2025/06/11 16:43:58 by michoi           ###   ########.fr       */
+/*   Updated: 2025/06/14 16:36:35 by michoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,4 +68,18 @@ int	duplicate_files(t_cmd *cmd_arg)
 			status = FAILURE;
 	}
 	return (status);
+}
+
+void	open_dup_files(t_cmd *cmd, t_env *env)
+{
+	if (open_files(cmd))
+	{
+		cleanup_exit(env, cmd);
+		exit(EXIT_FAILURE);
+	}
+	if (duplicate_files(cmd))
+	{
+		cleanup_exit(env, cmd);
+		exit(EXIT_FAILURE);
+	}
 }

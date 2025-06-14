@@ -6,7 +6,7 @@
 /*   By: michoi <michoi@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/11 21:47:16 by michoi            #+#    #+#             */
-/*   Updated: 2025/06/11 16:44:24 by michoi           ###   ########.fr       */
+/*   Updated: 2025/06/13 15:50:30 by michoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,18 +33,12 @@ int	cmd_env(t_env *env, char **args)
 	}
 	while (env)
 	{
-		if (env->value && (*env->value))
+		if (env->value)
 		{
 			ft_putstr_fd(env->key, STDOUT_FILENO);
 			ft_putchar_fd('=', STDOUT_FILENO);
 			ft_putendl_fd(env->value, STDOUT_FILENO);
 		}
-		// else
-		// {
-		// 	printf("env value: %s\n", env->value);
-		// 	ft_putstr_fd(env->key, STDOUT_FILENO);
-		// 	// ft_putendl_fd("=", STDOUT_FILENO);
-		// }
 		env = env->next;
 	}
 	return (SUCCESS);

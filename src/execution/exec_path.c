@@ -6,18 +6,18 @@
 /*   By: michoi <michoi@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/11 20:19:41 by michoi            #+#    #+#             */
-/*   Updated: 2025/06/11 16:44:05 by michoi           ###   ########.fr       */
+/*   Updated: 2025/06/14 16:36:46 by michoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/execution.h"
 
-void	print_path_err(t_cmd *cmd)
+void	print_path_err(char *cmd)
 {
 	if (errno == EACCES || errno == ENOENT || errno == EISDIR)
-		print_cmd_err(cmd->argv[0], strerror(errno));
+		print_cmd_err(cmd, strerror(errno));
 	else
-		print_basic_error(cmd->argv[0], "command not found");
+		print_basic_error(cmd, "command not found");
 }
 
 int	set_path_exit_code(int err_no)

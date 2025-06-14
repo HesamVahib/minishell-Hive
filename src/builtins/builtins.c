@@ -6,7 +6,7 @@
 /*   By: michoi <michoi@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 17:22:37 by michoi            #+#    #+#             */
-/*   Updated: 2025/06/11 16:44:17 by michoi           ###   ########.fr       */
+/*   Updated: 2025/06/14 16:36:19 by michoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,11 @@ int	exec_builtin(t_env *env, t_cmd *cmd_arg)
 {
 	char	*cmd;
 	char	**args;
+	int		argv_i;
 
-	cmd = cmd_arg->argv[0];
-	args = cmd_arg->argv + 1;
+	argv_i = check_valid_argv(cmd_arg->argv);
+	cmd = cmd_arg->argv[argv_i];
+	args = cmd_arg->argv + (argv_i + 1);
 	if (!ft_strncmp(cmd, CMD_CD, ft_strlen(cmd)))
 		return (cmd_cd(env, args));
 	if (!ft_strncmp(cmd, CMD_ECHO, ft_strlen(cmd)))

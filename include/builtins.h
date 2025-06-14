@@ -6,7 +6,7 @@
 /*   By: michoi <michoi@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 19:24:15 by michoi            #+#    #+#             */
-/*   Updated: 2025/06/11 16:45:22 by michoi           ###   ########.fr       */
+/*   Updated: 2025/06/14 16:36:11 by michoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,5 +46,9 @@ int						cmd_unset(t_env **env, char **args);
 void					print_basic_error(char *cmd, char *msg);
 void					print_cmd_err(char *cmd, char *msg);
 void					print_cmd_err_with_arg(char *cmd, char *arg, char *msg);
+t_env					*get_sorted_env(t_env *env);
+bool					is_right_key_name(char *key);
+int						get_key_idx(char *arg);
+void					print_key_value(t_env *env);
 
 #endif
