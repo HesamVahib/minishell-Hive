@@ -36,7 +36,6 @@ SRC_PARS = $(addprefix parsing/, main.c \
 			cmd_syntax_analyzer.c \
 			expansion.c \
 			heredoc.c \
-			heredoc_utils.c \
 			tokenz_util_wsplitter.c \
 			tokenz_util_wsplitter2.c \
 			expansion_utils.c \

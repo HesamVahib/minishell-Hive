@@ -193,7 +193,9 @@ char							**dollar_expansion(char **tokenz, t_env *env);
 
 // heredoc.c
 int								heredoc_processing(t_cmd *cmd_args);
-void							open_heredoc(char **limiters);
+// void							open_heredoc(char **limiters);
+// int								open_heredoc_file(char *limiter);
+
 
 // expansion.utils.c
 char							*process_dollars(char *token, t_env *env);
@@ -205,6 +207,7 @@ int								ft_cmdlen(char *line);
 void							write_heredoc_content(int fd, char *limiter);
 
 
+// void	write_heredoc_content(int fd, char *limiter);
 // ┌────────────── ⋆⋅☆⋅⋆ ── Temporary ── ⋆⋅☆⋅⋆ ──────────────┐
 
 void							print_cmd_temp(t_cmd *cmd_args);

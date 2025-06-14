@@ -12,11 +12,56 @@
 
 #include "../../include/minishell.h"
 
-static char	*find_last_limiter(char **limiters)
+static void	sigint_handler_heredoc(int sig)
 {
-	int		i;
-	char	*main_limiter;
+	(void)sig;
+	g_signal = SIGINT;
+}
 
+static int	open_heredoc_file(char *limiter)
+{
+	int	fd;
+	char *filename;
+
+	filename = ft_strjoin(limiter, ".txt");
+	if (!filename)
+		return (-1);
+	fd = open(filename, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	if (fd == -1)
+		return (free(filename), -1);
+	return (free(filename), fd);
+}
+
+static void	write_heredoc_content(int fd, char *limiter)
+{
+	char	*line;
+	char	*temp;
+
+	signal(SIGINT, sigint_handler_heredoc);
+	rl_event_hook = sig_handler_heredoc;
+	while (1)
+	{
+		line = readline("> ");
+		if (!line || g_signal == SIGINT)
+			break ;
+		if (ft_strncmp(line, limiter, ft_strlen(limiter)) == 0)
+		{
+			free(line);
+			break ;
+		}
+		temp = ft_strjoin(line, "\n");
+		if (temp)
+			write(fd, temp, ft_strlen(temp));
+		free(line);
+		free(temp);
+	}
+}
+
+static	char *find_last_limiter(char **limiters)
+{
+	int	i;
+	char *main_limiter;
+	
 	i = 0;
 	main_limiter = NULL;
 	while (limiters[i])
@@ -31,47 +76,32 @@ static char	*find_last_limiter(char **limiters)
 	return (NULL);
 }
 
-static void	heredoc_setup(char **limiters, char **main_limiter)
+static	void	open_heredoc(char **limiters)
 {
-	*main_limiter = find_last_limiter(limiters);
-	rl_on_new_line();
-	rl_replace_line("", 0);
-}
-
-static int	heredoc_loop(char **limiters, char *main_limiter)
-{
-	int	fd;
-	int	i;
+	int		fd;
+	char	*main_limiter;
+	int		i;
 
 	i = 0;
+	main_limiter = find_last_limiter(limiters);
+	rl_on_new_line();
+	rl_replace_line("", 0);
 	while (limiters[i] != NULL)
 	{
 		fd = open_heredoc_file(main_limiter);
 		if (fd == -1 || g_signal == SIGINT)
-			return (1);
+			return (free(main_limiter));
 		write_heredoc_content(fd, limiters[i]);
 		close(fd);
 		i++;
 	}
-	return (0);
-}
-
-void	open_heredoc(char **limiters)
-{
-	char	*main_limiter;
-	int		stop;
-
-	heredoc_setup(limiters, &main_limiter);
-	stop = heredoc_loop(limiters, main_limiter);
 	free(main_limiter);
-	if (stop)
-		return ;
 }
 
 int	heredoc_processing(t_cmd *cmd_args)
 {
 	if (!cmd_args)
-		return (0);
+		return (-1);
 	while (cmd_args && cmd_args->is_heredoc)
 	{
 		open_heredoc(cmd_args->heredoc_limiters);
