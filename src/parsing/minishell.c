@@ -6,7 +6,7 @@
 /*   By: michoi <michoi@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 12:41:23 by hvahib            #+#    #+#             */
-/*   Updated: 2025/06/14 01:02:04 by michoi           ###   ########.fr       */
+/*   Updated: 2025/06/14 16:39:23 by michoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,37 +39,25 @@ void	free_cmd_list(t_cmd *cmd_args)
 	while (current)
 	{
 		next = current->next;
-		
-		// Free argv array
 		if (current->argv)
 			free_array(&current->argv);
-		
-		// Free file name strings
 		free(current->infile);
 		free(current->outfile);
-		
-		// Free is_heredoc flags array
 		free(current->is_heredoc);
-		
-		// Free heredoc limiters array
 		if (current->heredoc_limiters)
 			free_array(&current->heredoc_limiters);
-		
-		// Close open file descriptors
 		if (current->infile_fd >= 0)
 			close(current->infile_fd);
 		if (current->outfile_fd >= 0)
 			close(current->outfile_fd);
 		if (current->heredoc_fd >= 0)
 			close(current->heredoc_fd);
-		
-		// Free the command node itself
 		current = next;
 	}
-		free(head);
+	free(head);
 }
 
-void error_checking(t_cmd *cmd)
+void	error_checking(t_cmd *cmd)
 {
 	while (cmd)
 	{
@@ -99,7 +87,7 @@ void	minishell(t_env_pack env_pack)
 		if (!line)
 		{
 			exit_preparation(env_pack);
-			exit (1);
+			exit (0);
 		}
 		if (executable(line))
 		{
@@ -110,6 +98,7 @@ void	minishell(t_env_pack env_pack)
 			{
 				cmd_args = cmd_args_extractor(tokenz);
 				free_array(&tokenz);
+				// print_cmd_temp(cmd_args);
 				heredoc_processing(cmd_args);
 				error_checking(cmd_args);
 				free(tokenz);
@@ -119,11 +108,10 @@ void	minishell(t_env_pack env_pack)
 			if (cmd_args && cmd_args->argv)
 				execution(cmd_args, &env_pack);
 			free_array(&tokenz);
-			free_cmd_list(cmd_args);
+			if (cmd_args)
+				free_cmd_list(cmd_args);
 			restore_std_fd(env_pack);
 		}
 		free(line);
 	}
 }
-
-//&& ft_strcmp(*(cmd_args->argv), "")

@@ -1,28 +1,41 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exit_stat.c                                        :+:      :+:    :+:   */
+/*   utility3.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: michoi <michoi@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/25 21:07:45 by michoi            #+#    #+#             */
-/*   Updated: 2025/06/14 16:36:56 by michoi           ###   ########.fr       */
+/*   Created: 2025/05/08 12:43:09 by hvahib            #+#    #+#             */
+/*   Updated: 2025/06/11 16:43:44 by michoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-/**
- * When cmd is executed,
- * this function is called and exit status code is saved and returned.
- * @param code: exit status code from an executed command.
- * @param set: determins if the status code is set or retrieved.
- */
-int	set_and_get_exit_status(int code, bool set)
+int	arrlen(char **arr)
 {
-	static int	stat_code = 0;
+	int	len;
 
-	if (set)
-		stat_code = code;
-	return (stat_code);
+	if (!arr || !*arr)
+		return (0);
+	len = 0;
+	while (arr[len])
+		len++;
+	return (len);
+}
+
+int	update_node(t_env *env, char *key, char *new_value)
+{
+	t_env	*node;
+	char	*temp;
+
+	node = node_finder(env, key);
+	if (!node)
+		return (FAILURE);
+	temp = ft_strdup(new_value);
+	if (!temp)
+		return (FAILURE);
+	free(node->value);
+	node->value = temp;
+	return (SUCCESS);
 }

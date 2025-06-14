@@ -14,7 +14,7 @@
 
 static int	dollar_validated(char *str)
 {
-	int	i;
+	int		i;
 
 	i = 0;
 	while (str[i])
@@ -56,16 +56,23 @@ static char	*expand_single_token(char *token, t_env *env)
 	char	*new_token;
 
 	new_token = process_dollars(token, env);
+	if (!new_token)
+		return (free(new_token), NULL);
 	return (new_token);
 }
 
 static char	*copy_or_expand_token(char **tokenz, int i, t_env *env)
 {
 	char	*new_token;
+	char	*temp;
 
 	if ((tokenz[i][0] == '$'
 		&& tokenz[i][1] && tokenz[i][1] == '?'))
-			new_token = ft_itoa(set_and_get_exit_status(0, false));
+	{
+		temp = ft_itoa(set_and_get_exit_status(0, false));
+		new_token = ft_strjoin(temp, &tokenz[i][2]);
+		free(temp);
+	}
 	else
 	{
 		if (dollar_validated(tokenz[i]) == 1)
@@ -85,26 +92,25 @@ char	**dollar_expansion(char **tokenz, t_env *env)
 	char	**res;
 	int		i;
 
-	res = malloc((arrlen(tokenz) + 1) * sizeof(char *)); //leak
+	res = malloc((arrlen(tokenz) + 1) * sizeof(char *));
 	if (!res)
-	{
-		free(tokenz);
-		return (NULL); //leak
-	}
+		return (NULL);
 	i = -1;
 	while (tokenz[++i])
 	{
 		if ((tokenz[i][0] == '\\') || (tokenz[i][0] == '\''
-				&& tokenz[i][ft_strlen(tokenz[i]) - 1] == '\'')
+			&& tokenz[i][ft_strlen(tokenz[i]) - 1] == '\'')
 			|| (tokenz[i][0] == '$' && !tokenz[i][1]))
 		{
-			res[i] = tokenz[i];
+			res[i] = ft_strdup(tokenz[i]);
+			if (!res[i])
+				return (free_array(&res), NULL);
 			continue ;
 		}
 		res[i] = copy_or_expand_token(tokenz, i, env);
 		if (!res[i])
-			return (NULL);
+			return (free_array(&res), NULL);
 	}
 	res[i] = NULL;
-	return (res); //leak
+	return (res);
 }

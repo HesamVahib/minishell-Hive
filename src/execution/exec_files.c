@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exec_open.c                                        :+:      :+:    :+:   */
+/*   exec_files.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: michoi <michoi@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/18 00:44:35 by michoi            #+#    #+#             */
-/*   Updated: 2025/06/13 18:21:12 by michoi           ###   ########.fr       */
+/*   Updated: 2025/06/14 16:44:00 by michoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int	close_fd(int fd)
 	return (SUCCESS);
 }
 
-static int	open_heredoc_file(char *limiter)
+int	open_heredoc_file(char *limiter)
 {
 	int		fd;
 	char	*filename;

@@ -12,24 +12,23 @@
 
 #include "../../include/minishell.h"
 
-char *ft_strndup(const char *s, int n)
+char	*ft_strndup(const char *s, int n)
 {
-    char *dup;
-    int i;
+	char	*dup;
+	int		i;
 
-    if (!s || n < 0)
-        return (NULL);
-    dup = ft_calloc(n + 1, sizeof(char));
-    if (!dup)
-        return (NULL);
-
-    i = 0;
-    while (i < n && s[i])
+	if (!s || n < 0)
+		return (NULL);
+	dup = ft_calloc(n + 1, sizeof(char));
+	if (!dup)
+		return (NULL);
+	i = 0;
+	while (i < n && s[i])
 	{
-        dup[i] = s[i];
-        i++;
-    }
-    return (dup);
+		dup[i] = s[i];
+		i++;
+	}
+	return (dup);
 }
 
 bool	is_in_array(const char **arr, char *s)
