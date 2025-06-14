@@ -57,11 +57,11 @@ static void	write_heredoc_content(int fd, char *limiter)
 	}
 }
 
-static	char *find_last_limiter(char **limiters)
+static	char	*find_last_limiter(char **limiters)
 {
-	int	i;
-	char *main_limiter;
-	
+	int		i;
+	char	*main_limiter;
+
 	i = 0;
 	main_limiter = NULL;
 	while (limiters[i])
