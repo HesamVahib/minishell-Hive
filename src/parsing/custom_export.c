@@ -12,30 +12,6 @@
 
 #include "../../include/minishell.h"
 
-t_env_pack	std_fd_custom_exporter(t_env_pack env_pack, int fd_std, char *key)
-{
-	char	*std_itoa;
-	int		fd;
-
-	fd = dup(fd_std);
-	if (fd == -1)
-		clean_out_all(env_pack.sys_envlist, env_pack.mshell_env, NULL, NULL);
-	std_itoa = ft_itoa(fd);
-	if (!std_itoa)
-	clean_out_all(env_pack.sys_envlist, env_pack.mshell_env, NULL, NULL);
-	env_pack.mshell_env = custom_export(env_pack.mshell_env, key, std_itoa);
-	free(std_itoa);
-	return (env_pack);
-}
-
-t_env_pack	export_std_fd(t_env_pack env_pack)
-{
-	env_pack = std_fd_custom_exporter(env_pack, STDIN_FILENO, "fd_stdin");
-	env_pack = std_fd_custom_exporter(env_pack, STDOUT_FILENO, "fd_stdout");
-	env_pack = std_fd_custom_exporter(env_pack, STDERR_FILENO, "fd_stderr");
-	return (env_pack);
-}
-
 t_env	*update_env(t_env *env_list, char *key, char *value)
 {
 	t_env	*new;
@@ -77,43 +53,52 @@ t_env	*node_finder(t_env *env_list, char *key)
 	return (temp);
 }
 
+static void	update_existing_node(t_env *temp, char *value, t_env *env_list)
+{
+	if (temp->value)
+	{
+		free(temp->value);
+		temp->value = NULL;
+	}
+	if (value && *value)
+	{
+		temp->value = ft_strdup(value);
+		if (!temp->value)
+			clean_out_all(env_list, NULL, NULL, NULL);
+	}
+}
+
+static t_env	*add_new_node(t_env *env_list, char *key, char *value)
+{
+	char	*temp_key;
+	char	*temp_value;
+
+	temp_value = NULL;
+	temp_key = ft_strdup(key);
+	if (!temp_key)
+		clean_out_all(env_list, NULL, NULL, NULL);
+	if (value && *value)
+	{
+		temp_value = ft_strdup(value);
+		if (!temp_value)
+			clean_out_all(env_list, NULL, NULL, NULL);
+	}
+	env_list = update_env(env_list, temp_key, temp_value);
+	if (!env_list)
+		clean_out_all(env_list, NULL, NULL, NULL);
+	return (env_list);
+}
+
 t_env	*custom_export(t_env *env_list, char *key, char *value)
 {
 	t_env	*temp;
-	char	*temp_key;
-	char	*temp_value;
-	
-	temp_value = NULL;
+
 	temp = node_finder(env_list, key);
 	if (temp)
 	{
-		if (temp->value)
-		{
-			free(temp->value);
-			temp->value = NULL;
-		}
-		if (value && *value)
-		{
-			temp->value = ft_strdup(value);
-			if (!temp->value)
-				clean_out_all(env_list, NULL, NULL, NULL);
-		}
+		update_existing_node(temp, value, env_list);
 		return (env_list);
 	}
 	else
-	{
-		temp_key = ft_strdup(key);
-		if (!temp_key)
-			clean_out_all(env_list, NULL, NULL, NULL);
-		if (value && *value)
-		{
-			temp_value = ft_strdup(value);
-			if (!temp_value)
-				clean_out_all(env_list, NULL, NULL, NULL);
-		}
-		env_list = update_env(env_list, temp_key, temp_value);
-		if (!env_list)
-			clean_out_all(env_list, NULL, NULL, NULL);
-		return (env_list);
-	}
+		return (add_new_node(env_list, key, value));
 }

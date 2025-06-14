@@ -17,25 +17,31 @@ SRC_EXEC =	$(addprefix execution/,execution.c exec_path.c exec_utils.c exec_chil
 SRC_PARS = $(addprefix parsing/, main.c \
 			clean_utility.c \
 			custom_export.c \
+			custom_export_utils.c \
 			env_list_creator.c \
 			extract_env_list.c \
 			mode_change.c \
 			set_start.c \
 			init_env_pack.c \
+			init_env_utils.c \
 			minishell.c \
 			exit_process.c \
 			restore_std_fd.c \
 			utility1.c \
 			utility2.c \
+			utility3.c \
 			tokenization.c \
 			lexer.c \
 			cmd_syntax_analyzer.c \
 			expansion.c \
 			heredoc.c \
+			heredoc_utils.c \
 			tokenz_util_wsplitter.c \
+			tokenz_util_wsplitter2.c \
 			expansion_utils.c \
 			lexer_utils.c \
 			lexer_utils2.c \
+			lexer_utils3.c \
 			sig_handlers.c \
 			ft_cmdlen.c \
 			tokenz_util_quotes.c \

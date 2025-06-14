@@ -30,10 +30,7 @@ t_env	*remove_node(t_env *head, t_env *node)
 	if (head == node)
 	{
 		head = head->next;
-		free(node->key);
-		free(node->value);
-		free(node);
-		return (head);
+		return (free(node->key), free(node->value), free(node), head);
 	}
 	temp = head;
 	while (temp && temp != node)
@@ -42,12 +39,9 @@ t_env	*remove_node(t_env *head, t_env *node)
 		temp = temp->next;
 	}
 	if (!temp)
-		return head;
+		return (head);
 	previous_node->next = node->next;
-	free(node->key);
-	free(node->value);
-	free(node);
-	return (temp_head);
+	return (free(node->key), free(node->value), free(node), temp_head);
 }
 
 t_env	*set_start(t_env *env_list)

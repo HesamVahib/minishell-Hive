@@ -12,35 +12,32 @@
 
 #include "../../include/minishell.h"
 
-static char **tokenize_and_check(char *new_line)
+static char	**tokenize_and_check(char *new_line)
 {
-    char **cmd_line;
+	char	**cmd_line;
 
-    if (!new_line)
-        return (NULL);
-    cmd_line = word_splitter(new_line);
-    if (!cmd_line || !*cmd_line)
-        return (free_array(&cmd_line),
-                printf("it is not splitted properly\n"),
-                NULL);
-    if (!quotes_chkr(cmd_line))
-        return (free_array(&cmd_line),
-                printf("the quotes are not closed\n"),
-                NULL);
-    if (!syntax_analyzer(cmd_line))
-        return (free_array(&cmd_line),
-                printf("syntax_analyzer error\n"),
-                NULL);
-    return cmd_line;
+	if (!new_line)
+		return (NULL);
+	cmd_line = word_splitter(new_line);
+	if (!cmd_line || !*cmd_line)
+		return (free_array(&cmd_line),
+			printf("it is not splitted properly\n"),
+			NULL);
+	if (!quotes_chkr(cmd_line))
+		return (free_array(&cmd_line),
+			printf("the quotes are not closed\n"),
+			NULL);
+	if (!syntax_analyzer(cmd_line))
+		return (free_array(&cmd_line),
+			printf("syntax_analyzer error\n"),
+			NULL);
+	return (cmd_line);
 }
-
-
-
 
 static char	**expand_variables(char **cmd_line, t_env *env)
 {
-	char **new_cmd;
-	
+	char	**new_cmd;
+
 	new_cmd = dollar_expansion(cmd_line, env);
 	if (!new_cmd)
 		return (printf("Dollar Expansion failed\n"), NULL);

@@ -15,6 +15,7 @@
 t_env	*cleanup_env(t_env *env_list)
 {
 	t_env	*temp;
+
 	temp = NULL;
 	while (env_list)
 	{

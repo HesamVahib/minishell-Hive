@@ -15,7 +15,7 @@
 static char	*handle_normal_char(char *res, char *str, int *i)
 {
 	char	*new_res;
-	
+
 	new_res = append_char(res, str[*i]);
 	*i = *i + 1;
 	return (new_res);

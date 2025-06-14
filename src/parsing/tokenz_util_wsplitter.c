@@ -24,7 +24,7 @@ static int	handle_double_operator(char **splitted_line, char *line, int i,
 {
 	splitted_line[*j] = ft_strndup(&line[i], 2);
 	if (!splitted_line[*j])
-    	return (-1);
+		return (-1);
 	if (splitted_line[*j])
 		*j = *j + 1;
 	return (i + 2);
@@ -35,40 +35,20 @@ static int	handle_single_operator(char **splitted_line, char *line, int i,
 {
 	splitted_line[*j] = ft_strndup(&line[i], 1);
 	if (!splitted_line[*j])
-    	return (-1);
+		return (-1);
 	if (splitted_line[*j])
 		*j = *j + 1;
 	return (i + 1);
 }
 
-static int	handle_regular_word(char **splitted_line, char *line, int i, int *j)
+static int	process_next_token(char **splitted_line, char *line, int i, int *j)
 {
-	int		start;
-	char	quote;
-	char	*new_token;
-
-	start = i;
-	while (line[i] && line[i] != ' ' && line[i] != '<' && line[i] != '>'
-		&& line[i] != '|')
-	{
-		if (line[i] == '\'' || line[i] == '"')
-		{
-			quote = line[i];
-			i++;
-			while (line[i] && line[i] != quote)
-				i++;
-			if (line[i] == quote)
-				i++;
-		}
-		else
-			i++;
-	}
-	new_token = ft_strndup(&line[start], i - start);
-	if (!new_token)
-		return (-1);
-	splitted_line[*j] = new_token;
-	*j = *j + 1;
-	return (i);
+	if ((line[i] == '<' || line[i] == '>') && line[i + 1] == line[i])
+		return (handle_double_operator(splitted_line, line, i, j));
+	else if (line[i] == '<' || line[i] == '>' || line[i] == '|')
+		return (handle_single_operator(splitted_line, line, i, j));
+	else
+		return (handle_regular_word(splitted_line, line, i, j));
 }
 
 char	**word_splitter(char *line)
@@ -91,17 +71,9 @@ char	**word_splitter(char *line)
 		i = skip_spaces(line, i);
 		if (!line[i])
 			break ;
-		if ((line[i] == '<' || line[i] == '>') && line[i + 1] == line[i])
-			i = handle_double_operator(splitted_line, line, i, &j);
-		else if (line[i] == '<' || line[i] == '>' || line[i] == '|')
-			i = handle_single_operator(splitted_line, line, i, &j);
-		else
-			i = handle_regular_word(splitted_line, line, i, &j);
+		i = process_next_token(splitted_line, line, i, &j);
 		if (i == -1)
-		{
-			free_array(&splitted_line);
-			return (NULL);
-		}
+			return (free_array(&splitted_line), NULL);
 	}
 	splitted_line[j] = NULL;
 	return (splitted_line);

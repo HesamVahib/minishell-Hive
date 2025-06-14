@@ -14,11 +14,10 @@
 
 char	**quotes_chkr(char **cmd_line)
 {
-
-	int	in_single;
-	int	in_double;
-	int	i;
-	int	j;
+	int		in_single;
+	int		in_double;
+	int		i;
+	int		j;
 
 	in_single = 0;
 	in_double = 0;
@@ -39,7 +38,20 @@ char	**quotes_chkr(char **cmd_line)
 	if (in_single || in_double)
 		return (NULL);
 	return (cmd_line);
+}
 
+static void	skip_opening_quote(const char *str, int *j,
+								int *in_quote, char *current_quote)
+{
+	*current_quote = str[*j];
+	*in_quote = 1;
+	(*j)++;
+}
+
+static void	skip_closing_quote(int *in_quote, int *j)
+{
+	*in_quote = 0;
+	(*j)++;
 }
 
 char	*remove_adjacent_quotes(char *str)
@@ -60,22 +72,14 @@ char	*remove_adjacent_quotes(char *str)
 	while (str[j])
 	{
 		if ((str[j] == '\'' || str[j] == '"') && !in_quote)
-		{
-			current_quote = str[j];
-			in_quote = 1;
-			j++;
-		}
+			skip_opening_quote(str, &j, &in_quote, &current_quote);
 		else if (in_quote && str[j] == current_quote)
-		{
-			in_quote = 0;
-			j++;
-		}
+			skip_closing_quote(&in_quote, &j);
 		else
 			new_str[k++] = str[j++];
 	}
 	new_str[k] = '\0';
 	return (new_str);
-
 }
 
 char	**adjacent_quotes(char **cmd_line)
@@ -104,4 +108,3 @@ char	**adjacent_quotes(char **cmd_line)
 	new_cmd_line[i] = NULL;
 	return (new_cmd_line);
 }
-

@@ -62,31 +62,3 @@ char	*find_value_from_env(t_env *env_list, char *key)
 	}
 	return (NULL);
 }
-
-int	arrlen(char **arr)
-{
-	int	len;
-
-	if (!arr || !*arr)
-		return (0);
-	len = 0;
-	while (arr[len])
-		len++;
-	return (len);
-}
-
-int	update_node(t_env *env, char *key, char *new_value)
-{
-	t_env	*node;
-	char	*temp;
-
-	node = node_finder(env, key);
-	if (!node)
-		return (FAILURE);
-	temp = ft_strdup(new_value);
-	if (!temp)
-		return (FAILURE);
-	free(node->value);
-	node->value = temp;
-	return (SUCCESS);
-}

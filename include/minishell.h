@@ -136,6 +136,11 @@ char							*ft_strndup(const char *s, int n);
 char							*init_getpid(void);
 t_env_pack						init_env_pack(char **envp, char *cur_dir);
 
+// init_env_utils.c
+char							*init_getpid(void);
+void							initialize_env_lists(char **envp, t_env **sys_envlist,
+																t_env **minishell_env_list);
+
 // minishell.c
 void							free_cmd_list(t_cmd *cmd_args);
 void							minishell(t_env_pack env_pack);
@@ -158,6 +163,9 @@ char							**adjacent_quotes(char **cmd_line);
 // tokenz_util_wsplitter.c
 char							**word_splitter(char *line);
 
+// tokenz_util_wsplitter2.c
+int								handle_regular_word(char **splitted_line, char *line, int i, int *j);
+
 // lexer.c
 char							*append_char(char *str, char c);
 void							init_cmd_list(t_cmd *cmd_list, int n_pipe);
@@ -171,11 +179,12 @@ int								open_create_files(t_cmd *cmd_list, char *type);
 char							**limiter_collector(char **delim_list,
 									char *new_delim);
 
-// lexer_utils.c
+// lexer_utils2.c
 int								count_arguments(char **tokenz, int *j);
 int								is_redirection(const char *token);
 int								is_pipe(const char *token);
 void							handle_next_command(t_cmd **cur, int *i);
+void							extract_arguments(t_cmd *cur, char **tokenz, int *i);
 
 // cmd_syntax_analyzer.c
 char							**syntax_analyzer(char **tokenz);
@@ -185,6 +194,9 @@ char							**dollar_expansion(char **tokenz, t_env *env);
 
 // heredoc.c
 int								heredoc_processing(t_cmd *cmd_args);
+void							open_heredoc(char **limiters);
+int								open_heredoc_file(char *limiter);
+
 
 // expansion.utils.c
 char							*process_dollars(char *token, t_env *env);
@@ -194,6 +206,7 @@ char							*stitch_strings(char **temp_split);
 // ft_cmdlen.c
 int								ft_cmdlen(char *line);
 
+void	write_heredoc_content(int fd, char *limiter);
 // ┌────────────── ⋆⋅☆⋅⋆ ── Temporary ── ⋆⋅☆⋅⋆ ──────────────┐
 
 void							print_cmd_temp(t_cmd *cmd_args);

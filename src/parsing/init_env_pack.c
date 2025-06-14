@@ -12,25 +12,6 @@
 
 #include "../../include/minishell.h"
 
-char	*init_getpid(void)
-{
-	return (ft_strdup("$$"));
-}
-
-static void	initialize_env_lists(char **envp, t_env **sys_envlist,
-		t_env **minishell_env_list)
-{
-	*sys_envlist = extract_env_list(envp);
-	if (!*sys_envlist)
-		clean_out_all(*sys_envlist, *minishell_env_list, NULL, NULL);
-	*minishell_env_list = extract_env_list(envp);
-	if (!*sys_envlist)
-		clean_out_all(*sys_envlist, *minishell_env_list, NULL, NULL);
-	*sys_envlist = set_start(*sys_envlist);
-	if (!*sys_envlist)
-		clean_out_all(*sys_envlist, *minishell_env_list, NULL, NULL);
-}
-
 static void	setup_minishell_env(t_env **minishell_env_list, char *cur_dir)
 {
 	*minishell_env_list = custom_export(*minishell_env_list, "fd_stdin",
@@ -56,6 +37,25 @@ static void	add_special_vars(t_env **minishell_env_list)
 	free(init_pid);
 }
 
+static void	handle_empty_env(t_env **minishell_env_list, char *cur_dir)
+{
+	custom_export(*minishell_env_list, "PWD", cur_dir);
+	if (find_value_from_env(*minishell_env_list, "SHLVL"))
+	{
+		custom_export(*minishell_env_list, "SHLVL", "2");
+		printf("HERE\n");
+	}
+	else
+		custom_export(*minishell_env_list, "SHLVL", "1");
+	custom_export(*minishell_env_list, "_", "/usr/bin/env");
+}
+
+static void	handle_non_empty_env(t_env **minishell_env_list, char *cur_dir)
+{
+	setup_minishell_env(minishell_env_list, cur_dir);
+	add_special_vars(minishell_env_list);
+}
+
 t_env_pack	init_env_pack(char **envp, char *cur_dir)
 {
 	t_env_pack	env_pack;
@@ -72,22 +72,9 @@ t_env_pack	init_env_pack(char **envp, char *cur_dir)
 	minishell_env_list = NULL;
 	initialize_env_lists(envp, &env_list, &minishell_env_list);
 	if (arrlen(envp) > 0)
-	{
-		setup_minishell_env(&minishell_env_list, cur_dir);
-		add_special_vars(&minishell_env_list);
-	}
+		handle_non_empty_env(&minishell_env_list, cur_dir);
 	else
-	{
-		custom_export(minishell_env_list, "PWD", cur_dir);
-		if (find_value_from_env(minishell_env_list, "SHLVL"))
-		{
-			custom_export(minishell_env_list, "SHLVL", "2");
-			printf("HERE\n");
-		}
-		else
-			custom_export(minishell_env_list, "SHLVL", "1");
-		custom_export(minishell_env_list, "_", "/usr/bin/env");
-	}
+		handle_empty_env(&minishell_env_list, cur_dir);
 	free(cur_dir);
 	env_pack.sys_envlist = env_list;
 	env_pack.mshell_env = minishell_env_list;

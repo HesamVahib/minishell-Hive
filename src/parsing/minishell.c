@@ -39,43 +39,31 @@ void	free_cmd_list(t_cmd *cmd_args)
 	while (current)
 	{
 		next = current->next;
-		
-		// Free argv array
 		if (current->argv)
 			free_array(&current->argv);
-		
-		// Free file name strings
 		free(current->infile);
 		free(current->outfile);
-		
-		// Free is_heredoc flags array
 		free(current->is_heredoc);
-		
-		// Free heredoc limiters array
 		if (current->heredoc_limiters)
 			free_array(&current->heredoc_limiters);
-		
-		// Close open file descriptors
 		if (current->infile_fd >= 0)
 			close(current->infile_fd);
 		if (current->outfile_fd >= 0)
 			close(current->outfile_fd);
 		if (current->heredoc_fd >= 0)
 			close(current->heredoc_fd);
-		
-		// Free the command node itself
 		current = next;
 	}
-		free(head);
+	free(head);
 }
 
-void error_checking(t_cmd *cmd)
+void	error_checking(t_cmd *cmd)
 {
 	while (cmd)
 	{
-		if (cmd->error == 2) // it means no such file or directory
-			print_cmd_err(cmd->infile, "No such file or directory");
-		if (cmd->error == 1) // it means no such file or directory
+		if (cmd->error == 2)
+			print_cmd_err(cmd->infile, strerror(errno));
+		if (cmd->error == 1)
 			print_cmd_err(cmd->outfile, strerror(errno));
 		cmd = cmd->next;
 	}
@@ -98,7 +86,6 @@ void	minishell(t_env_pack env_pack)
 		line = readline(SHELL_PROMPT);
 		if (!line)
 		{
-
 			exit_preparation(env_pack);
 			exit (0);
 		}
@@ -118,7 +105,7 @@ void	minishell(t_env_pack env_pack)
 			}
 			else
 				printf("something HAPPENED in tokenization\n");
-			if (cmd_args && cmd_args->argv )
+			if (cmd_args && cmd_args->argv)
 				execution(cmd_args, &env_pack);
 			free_array(&tokenz);
 			if (cmd_args)
@@ -128,5 +115,3 @@ void	minishell(t_env_pack env_pack)
 		free(line);
 	}
 }
-
-//&& ft_strcmp(*(cmd_args->argv), "")

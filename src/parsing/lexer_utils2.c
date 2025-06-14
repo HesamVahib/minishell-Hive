@@ -12,25 +12,26 @@
 
 #include "../../include/minishell.h"
 
-int count_arguments(char **tokenz, int *j)
+int	count_arguments(char **tokenz, int *j)
 {
-    int argc = 0;
-    
-    while (tokenz[*j] && !is_pipe(tokenz[*j]))
-    {
-        if (is_redirection(tokenz[*j]))
-        {
-            (*j)++;
-            if (tokenz[*j])
-                (*j)++;
-        }
-        else
-        {
-            argc++;
-            (*j)++;
-        }
-    }
-    return argc;
+	int	argc;
+
+	argc = 0;
+	while (tokenz[*j] && !is_pipe(tokenz[*j]))
+	{
+		if (is_redirection(tokenz[*j]))
+		{
+			(*j)++;
+			if (tokenz[*j])
+				(*j)++;
+		}
+		else
+		{
+			argc++;
+			(*j)++;
+		}
+	}
+	return (argc);
 }
 
 int	is_redirection(const char *token)
@@ -50,4 +51,33 @@ void	handle_next_command(t_cmd **cur, int *i)
 	if ((*cur)->next)
 		*cur = (*cur)->next;
 	(*i)++;
+}
+
+void	extract_arguments(t_cmd *cur, char **tokenz, int *i)
+{
+	int		argc;
+	int		k;
+	int		j;
+	int		start;
+
+	k = 0;
+	j = *i;
+	start = (*i);
+	argc = count_arguments(tokenz, &j);
+	cur->argv = ft_calloc(argc + 1, sizeof(char *));
+	if (!cur->argv)
+		return ;
+	while (*i < j)
+	{
+		if (is_redirection(tokenz[*i]))
+		{
+			(*i)++;
+			if (tokenz[*i])
+				(*i)++;
+		}
+		else
+			cur->argv[k++] = ft_strdup(tokenz[(*i)++]);
+	}
+	(*i) = start;
+	cur->argv[k] = NULL;
 }

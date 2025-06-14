@@ -32,7 +32,7 @@ static void	restore_fd(t_env_pack env_pack, int std_fd, char *key)
 					NULL);
 			if (close(cur_fd) == -1)
 				clean_out_all(env_pack.mshell_env, env_pack.sys_envlist,
-						NULL, NULL);
+					NULL, NULL);
 		}
 	}
 }
