@@ -6,7 +6,7 @@
 /*   By: michoi <michoi@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/18 00:44:35 by michoi            #+#    #+#             */
-/*   Updated: 2025/06/14 16:44:00 by michoi           ###   ########.fr       */
+/*   Updated: 2025/06/14 19:46:28 by michoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int	close_fd(int fd)
 	return (SUCCESS);
 }
 
-int	open_heredoc_file(char *limiter)
+static int	open_heredoc_file(char *limiter)
 {
 	int		fd;
 	char	*filename;

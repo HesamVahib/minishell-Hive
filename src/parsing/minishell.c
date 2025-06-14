@@ -2,9 +2,12 @@
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: hvahib <hvahib@student.hive.fi>            +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
+/*                                                    +:+ +:+
+	+:+     */
+/*   By: hvahib <hvahib@student.hive.fi>            +#+  +:+
+	+#+        */
+/*                                                +#+#+#+#+#+
+	+#+           */
 /*   Created: 2025/05/08 12:41:23 by hvahib            #+#    #+#             */
 /*   Updated: 2025/06/11 20:58:39 by hvahib           ###   ########.fr       */
 /*                                                                            */
@@ -12,9 +15,10 @@
 
 #include "../../include/minishell.h"
 
+
 static int	executable(char *line)
 {
-	int	i;
+	int i;
 
 	if (!line || !line[0])
 		return (0);
@@ -30,9 +34,9 @@ static int	executable(char *line)
 
 void	free_cmd_list(t_cmd *cmd_args)
 {
-	t_cmd	*head;
-	t_cmd	*current;
-	t_cmd	*next;
+	t_cmd *head;
+	t_cmd *current;
+	t_cmd *next;
 
 	head = find_head(cmd_args);
 	current = head;
@@ -62,17 +66,24 @@ void	error_checking(t_cmd *cmd)
 	while (cmd)
 	{
 		if (cmd->error == 2)
+		{
 			print_cmd_err(cmd->infile, strerror(errno));
+			set_and_get_exit_status(1, true);
+		}
 		if (cmd->error == 1)
+		{
 			print_cmd_err(cmd->outfile, strerror(errno));
+			set_and_get_exit_status(1, true);
+		}
 		cmd = cmd->next;
 	}
 }
 
 static void	process_command_line(char *line, t_env_pack *env_pack)
 {
-	char	**tokenz;
-	t_cmd	*cmd_args;
+	char **tokenz;
+	t_cmd *cmd_args;
+	int argv_i;
 
 	cmd_args = NULL;
 	tokenz = NULL;
@@ -90,7 +101,8 @@ static void	process_command_line(char *line, t_env_pack *env_pack)
 	}
 	else
 		printf("something HAPPENED in tokenization\n");
-	if (cmd_args && cmd_args->argv)
+	argv_i = check_valid_argv(cmd_args->argv);
+	if (cmd_args && cmd_args->argv && argv_i < arrlen(cmd_args->argv))
 		execution(cmd_args, env_pack);
 	free_array(&tokenz);
 	if (cmd_args)
@@ -100,13 +112,13 @@ static void	process_command_line(char *line, t_env_pack *env_pack)
 
 void	minishell(t_env_pack env_pack)
 {
-	char	*line;
+	char *line;
 
 	while (1)
 	{
 		if (change_mode(WAIT_FOR_COMMAND))
-			clean_out_all(env_pack.sys_envlist,
-				env_pack.mshell_env, NULL, NULL);
+			clean_out_all(env_pack.sys_envlist, env_pack.mshell_env, NULL,
+				NULL);
 		line = readline(SHELL_PROMPT);
 		if (!line)
 		{

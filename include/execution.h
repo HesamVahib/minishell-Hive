@@ -6,7 +6,7 @@
 /*   By: michoi <michoi@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 22:34:15 by michoi            #+#    #+#             */
-/*   Updated: 2025/06/14 16:48:25 by michoi           ###   ########.fr       */
+/*   Updated: 2025/06/14 19:40:15 by michoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,6 @@ void						open_dup_files(t_cmd *cmd, t_env *env);
 void						print_path_err(char *cmd);
 void						cleanup_exit(t_env *env, t_cmd *cmd);
 int							check_valid_argv(char **cmd_argv);
-int							open_heredoc_file(char *limiter);
 
 // ─── ⋆⋅☆⋅⋆ ── cmd path ─── ⋆⋅☆⋅⋆ ──
 

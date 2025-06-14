@@ -32,7 +32,7 @@ static int	open_heredoc_file(char *limiter)
 	return (free(filename), fd);
 }
 
-static void	write_heredoc_content(int fd, char *limiter)
+void	write_heredoc_content(int fd, char *limiter)
 {
 	char	*line;
 	char	*temp;

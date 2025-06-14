@@ -6,7 +6,7 @@
 /*   By: michoi <michoi@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 12:40:40 by hvahib            #+#    #+#             */
-/*   Updated: 2025/06/14 16:42:20 by michoi           ###   ########.fr       */
+/*   Updated: 2025/06/14 20:16:24 by michoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,14 +49,14 @@ int	open_create_files(t_cmd *cmd_list, char *type)
 		else
 			fd = open(cmd_list->outfile, O_CREAT | O_WRONLY | O_TRUNC, 0644);
 		if (fd == -1)
-			return (set_and_get_exit_status(1, true), -1);
+			return (set_and_get_exit_status(errno, true), -1);
 		return (close(fd), 1);
 	}
 	else if (ft_strncmp(type, "infile", 6) == 0)
 	{
 		fd = open(cmd_list->infile, O_RDONLY);
 		if (fd == -1)
-			return (set_and_get_exit_status(1, true), -1);
+			return (set_and_get_exit_status(errno, true), -1);
 		return (close(fd), 1);
 	}
 	return (0);
