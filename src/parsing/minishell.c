@@ -69,49 +69,51 @@ void	error_checking(t_cmd *cmd)
 	}
 }
 
-void	minishell(t_env_pack env_pack)
+static void	process_command_line(char *line, t_env_pack *env_pack)
 {
-	char	*line;
 	char	**tokenz;
 	t_cmd	*cmd_args;
 
+	cmd_args = NULL;
+	tokenz = NULL;
+	add_history(line);
+	*env_pack = export_std_fd(*env_pack);
+	tokenz = line_tokenized(line, env_pack->mshell_env);
+	if (tokenz)
+	{
+		cmd_args = cmd_args_extractor(tokenz);
+		free_array(&tokenz);
+		heredoc_processing(cmd_args);
+		error_checking(cmd_args);
+		free(tokenz);
+	}
+	else
+		printf("something HAPPENED in tokenization\n");
+	if (cmd_args && cmd_args->argv)
+		execution(cmd_args, env_pack);
+	free_array(&tokenz);
+	if (cmd_args)
+		free_cmd_list(cmd_args);
+	restore_std_fd(*env_pack);
+}
+
+void	minishell(t_env_pack env_pack)
+{
+	char	*line;
+
 	while (1)
 	{
-		cmd_args = NULL;
-		tokenz = NULL;
-		line = NULL;
 		if (change_mode(WAIT_FOR_COMMAND))
-			clean_out_all(env_pack.sys_envlist, env_pack.mshell_env, NULL,
-				NULL);
+			clean_out_all(env_pack.sys_envlist,
+				env_pack.mshell_env, NULL, NULL);
 		line = readline(SHELL_PROMPT);
 		if (!line)
 		{
 			exit_preparation(env_pack);
-			exit (0);
+			exit(0);
 		}
 		if (executable(line))
-		{
-			add_history(line);
-			env_pack = export_std_fd(env_pack);
-			tokenz = line_tokenized(line, env_pack.mshell_env);
-			if (tokenz)
-			{
-				cmd_args = cmd_args_extractor(tokenz);
-				free_array(&tokenz);
-				// print_cmd_temp(cmd_args);
-				heredoc_processing(cmd_args);
-				error_checking(cmd_args);
-				free(tokenz);
-			}
-			else
-				printf("something HAPPENED in tokenization\n");
-			if (cmd_args && cmd_args->argv)
-				execution(cmd_args, &env_pack);
-			free_array(&tokenz);
-			if (cmd_args)
-				free_cmd_list(cmd_args);
-			restore_std_fd(env_pack);
-		}
+			process_command_line(line, &env_pack);
 		free(line);
 	}
 }
